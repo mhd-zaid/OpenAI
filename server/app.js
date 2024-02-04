@@ -1,7 +1,10 @@
 import express from "express";
 import sequelize from "./src/config/sequelize.js";
- 
+import router from "./src/config/router.js"; 
 const app = express();
+
+// router
+router(app, express);
 
 // Sequelize
 try {
