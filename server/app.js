@@ -60,9 +60,9 @@ const genericRoutes = [
 
 // Sequelize
 try {
-	sequelize.authenticate().then(console.log("Connected to postgres"));
+  sequelize.authenticate().then(console.log('Connected to postgres'));
 } catch (e) {
-	console.error(`Error connecting to postgres: ${e}`);
+  console.error(`Error connecting to postgres: ${e}`);
 }
 
 export default app;
