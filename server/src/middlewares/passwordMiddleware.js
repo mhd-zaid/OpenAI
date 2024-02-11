@@ -1,6 +1,7 @@
-const bcrypt = require("bcrypt");
-const ValidationError = require("../errors/ValidationError")
-const {User}=require("../Models/")
+import bcryptjs from "bcrypt";
+import ValidationError from "../errors/ValidationError.js";
+import User from "../models/User.js";
+
 module.exports = async function (req, res, next) {
   try {
     if (req.body.password) {

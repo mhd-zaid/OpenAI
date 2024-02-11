@@ -65,7 +65,7 @@ export default () => ({
 
     logout: (req, res) => {
         res.clearCookie("jwt");
-        res.send("logout");
+        res.status(200).send();
     },
 
     resetPassword: async (req, res, next) => {

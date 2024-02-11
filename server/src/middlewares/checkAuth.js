@@ -1,4 +1,4 @@
-const { verifyToken } = require("../../../../../5iw/Intégration AI/OpenAI/server/Services/token");
+import verifyToken from "./../utils/token.js";
 
 export default function () {
   return function (req, res, next) {

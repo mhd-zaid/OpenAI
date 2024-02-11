@@ -1,13 +1,14 @@
 import { Model, DataTypes } from "sequelize";
-// const { sendMail } = require("../Controllers/mailController");
 import sendMail from "../Controllers/mailController.js";
 import crypto from "crypto";
 import bcryptjs from "bcryptjs";
 import fs from "fs/promises";
 export default function (connection) {
-    class UserModel extends Model {}
+    class User extends Model {
+        static associate(db) { }
+    }
 
-    UserModel.init(
+    User.init(
         {
             id: { type: DataTypes.UUID, primaryKey: true },
             userName: {
@@ -97,7 +98,7 @@ export default function (connection) {
     );
 
 
-    UserModel.addHook("beforeCreate", async function (user) {
+    User.addHook("beforeCreate", async function (user) {
         const bcrypt = bcryptjs
         const hash = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
         const token = crypto.randomBytes(30).toString("hex");
@@ -105,7 +106,7 @@ export default function (connection) {
         user.token = token;
     });
 
-    UserModel.addHook("beforeUpdate", async function (user, { fields }) {
+    User.addHook("beforeUpdate", async function (user, { fields }) {
         if (fields.includes("password")) {
             const token = crypto.randomBytes(30).toString("hex");
             const bcrypt = bcryptjs;
@@ -115,7 +116,7 @@ export default function (connection) {
         }
     });
 
-    UserModel.addHook("afterCreate", async user => {
+    User.addHook("afterCreate", async user => {
         let content = await fs.readFile(
             `mails/validateUserAccount.txt`,
             "utf8"
@@ -127,5 +128,5 @@ export default function (connection) {
         await sendMail(user.email, "Vérifiez votre compte", null, content);
     });
 
-    return UserModel;
+    return User;
 };

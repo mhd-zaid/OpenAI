@@ -6,7 +6,6 @@ import GenericController from "./src/Controllers/GenericController.js";
 import GenericRouter from "./src/Routes/GenericRouter.js";
 import GenericService from "./src/Services/GenericService.js";
 import { getOpenAICompletion } from './src/services/openai-service.js';
-import router from "./src/config/router.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -61,7 +60,16 @@ const genericRoutes = [
   app.use(
 	"/api" + "/recipeingredients",
 	genericRecipeIngredientRouter.getRouter()
-  ); 
+  );
+
+    const genericUserRouter = new GenericRouter(new GenericController(new GenericService(db.User)));
+    genericRoutes.forEach(route => {
+        genericUserRouter.addRoute(route, route.middlewares);
+    });
+    app.use(
+        "/api" + "/users",
+        genericUserRouter.getRouter()
+    );
 
 // Sequelize
 try {
