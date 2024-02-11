@@ -5,6 +5,8 @@ import db from "./src/models/index.js";
 import GenericController from "./src/Controllers/GenericController.js";
 import GenericRouter from "./src/Routes/GenericRouter.js";
 import GenericService from "./src/Services/GenericService.js";
+import { getOpenAICompletion } from './src/services/openai-service.js';
+
 const app = express();
 app.use(express.json());
 
@@ -60,9 +62,9 @@ const genericRoutes = [
 
 // Sequelize
 try {
-	sequelize.authenticate().then(console.log("Connected to postgres"));
+  sequelize.authenticate().then(console.log('Connected to postgres'));
 } catch (e) {
-	console.error(`Error connecting to postgres: ${e}`);
+  console.error(`Error connecting to postgres: ${e}`);
 }
 
 export default app;
