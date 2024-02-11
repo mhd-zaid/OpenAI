@@ -6,9 +6,12 @@ import GenericController from "./src/Controllers/GenericController.js";
 import GenericRouter from "./src/Routes/GenericRouter.js";
 import GenericService from "./src/Services/GenericService.js";
 import { getOpenAICompletion } from './src/services/openai-service.js';
+import router from "./src/config/router.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET_KEY));
 
 // router
 router(app, express);
