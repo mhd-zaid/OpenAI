@@ -8,6 +8,7 @@ import GenericService from './src/Services/GenericService.js';
 import { getOpenAICompletion } from './src/services/openai-service.js';
 
 const app = express();
+
 app.use(express.json());
 
 // router
