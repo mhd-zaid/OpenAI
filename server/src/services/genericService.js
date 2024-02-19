@@ -1,8 +1,8 @@
-import {uuidv7} from "uuidv7";
+import { uuidv7 } from 'uuidv7';
 // const ValidationError = require("../errors/ValidationError");
 
 class GenericService {
-  constructor(model,include) {
+  constructor(model, include) {
     this.Model = model;
     this.include = include;
   }
@@ -30,34 +30,34 @@ class GenericService {
       return res.status(200).json(models);
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
-      return res.status(500).json({ error: "Erreur interne du serveur" });
+      return res.status(500).json({ error: 'Erreur interne du serveur' });
     }
   }
 
-    // Méthode pour gérer les inclusions
-    includeModels() {
-      if (!this.include) {
-        return [];
-      }
-  
-      const includeOptions = [];
-  
-      // Gérez chaque modèle inclus
-      this.include.forEach((includeModel) => {
-        console.log(includeModel)
-        const modelInclude = { model: includeModel };
-  
-        // Vérifiez s'il y a un sous-modèle à inclure
-        if (includeModel.include) {
-          const subIncludeOptions = this.includeModels(includeModel.include);
-          modelInclude.include = subIncludeOptions;
-        }
-  
-        includeOptions.push(modelInclude);
-      });
-  
-      return includeOptions;
+  // Méthode pour gérer les inclusions
+  includeModels() {
+    if (!this.include) {
+      return [];
     }
+
+    const includeOptions = [];
+
+    // Gérez chaque modèle inclus
+    this.include.forEach(includeModel => {
+      console.log(includeModel);
+      const modelInclude = { model: includeModel };
+
+      // Vérifiez s'il y a un sous-modèle à inclure
+      if (includeModel.include) {
+        const subIncludeOptions = this.includeModels(includeModel.include);
+        modelInclude.include = subIncludeOptions;
+      }
+
+      includeOptions.push(modelInclude);
+    });
+
+    return includeOptions;
+  }
 
   async getById(req, res) {
     const id = req.params.id;
@@ -71,7 +71,7 @@ class GenericService {
   }
 
   async create(req, res, next) {
-    console.log("DANS LE SERVICE  CREATE : ", this.Model)
+    console.log('DANS LE SERVICE  CREATE : ', this.Model);
     try {
       const id = uuidv7();
       const model = await this.Model.create({ id, ...req.body });
