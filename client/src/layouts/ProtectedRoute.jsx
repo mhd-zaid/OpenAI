@@ -5,9 +5,12 @@ export const ProtectedRoute = () => {
 
   // CHECK AUTH
   if (!false) {
-    navigate('/login');
-    return;
+    setTimeout(() => {
+      navigate('/login');
+    }, 1000);
+    return <h1>Redirecting...</h1>;
   }
+
   return (
     <>
       <Outlet />
