@@ -5,8 +5,8 @@ export default function (router) {
     router.post('/login', login);
     router.post('/logout', logout);
     router.post('/forgotPassword', forgotPassword);
-    router.post('/resetPassword', resetPassword);
-    router.post('/verifyEmail/:token', verifyEmail);
+    router.post('/resetPassword/:token', resetPassword);
+    router.get('/verify/:token', verifyEmail);
     router.post('/checkToken', checkToken);
     return router;
 }

@@ -1,8 +1,12 @@
 import { Model, DataTypes } from "sequelize";
 import sendMail from "../Controllers/mailController.js";
+import tokenUtils from "../utils/token.js";
 import crypto from "crypto";
 import bcryptjs from "bcryptjs";
 import fs from "fs/promises";
+
+const { createToken } = tokenUtils();
+
 export default function (connection) {
     class User extends Model {
         static associate(db) { }
@@ -13,15 +17,12 @@ export default function (connection) {
             id: { type: DataTypes.UUID, primaryKey: true },
             userName: {
                 type: DataTypes.STRING(45),
-                validate: {
-                    len: [2, 45],
-                },
-                allowNull: false,
+                allowNull: true,
             },
             email: {
                 type: DataTypes.STRING({ length: 255 }),
                 allowNull: false,
-                unique: true,
+                // unique: true,
                 validate: {
                     notEmpty: {
                         msg: "L'adresse e-mail ne peut pas être vide.",
@@ -35,17 +36,24 @@ export default function (connection) {
                 type: DataTypes.TEXT,
                 allowNull: false,
                 validate: {
-                    isStrongPassword(value) {
-                        const strongPasswordRegex =
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
-
-                        if (!strongPasswordRegex.test(value)) {
-                            throw new Error(
-                                "Le mot de passe doit avoir au moins 12 caractères avec au moins une majuscule, un chiffre et un caractère spécial."
-                            );
-                        }
+                    notEmpty: {
+                        msg: "Le mot de passe ne peut pas être vide.",
                     },
-                },
+                    min: {
+                        args: [8],
+                        msg: "Le mot de passe doit avoir au moins 8 caractères.",
+                    },
+
+                    // isStrongPassword(value) {
+                    //     const strongPasswordRegex =
+                    //         /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    //     if (!strongPasswordRegex.test(value)) {
+                    //         throw new Error(
+                    //             "Le mot de passe doit avoir au moins 8 caractères avec au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+                    //         );
+                    //     }
+                    // },
+                },                
             },
             gender: {
                 type: DataTypes.ENUM("H", "F"),
@@ -82,7 +90,7 @@ export default function (connection) {
                 defaultValue: 0,
             },
             token: {
-                type: DataTypes.STRING,
+                type: DataTypes.STRING(1000),
                 allowNull: true,
             },
             isActive:{
@@ -108,7 +116,7 @@ export default function (connection) {
 
     User.addHook("beforeUpdate", async function (user, { fields }) {
         if (fields.includes("password")) {
-            const token = crypto.randomBytes(30).toString("hex");
+            const token = createToken(user);
             const bcrypt = bcryptjs;
             const hash = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
             user.password = hash;
@@ -121,10 +129,9 @@ export default function (connection) {
             `mails/validateUserAccount.txt`,
             "utf8"
         );
-        console.log("user created", user.dataValues);
         content = content
             .replace("{{name}}", user.userName)
-            .replace("{{confirmLink}}", `${process.env.CLIENT_URL}/verifyEmail?token=${user.token}`);
+            .replace("{{confirmLink}}", `${process.env.SERVER_URL}/verify/${user.token}`);
         await sendMail(user.email, "Vérifiez votre compte", null, content);
     });
 

@@ -10,10 +10,8 @@ export default function Button({
 }) {
   const buttonStyle = {
     borderRadius: 3,
-    backgroundColor: "green",
-    color: "white",
-    padding: "10px 20px",
-    fontSize: 20,
+    padding: "5px 20px",
+    fontSize: 15,
     fontWeight: "bold",
     ...theme?.[theme.mode],
     ...style,
@@ -21,7 +19,7 @@ export default function Button({
 
   switch (variant) {
     case "rounded":
-      buttonStyle.borderRadius = 10;
+      buttonStyle.borderRadius = 100;
       break;
     case "squared":
       buttonStyle.borderRadius = 0;
@@ -30,7 +28,12 @@ export default function Button({
       buttonStyle.borderRadius = "50%";
       buttonStyle.width = 50;
       buttonStyle.height = 50;
-      title = title[0];
+      title = title[0] || "";
+      break;
+    case "icon":
+      buttonStyle.backgroundColor = "white";
+      buttonStyle.padding = 5;
+      buttonStyle.borderRadius = 150;
       break;
     default:
       break;

@@ -1,5 +1,3 @@
-import React from "react";
-
 function ListContainer({ model, container: Container, item: Item }) {
   return (
     <Container>

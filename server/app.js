@@ -7,10 +7,16 @@ import GenericRouter from "./src/Routes/GenericRouter.js";
 import GenericService from "./src/Services/GenericService.js";
 import { getOpenAICompletion } from './src/services/openai-service.js';
 import cookieParser from "cookie-parser";
+import cors  from 'cors'
+import validationErrorMiddleware from "./src/middlewares/validationErrorMiddleware.js";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET_KEY));
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+}));
 
 // router
 router(app, express);
@@ -62,14 +68,16 @@ const genericRoutes = [
 	genericRecipeIngredientRouter.getRouter()
   );
 
-    const genericUserRouter = new GenericRouter(new GenericController(new GenericService(db.User)));
-    genericRoutes.forEach(route => {
-        genericUserRouter.addRoute(route, route.middlewares);
-    });
-    app.use(
-        "/api" + "/users",
-        genericUserRouter.getRouter()
-    );
+  const genericUserRouter = new GenericRouter(new GenericController(new GenericService(db.User)));
+  genericRoutes.forEach(route => {
+      genericUserRouter.addRoute(route, route.middlewares);
+  });
+  app.use(
+      "/api" + "/users",
+      genericUserRouter.getRouter()
+  );
+
+  app.use(validationErrorMiddleware)
 
 // Sequelize
 try {
