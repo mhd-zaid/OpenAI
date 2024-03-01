@@ -1,14 +1,14 @@
 import chatbotController from '../controllers/chatbot.js';
-import OpenAIService from '../services/openai-service.js';
+import ChatbotService from '../services/chatbot-service.js';
 
 export default function (router) {
-  const openAIService = new OpenAIService();
+  const chatbotService = new ChatbotService();
 
   const { send, getCoversationContext, resetConversationContext } =
     chatbotController(
-      openAIService.getOpenAICompletion.bind(openAIService),
-      openAIService.getContext.bind(openAIService),
-      openAIService.resetContext.bind(openAIService),
+      chatbotService.getOpenAICompletion.bind(chatbotService),
+      chatbotService.getContext.bind(chatbotService),
+      chatbotService.resetContext.bind(chatbotService),
     );
 
   router.post('/', send);

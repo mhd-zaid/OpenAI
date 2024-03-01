@@ -7,7 +7,9 @@ const options = {
     value: true,
     default: "alter",
   },
-  "--force": {},
+  "--force": {
+    value: false,  // Par défaut, ne pas forcer la synchronisation
+  },
   "--dir": {
     default: "up",
   },
@@ -26,10 +28,13 @@ do {
   }
 } while (args.length);
 
+const syncOptions = {
+  [options["--type"]]: true,
+  force: options["--force"],  // Utilisez la valeur de force spécifiée dans les options
+};
+
 connection
-  .sync({
-    [options["--type"]]: true,
-  })
+  .sync(syncOptions)
   .then(() => connection.close())
   .then(() => {
     console.log("Database synced")

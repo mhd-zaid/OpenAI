@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 const conversationContextPromptFr =
   'Ce qui suit est une conversation avec un chef très expérimenté. Le chef est compétent en matière de nourriture et de cuisine et possède une grande expérience en cuisine. Il peut très bien parler français ou anglais.';
 
-class OpenAIService {
+class ChatbotService {
   constructor() {
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     this.context = [];
@@ -41,4 +41,4 @@ class OpenAIService {
   }
 }
 
-export default OpenAIService;
+export default ChatbotService;

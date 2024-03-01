@@ -2,7 +2,9 @@ import { Model, DataTypes } from "sequelize";
 
 export default function (connection) {
   class Ingredient extends Model {
-    static associate(db) {}
+    static associate(db) {
+      Ingredient.hasMany(db.Quantity);
+    }
   }
   Ingredient.init(
     {

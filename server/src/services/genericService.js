@@ -1,6 +1,5 @@
-import {uuidv7} from "uuidv7";
-import ApiResponse from "../utils/apiResponse.js";
-// const ValidationError = require("../errors/ValidationError");
+import { uuidv7 } from 'uuidv7';
+import ApiResponse from '../utils/apiResponse.js';
 
 class GenericService {
   constructor(model, include) {
@@ -15,10 +14,8 @@ class GenericService {
     const offset = (page - 1) * limit;
 
     try {
-      // Configuration de l'option d'inclusion
       const includeOptions = this.includeModels();
 
-      // Récupérer les modèles avec la pagination et les inclusions
       const models = await this.Model.findAll({
         where: filters,
         limit,
@@ -31,33 +28,41 @@ class GenericService {
       return res.status(200).json(new ApiResponse(true, models));
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
-      return res.status(500).json(new ApiResponse(false, null, "Une erreur s'est produite lors de la récupération des données."));
+      return res
+        .status(500)
+        .json(
+          new ApiResponse(
+            false,
+            null,
+            "Une erreur s'est produite lors de la récupération des données.",
+          ),
+        );
     }
   }
 
-    // Méthode pour gérer les inclusions
-    includeModels() {
-      if (!this.include) {
-        return [];
-      }
-  
-      const includeOptions = [];
-  
-      // Gérez chaque modèle inclus
-      this.include.forEach((includeModel) => {
-        const modelInclude = { model: includeModel };
-  
-        // Vérifiez s'il y a un sous-modèle à inclure
-        if (includeModel.include) {
-          const subIncludeOptions = this.includeModels(includeModel.include);
-          modelInclude.include = subIncludeOptions;
-        }
-  
-        includeOptions.push(modelInclude);
-      });
-  
-      return includeOptions;
+  // Méthode pour gérer les inclusions
+  includeModels() {
+    if (!this.include) {
+      return [];
     }
+
+    const includeOptions = [];
+
+    // Gérez chaque modèle inclus
+    this.include.forEach(includeModel => {
+      const modelInclude = { model: includeModel };
+
+      // Vérifiez s'il y a un sous-modèle à inclure
+      if (includeModel.include) {
+        const subIncludeOptions = this.includeModels(includeModel.include);
+        modelInclude.include = subIncludeOptions;
+      }
+
+      includeOptions.push(modelInclude);
+    });
+
+    return includeOptions;
+  }
 
   async getById(req, res) {
     const id = req.params.id;
@@ -76,12 +81,6 @@ class GenericService {
       const model = await this.Model.create({ id, ...req.body });
       return res.status(201).json(new ApiResponse(true, model));
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }
@@ -89,8 +88,17 @@ class GenericService {
   async update(req, res, next) {
     try {
       const id = req.params.id;
+      const include = this.includeModels();
       const nbDeleted = await this.Model.destroy({ where: { id } });
-      const updatedItem = await this.Model.create({ id, ...req.body });
+      const updatedItem = await this.Model.create(
+        {
+          id,
+          ...req.body,
+        },
+        {
+          include: include,
+        },
+      );
 
       if (nbDeleted > 0) {
         return res.status(200).json(new ApiResponse(true, updatedItem));
@@ -98,12 +106,6 @@ class GenericService {
         return res.status(201).json(new ApiResponse(true, updatedItem));
       }
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }
@@ -121,12 +123,6 @@ class GenericService {
         return res.status(200).json(new ApiResponse(true, items[0]));
       }
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }
