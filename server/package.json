@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -r dotenv/config server.js dotenv_config_path=.env.local",
-    "migrate": "node -r dotenv/config src/config/migrate.js dotenv_config_path=.env.local"
+    "migrate": "node -r dotenv/config src/config/migrate.js dotenv_config_path=.env.local",
+    "fixture": "node -r dotenv/config src/fixtures/index.js dotenv_config_path=.env.local"
   },
   "author": "",
   "license": "ISC",

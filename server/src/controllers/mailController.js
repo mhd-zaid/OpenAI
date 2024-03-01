@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
 import fs from "fs/promises";
 
 const mailCompany = process.env.MAIL_SMTP_USER;

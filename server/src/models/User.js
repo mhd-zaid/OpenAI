@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import sendMail from "../Controllers/mailController.js";
+import sendMail from "../controllers/mailController.js";
 import crypto from "crypto";
 import bcryptjs from "bcryptjs";
 import fs from "fs/promises";
