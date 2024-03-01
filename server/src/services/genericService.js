@@ -59,10 +59,12 @@ class GenericService {
 
   async getById(req, res) {
     const id = req.params.id;
+    const includeOptions = this.includeModels();
     const model = await this.Model.findOne({
       where: {
         id,
       },
+      include: includeOptions,
     });
     if (model) return res.status(200).json(model);
     return res.sendStatus(404);
