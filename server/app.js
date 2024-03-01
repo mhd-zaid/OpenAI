@@ -6,10 +6,12 @@ import GenericController from './src/Controllers/GenericController.js';
 import GenericRouter from './src/Routes/GenericRouter.js';
 import GenericService from './src/Services/GenericService.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET_KEY));
+app.use(cors());
 
 // router
 router(app, express);
