@@ -1,5 +1,4 @@
 import { uuidv7 } from 'uuidv7';
-// const ValidationError = require("../errors/ValidationError");
 
 class GenericService {
   constructor(model, include) {
@@ -14,10 +13,9 @@ class GenericService {
     const offset = (page - 1) * limit;
 
     try {
-      // Configuration de l'option d'inclusion
+
       const includeOptions = this.includeModels();
 
-      // Récupérer les modèles avec la pagination et les inclusions
       const models = await this.Model.findAll({
         where: filters,
         limit,
@@ -34,28 +32,28 @@ class GenericService {
     }
   }
 
-  // Méthode pour gérer les inclusions
-  includeModels() {
-    if (!this.include) {
+  includeModels(config = this.include) {
+    if (!config) {
       return [];
     }
-
+  
     const includeOptions = [];
-
-    // Gérez chaque modèle inclus
-    this.include.forEach(includeModel => {
-      console.log(includeModel);
-      const modelInclude = { model: includeModel };
-
-      // Vérifiez s'il y a un sous-modèle à inclure
-      if (includeModel.include) {
-        const subIncludeOptions = this.includeModels(includeModel.include);
+  
+    config.forEach(includeModel => {
+  
+      const modelInclude = { model: includeModel.modelName };
+  
+      if (includeModel.modelToInclude) {
+        const subIncludeOptions = Array.isArray(includeModel.modelToInclude)
+          ? this.includeModels(includeModel.modelToInclude)
+          : this.includeModels([includeModel.modelToInclude]);
+  
         modelInclude.include = subIncludeOptions;
       }
-
+  
       includeOptions.push(modelInclude);
     });
-
+  
     return includeOptions;
   }
 
@@ -71,18 +69,17 @@ class GenericService {
   }
 
   async create(req, res, next) {
-    console.log('DANS LE SERVICE  CREATE : ', this.Model);
     try {
       const id = uuidv7();
-      const model = await this.Model.create({ id, ...req.body });
+      const include = this.includeModels();
+      const model = await this.Model.create({
+        id,
+        ...req.body
+      }, {
+        include: include
+      })
       return res.status(201).json(model);
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }
@@ -90,8 +87,14 @@ class GenericService {
   async update(req, res, next) {
     try {
       const id = req.params.id;
+      const include = this.includeModels();
       const nbDeleted = await this.Model.destroy({ where: { id } });
-      const updatedItem = await this.Model.create({ id, ...req.body });
+      const updatedItem = await this.Model.create({
+        id,
+        ...req.body
+      }, {
+        include: include
+      })
 
       if (nbDeleted > 0) {
         return res.status(200).json(updatedItem);
@@ -99,12 +102,6 @@ class GenericService {
         return res.status(201).json(updatedItem);
       }
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }
@@ -122,12 +119,6 @@ class GenericService {
         return res.status(200).json(items[0]);
       }
     } catch (error) {
-      // if (
-      //   error.name === "SequelizeValidationError" ||
-      //   error.name === "SequelizeUniqueConstraintError"
-      // ) {
-      //   error = ValidationError.fromSequelize(error);
-      // }
       next(error);
     }
   }

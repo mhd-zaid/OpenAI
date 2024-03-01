@@ -25,7 +25,12 @@ const genericRoutes = [
   { method: 'DELETE', path: '/:id', handler: 'delete', middlewares: [] },
 ];
 const genericRecipeRouter = new GenericRouter(
-  new GenericController(new GenericService(db.Recipe, [db.Ingredient])),
+  new GenericController(new GenericService(db.Recipe, [{
+      modelName : db.Quantity,
+      modelToInclude : {
+        modelName: db.Ingredient
+      }
+  }])),
 );
 genericRoutes.forEach(route => {
   genericRecipeRouter.addRoute(route, route.middlewares);
@@ -39,25 +44,6 @@ genericRoutes.forEach(route => {
   genericIngredientRouter.addRoute(route, route.middlewares);
 });
 app.use('/api' + '/ingredients', genericIngredientRouter.getRouter());
-
-const genericStepRouter = new GenericRouter(
-  new GenericController(new GenericService(db.Step)),
-);
-genericRoutes.forEach(route => {
-  genericStepRouter.addRoute(route, route.middlewares);
-});
-app.use('/api' + '/steps', genericStepRouter.getRouter());
-
-const genericRecipeIngredientRouter = new GenericRouter(
-  new GenericController(new GenericService(db.RecipeIngredient)),
-);
-genericRoutes.forEach(route => {
-  genericRecipeIngredientRouter.addRoute(route, route.middlewares);
-});
-app.use(
-  '/api' + '/recipeingredients',
-  genericRecipeIngredientRouter.getRouter(),
-);
 
 const genericUserRouter = new GenericRouter(
   new GenericController(new GenericService(db.User)),

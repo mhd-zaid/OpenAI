@@ -3,14 +3,7 @@ import { Model, DataTypes } from "sequelize";
 export default function (connection) {
   class Recipe extends Model {
     static associate(db) {
-      Recipe.hasMany(db.Step);
-      // db.Step.belongsTo(Recipe);
-      // Recipe.hasMany(db.RecipeIngredient);
-      // db.RecipeIngredient.belongsTo(Recipe);
-
-      Recipe.belongsToMany(db.Ingredient, {
-        through: db.RecipeIngredient
-      })
+      Recipe.hasMany(db.Quantity);
     }
   }
   Recipe.init(
@@ -35,6 +28,9 @@ export default function (connection) {
       },
       tags: {
         type: DataTypes.STRING,
+      },
+      instructions: {
+        type: DataTypes.TEXT,
       },
     },
     {

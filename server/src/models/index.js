@@ -2,7 +2,6 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs/promises';
 import connection from '../config/sequelize.js';
-import UserModel from "./User.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,7 +14,7 @@ try {
   for (const file of files) {
     if (file === 'index.js') continue;
 
-    const modulePath = pathToFileURL(join(__dirname, file)).toString(); // Correction ici
+    const modulePath = pathToFileURL(join(__dirname, file)).toString();
     const model = (await import(modulePath)).default(connection);
     db[model.name] = model;
   }
