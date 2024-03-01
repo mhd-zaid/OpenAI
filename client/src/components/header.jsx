@@ -1,9 +1,13 @@
+import Navbar from '@/lib/components/Navbar';
+import useToken from '../utils/useToken';
 const Header = () => {
-  return (
-    <header>
-      <h2>Header</h2>
-    </header>
-  );
+  const { token, setToken } = useToken();
+
+  const handleLogout = () => {
+    setToken(null);
+  };
+
+  return <Navbar basename={''} isLoggedIn={!!token} onLogout={handleLogout} />;
 };
 
 export default Header;
