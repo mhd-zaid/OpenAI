@@ -1,4 +1,5 @@
-import { uuidv7 } from 'uuidv7';
+import {uuidv7} from "uuidv7";
+import ApiResponse from "../utils/apiResponse.js";
 // const ValidationError = require("../errors/ValidationError");
 
 class GenericService {
@@ -27,37 +28,36 @@ class GenericService {
 
       const countTotal = await this.Model.count({ where: filters });
       res.set('X-Total-Count', countTotal);
-      return res.status(200).json(models);
+      return res.status(200).json(new ApiResponse(true, models));
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
-      return res.status(500).json({ error: 'Erreur interne du serveur' });
+      return res.status(500).json(new ApiResponse(false, null, "Une erreur s'est produite lors de la récupération des données."));
     }
   }
 
-  // Méthode pour gérer les inclusions
-  includeModels() {
-    if (!this.include) {
-      return [];
-    }
-
-    const includeOptions = [];
-
-    // Gérez chaque modèle inclus
-    this.include.forEach(includeModel => {
-      console.log(includeModel);
-      const modelInclude = { model: includeModel };
-
-      // Vérifiez s'il y a un sous-modèle à inclure
-      if (includeModel.include) {
-        const subIncludeOptions = this.includeModels(includeModel.include);
-        modelInclude.include = subIncludeOptions;
+    // Méthode pour gérer les inclusions
+    includeModels() {
+      if (!this.include) {
+        return [];
       }
-
-      includeOptions.push(modelInclude);
-    });
-
-    return includeOptions;
-  }
+  
+      const includeOptions = [];
+  
+      // Gérez chaque modèle inclus
+      this.include.forEach((includeModel) => {
+        const modelInclude = { model: includeModel };
+  
+        // Vérifiez s'il y a un sous-modèle à inclure
+        if (includeModel.include) {
+          const subIncludeOptions = this.includeModels(includeModel.include);
+          modelInclude.include = subIncludeOptions;
+        }
+  
+        includeOptions.push(modelInclude);
+      });
+  
+      return includeOptions;
+    }
 
   async getById(req, res) {
     const id = req.params.id;
@@ -66,16 +66,15 @@ class GenericService {
         id,
       },
     });
-    if (model) return res.status(200).json(model);
+    if (model) return res.status(200).json(new ApiResponse(true, model));
     return res.sendStatus(404);
   }
 
   async create(req, res, next) {
-    console.log('DANS LE SERVICE  CREATE : ', this.Model);
     try {
       const id = uuidv7();
       const model = await this.Model.create({ id, ...req.body });
-      return res.status(201).json(model);
+      return res.status(201).json(new ApiResponse(true, model));
     } catch (error) {
       // if (
       //   error.name === "SequelizeValidationError" ||
@@ -94,9 +93,9 @@ class GenericService {
       const updatedItem = await this.Model.create({ id, ...req.body });
 
       if (nbDeleted > 0) {
-        return res.status(200).json(updatedItem);
+        return res.status(200).json(new ApiResponse(true, updatedItem));
       } else {
-        return res.status(201).json(updatedItem);
+        return res.status(201).json(new ApiResponse(true, updatedItem));
       }
     } catch (error) {
       // if (
@@ -119,7 +118,7 @@ class GenericService {
       if (!items.length) {
         return res.sendStatus(404);
       } else {
-        return res.status(200).json(items[0]);
+        return res.status(200).json(new ApiResponse(true, items[0]));
       }
     } catch (error) {
       // if (
