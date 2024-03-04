@@ -3,8 +3,8 @@ import { Model, DataTypes } from "sequelize";
 export default function (connection) {
   class Quantity extends Model {
     static associate(db) {
-        Quantity.belongsTo(db.Recipe, {onDelete: "CASCADE"});
-        Quantity.belongsTo(db.Ingredient);
+      Quantity.belongsTo(db.Recipe, {onDelete: "CASCADE"});
+      Quantity.belongsTo(db.Ingredient, {onDelete: "CASCADE"});
     }
   }
   Quantity.init(
