@@ -8,7 +8,7 @@ import { z } from "zod";
 import validateData from "@/utils/formValidator.js";
 
 async function resetPassword(password, token) {
-  return fetch(`${import.meta.env.VITE_API_URL}/resetpassword/${token}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_URL}/resetpassword/${token}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

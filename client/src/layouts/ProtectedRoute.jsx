@@ -1,10 +1,12 @@
 import { useNavigate, Outlet } from 'react-router-dom';
+import useToken from '@/utils/useToken.js';
 
 export const ProtectedRoute = () => {
   const navigate = useNavigate();
+  const { token } = useToken();
 
   // CHECK AUTH
-  if (!false) {
+  if (token === null || token === undefined || token === ""){
     setTimeout(() => {
       navigate('/login');
     }, 1000);

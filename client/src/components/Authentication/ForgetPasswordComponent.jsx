@@ -11,7 +11,7 @@ const forgetPasswordValidationSchema = z.object({
 });
 
 async function requestPasswordReset(formData) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/forgotpassword`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/forgotpassword`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ import CardComponent from "@/lib/components/CardComponent.jsx";
 import validateData from "@/utils/formValidator.js";
 
 async function registerUser(credentials) {
-    return fetch(`${import.meta.env.VITE_API_URL}/register`, {
+    return fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const registerValidationSchema = z.object({
     confirmPassword: z.string().min(8, { message: 'La confirmation du mot de passe doit comporter au moins 8 caractères' }),
 });
 
-const RegisterComponent = ({setToken}) => {
+const RegisterComponent = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -168,10 +168,6 @@ const RegisterComponent = ({setToken}) => {
             </CardComponent>
         </>
     );
-};
-
-RegisterComponent.propTypes = {
-    setToken: PropTypes.func.isRequired
 };
 
 export default RegisterComponent;

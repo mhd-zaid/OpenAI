@@ -1,4 +1,4 @@
-const API_URL_BASE = import.meta.env.VITE_API_URL;
+const API_URL_BASE = import.meta.env.VITE_BACKEND_URL;
 const defaultHeaders = {
     method: "GET",
     headers: new Headers({ "Content-Type": "application/json" }),
