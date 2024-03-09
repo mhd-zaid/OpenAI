@@ -55,23 +55,15 @@ genericRoutes.forEach(route => {
 });
 app.use('/api' + '/ingredients', genericIngredientRouter.getRouter());
 
-const genericStepRouter = new GenericRouter(
-  new GenericController(new GenericService(db.Step)),
+const genericQuantityRouter = new GenericRouter(
+  new GenericController(new GenericService(db.Quantity)),
 );
 genericRoutes.forEach(route => {
-  genericStepRouter.addRoute(route, route.middlewares);
-});
-app.use('/api' + '/steps', genericStepRouter.getRouter());
-
-const genericRecipeIngredientRouter = new GenericRouter(
-  new GenericController(new GenericService(db.RecipeIngredient)),
-);
-genericRoutes.forEach(route => {
-  genericRecipeIngredientRouter.addRoute(route, route.middlewares);
+  genericQuantityRouter.addRoute(route, route.middlewares);
 });
 app.use(
-  '/api' + '/recipeingredients',
-  genericRecipeIngredientRouter.getRouter(),
+  '/api' + '/quantities',
+  genericQuantityRouter.getRouter(),
 );
 
 const genericUserRouter = new GenericRouter(
