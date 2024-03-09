@@ -2,6 +2,7 @@ import connection from '../config/sequelize.js';
 // Fixtures
 import ingredientFixture from './ingredient.js';
 import recipeFixture from './recipe.js';
+import quantityFixture from './quantity.js';
 import db from '../models/index.js';
 
 const loadIngredients = async () => {
@@ -48,29 +49,16 @@ const getIngredientByName = async name => {
 const loadQuantity = async () => {
   const model = db.Quantity;
   try {
-    let recipe = await getRecipeByName('Omelette aux tomates et au fromage');
-    const ingredient = await getIngredientByName('Fromage')
-    let quantities = [
-      {
-        quantity: 2,
-        unit: null,
+    await Promise.all(quantityFixture.map(async quantity => {
+      const ingredient = await getIngredientByName(quantity.Ingredient);
+      const recipe = await getRecipeByName(quantity.Recipe);
+      return model.create({
+        quantity: quantity.quantity,
+        unit: quantity.unit,
         IngredientId: ingredient.id,
         RecipeId: recipe.id,
-      },
-      {
-        quantity: 50,
-        unit: 'g',
-        IngredientId: ingredient.id,
-        RecipeId: recipe.id,
-      },
-      {
-        quantity: 1,
-        unit: null,
-        IngredientId: ingredient.id,
-        RecipeId: recipe.id,
-      },
-    ];
-    await Promise.all(quantities.map(quantity => model.create(quantity)));
+      });
+    }));    
     console.log('Quantities loaded');
   } catch (err) {
     console.error(err);

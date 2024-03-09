@@ -269,6 +269,34 @@ const ingredientFixture = [
     id: uuidv4(),
     name: 'Fromage',
   },
+  {
+    id: uuidv4(),
+    name: 'Poulet',
+  },
+  {
+    id: uuidv4(),
+    name: 'Pâte',
+  },
+  {
+    id: uuidv4(),
+    name: 'Herbes de Provence',
+  },
+  {
+    id: uuidv4(),
+    name: "Lardon"
+  },
+  {
+    id: uuidv4(),
+    name: "Gousse d'ail"
+  },
+  {
+    id: uuidv4(),
+    name: "Huile d'olive"
+  },
+  {
+    id: uuidv4(),
+    name: "Caramel"
+  }
 ];
 
 export default ingredientFixture;
