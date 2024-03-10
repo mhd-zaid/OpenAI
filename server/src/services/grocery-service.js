@@ -5,7 +5,7 @@ pour une recette spécifique. La réponse doit contenir une liste d'objets JSON,
 pour la recette, avec son nom et la quantité requise. Si la recette spécifiée est disponible dans la base de données, la liste de\
 courses doit être générée en fonction de ses ingrédients, quantités et unités. La  réponse json doit être un tableau direct; sinon, la réponse doit être un objet JSON vide.";
 
-class AiSearchService {
+class GroceryService {
   constructor() {
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
@@ -32,4 +32,4 @@ class AiSearchService {
   }
 }
 
-export default AiSearchService;
+export default GroceryService;
