@@ -20,6 +20,18 @@ const quantitiesFixture = [
     {
         quantity: 1,
         unit: null,
+        Ingredient: "Oignon",
+        Recipe: "Omelette aux oignons et herbes de Provence",
+    },
+    {
+        quantity: 1,
+        unit: null,
+        Ingredient: "Herbes de Provence",
+        Recipe: "Omelette aux oignons et herbes de Provence",
+    },
+    {
+        quantity: 1,
+        unit: null,
         Ingredient: "Tablette de chocolat",
         Recipe: "Bûche aux fruits exotiques et chocolat noisettes Nestlé Dessert",
     },

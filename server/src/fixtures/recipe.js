@@ -37,6 +37,16 @@ const recipesFixture = [
   },
   {
     id: uuidv4(),
+    title: 'Omelette aux oignons et herbes de Provence',
+    description: null,
+    tips: null,
+    time: 15,
+    level: getRandomElement(levelEnum),
+    tags: 'plat',
+    instructions: null,
+  },
+  {
+    id: uuidv4(),
     title: 'Poulet rôti aux herbes de Provence',
     description: null,
     tips: null,
