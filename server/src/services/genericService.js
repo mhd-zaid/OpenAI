@@ -16,6 +16,8 @@ class GenericService {
     try {
       const includeOptions = this.includeModels();
 
+      console.log("INCLUDE OPTIONS : ", includeOptions)
+
       const models = await this.Model.findAll({
         where: filters,
         limit,
