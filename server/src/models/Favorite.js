@@ -11,6 +11,7 @@ export default function (connection) {
   }
   Favorite.init(
     {
+      id: { type: DataTypes.UUID, primaryKey: true },
     },
     {
       sequelize: connection,

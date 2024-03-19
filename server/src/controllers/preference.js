@@ -2,10 +2,11 @@ import ApiResponse from '../utils/apiResponse.js';
 import db from '../models/index.js';
 
 const getAllByUser = async(req, res) => {
-    const { page: reqPage, limit: reqLimit,id: id, ...filters } = req.query;
+    const { page: reqPage, limit: reqLimit, ...filters } = req.query;
     const page = parseInt(reqPage) || 1;
     const limit = parseInt(reqLimit) || 10;
     const offset = (page - 1) * limit;
+    const id = req.params.id;
 
     try {
       const preferences = await db.Preferences.findAll({
