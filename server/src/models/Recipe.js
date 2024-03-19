@@ -14,9 +14,6 @@ export default function (connection) {
         allowNull: false,
         unique: true,
       },
-      description: {
-        type: DataTypes.STRING,
-      },
       tips: {
         type: DataTypes.STRING,
       },
@@ -29,8 +26,17 @@ export default function (connection) {
       tags: {
         type: DataTypes.STRING,
       },
+      duration: {
+        type: DataTypes.INTEGER,
+      },
+      nb_person: {
+        type: DataTypes.INTEGER,
+      },
       instructions: {
-        type: DataTypes.TEXT,
+        type: DataTypes.JSON,
+      },
+      url: {
+        type: DataTypes.STRING,
       },
     },
     {

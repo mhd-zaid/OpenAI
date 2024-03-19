@@ -65,11 +65,12 @@ const Chatbot = () => {
   return (
     <>
       <Button
+        zIndex={10}
         pos="absolute"
         right="2%"
         bottom="4%"
-        w={14}
-        h={14}
+        w={10}
+        h={10}
         rounded="full"
         variant="unstyled"
         bgColor="red"

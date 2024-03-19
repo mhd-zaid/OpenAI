@@ -81,7 +81,7 @@ const RegisterComponent = () => {
 
     return (
         <>
-            <CardComponent title="CRÉER UN COMPTE">
+            <CardComponent title="CRÉER UN COMPTE" className={"w-full lg:w-2/5"}>
                 {errors.global ? <p className="error">{errors.global}</p> : null}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -153,17 +153,18 @@ const RegisterComponent = () => {
                         />
                         {errors.confirmPassword ? <p className="error">{errors.confirmPassword}</p> : null}
                     </div>
-                    <Button className="flex bg-black text-white w-full justify-center mt-6 mb-2" variant="rounded">
-                        <span>S'inscrire</span>
-                    </Button>
-                    <p>ou</p>
                     <Button
-                        className="flex bg-black text-white w-full justify-center mt-2"
+                        title={"S'inscrire"}
+                        className="flex btn bezel text-white w-full justify-center mt-6 mb-2"
+                        variant="rounded"
+                    />
+                    <p className={"text-center"}>ou</p>
+                    <Button
+                        title={"Se connecter"}
+                        className="flex btn bezel text-white w-full justify-center mt-2"
                         variant="rounded"
                         onClick={() => navigate("/auth/login")}
-                    >
-                        <span>Se Connecter</span>
-                    </Button>
+                    />
                 </form>
             </CardComponent>
         </>

@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "style/Button";
+@import "style/Card";
+@import "style/Form";
+
+@layer base {
+  html {
+    @apply bg-white;
+  }
+  body {
+    @apply bg-gray-100 scroll-auto min-h-screen;
+  }
+
+  #root {
+    @apply w-full min-h-screen bg-gray-100 font-sans text-black;
+    .row {
+      @apply flex;
+    }
+    .col {
+      @apply flex flex-col;
+    }
+
+    .recipe-instructionContent {
+      counter-reset: counter;
+      li:before {
+        content: counter(counter) ". ";
+        counter-increment: counter;
+        position: relative;
+        left: 0;
+        color: #f98972;
+        font-variation-settings: "wght" 700;
+      }
+    }
+  }
+
+  .error {
+    @apply text-red-500;
+  }
+
+  #main-menu{
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(-100%);
+  }
+  #main-menu.open{
+    transform: translateX(0);
+  }
+
+  .main-menu-items{
+    @apply cursor-pointer flex items-center justify-between font-medium text-lg border border-b-black ;
+  }
+
+}
+
+@layer components {
+  .card {
+    padding: 2em;
+  }
+
+  .navbar {
+    @apply bg-white text-yellow-950 shadow-md;
+    position: relative;
+    z-index: 9999;
+  }
+}
+
+@layer utilities {
+  .effect{
+    &-grew{
+      @apply transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
+    }
+    &-rotate180{
+      @apply transition ease-in-out delay-150 hover:rotate-180 duration-300;
+    }
+  }
+}
+
+

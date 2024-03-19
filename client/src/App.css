@@ -1,43 +1,141 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.btn.flat {
+  @apply text-white bg-yellow-500;
+}
+.btn.flat:hover {
+  @apply bg-yellow-600;
+}
+.btn.flat:active {
+  @apply bg-yellow-700;
+}
+.btn.flat:disabled {
+  @apply text-yellow-400 bg-yellow-100;
+}
+.btn.outline {
+  @apply border-yellow-400 text-yellow-400;
+}
+.btn.outline:hover {
+  @apply border-yellow-600 text-yellow-600;
+}
+.btn.outline:active {
+  @apply border-yellow-600 text-yellow-600;
+}
+.btn.outline:disabled {
+  @apply border-yellow-200 text-yellow-200;
+}
+.btn.bezel {
+  @apply text-white from-yellow-500 to-yellow-600 bg-gradient-to-r;
+}
+.btn.bezel:hover {
+  @apply from-yellow-600 to-yellow-700 bg-gradient-to-r;
+}
+.btn.bezel:active {
+  @apply from-yellow-700 to-yellow-800 bg-gradient-to-r;
+}
+.btn.bezel:disabled {
+  @apply border-yellow-200 text-yellow-400;
+}
+
+.card {
+  @apply bg-[white] w-full md:w-4/5 flex flex-col justify-center items-center p-[2em] md:rounded-[0.5em];
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+.card h1 {
+  @apply mb-[0.5em];
+}
+.card p {
+  @apply mb-[1em];
+}
+.card button {
+  @apply mt-[1em];
+}
+.card .card__image {
+  @apply w-full h-[200px] object-cover rounded-[0.5em];
+}
+.card .card__content {
+  @apply p-[1em];
+}
+.card .card__footer {
+  @apply w-full flex justify-between items-center mt-[1em];
+}
+.card .card__footer button {
+  @apply w-full;
+}
+
+form label {
+  @apply text-center block;
+}
+form input {
+  @apply bg-gray-100;
+}
 
 @layer base {
-    body {
-        @apply bg-gray-100 scroll-auto min-h-screen;
-    }
+  html {
+    @apply bg-white;
+  }
 
-    #root {
-        text-align: center;
-        @apply w-full min-h-screen bg-gray-100;
-    }
+  body {
+    @apply bg-gray-100 scroll-auto min-h-screen;
+  }
 
-    .error {
-        @apply text-red-500;
-    }
+  #root {
+    @apply w-full min-h-screen bg-gray-100 font-sans text-black;
+  }
+  #root .row {
+    @apply flex;
+  }
+  #root .col {
+    @apply flex flex-col;
+  }
+  #root .recipe-instructionContent {
+    counter-reset: counter;
+  }
+  #root .recipe-instructionContent li:before {
+    content: counter(counter) ". ";
+    counter-increment: counter;
+    position: relative;
+    left: 0;
+    color: #f98972;
+    font-variation-settings: "wght" 700;
+  }
+
+  .error {
+    @apply text-red-500;
+  }
+
+  #main-menu {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(-100%);
+  }
+
+  #main-menu.open {
+    transform: translateX(0);
+  }
+
+  .main-menu-items {
+    @apply cursor-pointer flex items-center justify-between font-medium text-lg border border-b-black;
+  }
 }
-
 @layer components {
-    .card {
-        padding: 2em;
-    }
+  .card {
+    padding: 2em;
+  }
 
-    .navbar {
-        @apply bg-gray-800 p-4 mb-auto;
-        position: relative;
-        z-index: 9999;
-    }
-
-    /*.login-bg {*/
-    /*    background-image: url('/client/public/img/login-bg.jpg');*/
-    /*    background-position: center;*/
-    /*    background-size: cover;*/
-    /*    background-repeat: no-repeat;*/
-    /*    @apply w-full h-full;*/
-    /*}*/
-
-    .footer {
-        @apply bg-gray-800 p-4 mt-auto;
-        z-index: 9999;
-    }
+  .navbar {
+    @apply bg-white text-yellow-950 shadow-md;
+    position: relative;
+    z-index: 9999;
+  }
 }
+@layer utilities {
+  .effect-grew {
+    @apply transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
+  }
+  .effect-rotate180 {
+    @apply transition ease-in-out delay-150 hover:rotate-180 duration-300;
+  }
+}
+
+/*# sourceMappingURL=App.css.map */

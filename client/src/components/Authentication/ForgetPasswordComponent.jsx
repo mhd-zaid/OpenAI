@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useCallback, useState} from 'react';
 import Button from "@/lib/components/Button.jsx";
 import {toast} from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -29,15 +29,15 @@ const ForgetPasswordComponent = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
+  }, [formData]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
     try {
@@ -49,7 +49,7 @@ const ForgetPasswordComponent = () => {
         return;
       }
 
-      const response = await requestPasswordReset(formData);
+      const response = requestPasswordReset(formData);
 
       if(response.success) {
         toast.success(response.message);
@@ -61,11 +61,22 @@ const ForgetPasswordComponent = () => {
       setErrors(error.message || 'Une erreur inattendue s\'est produite.');
     }
 
-  };
+  }, [formData]);
 
   return (
       <>
         <CardComponent title="MOT DE PASSE OUBLIÉ ?">
+          <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto px-4 py-8 lg:w-2/3">
+            <div>
+            <h2 className="text-xl font-bold mb-4">Réinitialisation du mot de passe</h2>
+            <p className="mb-4">
+              Entrez l'adresse mail utilisée lors de votre inscription ou votre pseudo. Vous allez recevoir par mail un lien pour renouveler votre mot de passe.
+            </p>
+            <p className="mb-4">
+              Si vous rencontrez des difficultés ou si vous ne recevez pas l'e-mail de réinitialisation, n'hésitez pas à
+              contacter notre support client pour obtenir de l'aide.
+            </p>
+          </div>
           {errors && errors.global ? <p className="error">{errors.global}</p> : null}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -84,18 +95,11 @@ const ForgetPasswordComponent = () => {
             </div>
             <Button
                 title={"Envoyer la demande de réinitialisation"}
-                className="flex bg-black text-white w-full justify-center mt-6 mb-2"
+                className="flex btn bezel text-white w-full justify-center mt-6 mb-2"
                 variant="rounded"
             />
-            <p>ou</p>
-            <Button
-                className="flex bg-black text-white w-full justify-center mt-2"
-                variant="rounded"
-                onClick={() => navigate("/auth/login")}
-            >
-              <span>Se Connecter</span>
-            </Button>
           </form>
+          </div>
         </CardComponent>
       </>
   );
