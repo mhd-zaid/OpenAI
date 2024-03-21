@@ -65,7 +65,7 @@ const Chatbot = () => {
   return (
     <>
       <Button
-        pos="absolute"
+        pos="fixed"
         right="2%"
         bottom="4%"
         w={14}
@@ -76,10 +76,12 @@ const Chatbot = () => {
         onClick={() => setShowChatbot(!showChatbot)}
       ></Button>
       <Box
-        pos="absolute"
+        pos="fixed"
         right="2%"
+        bottom="14%"
+        zIndex={10}
         w={{ sm: '75%', md: '50%', lg: '30%' }}
-        h="80%"
+        h="75%"
         hidden={!showChatbot}
       >
         <MainContainer>
@@ -110,6 +112,7 @@ const Chatbot = () => {
             <MessageInput
               attachButton={false}
               placeholder="Envoyer un message..."
+              style={{ textAlign: 'initial' }}
               onSend={handleUserMessage}
             />
           </ChatContainer>
