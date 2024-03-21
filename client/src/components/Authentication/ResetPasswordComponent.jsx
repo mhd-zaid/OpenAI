@@ -6,6 +6,7 @@ import {apiService} from "@/services/apiService.js";
 import NotFoundPage from "@/pages/NotFoundPage.jsx";
 import { z } from "zod";
 import validateData from "@/utils/formValidator.js";
+import CardComponent from "@/lib/components/CardComponent.jsx";
 
 async function resetPassword(password, token) {
   return fetch(`${import.meta.env.VITE_BACKEND_URL}/resetpassword/${token}`, {
@@ -30,17 +31,18 @@ const ResetPasswordComponent = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState('');
   const [hasTokenOwner, setHasTokenOwner] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const verifyToken = async () => {
       const response = await checkToken(token);
+
       if (response.data.length === 0) {
         navigate('/pagenotfound');
       }
-      setHasTokenOwner(response.data.length === 0);
+      setHasTokenOwner(response.data.length > 0);
     };
 
     verifyToken();
@@ -52,14 +54,14 @@ const ResetPasswordComponent = () => {
 
     try {
       if (password !== confirmPassword) {
-        setError('Les mots de passe ne correspondent pas.');
+        setErrors('Les mots de passe ne correspondent pas.');
         setLoading(false);
         return;
       }
 
       const validationErrors = validateData(resetPasswordValidationSchema, { password });
       if (validationErrors) {
-        setError(validationErrors);
+        setErrors(validationErrors);
         setLoading(false);
         return;
       }
@@ -70,10 +72,10 @@ const ResetPasswordComponent = () => {
         toast.success(response.message);
         navigate('/auth/login');
       } else {
-        setError(response.errors || 'Une erreur inattendue s\'est produite.');
+        setErrors(response.errors || 'Une erreur inattendue s\'est produite.');
       }
     } catch (error) {
-      setError('Une erreur inattendue s\'est produite.');
+      setErrors('Une erreur inattendue s\'est produite.');
     }
 
     setLoading(false);
@@ -82,9 +84,20 @@ const ResetPasswordComponent = () => {
   return (
       <>
         {hasTokenOwner ?
-            <div className="w-full h-full flex justify-center items-center pt-6 sm:pt-0">
-              <div className="w-full sm:w-2/3 md:w-1/2 lg:w-2/5 bg-white p-5 mx-auto rounded-2xl px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
-                <h2 className="mb-12 text-center text-3xl font-extrabold">Réinitialiser le mot de passe</h2>
+            <CardComponent title="RÉINITIALISEZ VOTRE MOT DE PASSE">
+              <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto px-4 py-8 lg:w-2/3">
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Création de votre nouveau mot de passe</h2>
+                  <p className="mb-4">
+                    Veuillez entrer votre nouveau mot de passe dans les champs ci-dessous. Assurez-vous que votre mot de
+                    passe est fort et unique.
+                  </p>
+                  <p className="mb-4">
+                    Si vous rencontrez des difficultés ou si vous avez besoin d'aide, n'hésitez pas à contacter notre
+                    support client.
+                  </p>
+                </div>
+                {errors && errors.global ? <p className="error">{errors.global}</p> : null}
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="block mb-1" htmlFor="password">
@@ -113,17 +126,16 @@ const ResetPasswordComponent = () => {
                         className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
                         required
                     />
-                    {error && <p className="error">{error}</p>}
+                    {errors && <p className="error">{errors}</p>}
                   </div>
                   <Button
-                      className="flex bg-black text-white w-full justify-center mt-6 mb-2"
+                      title={loading ? "Réinitialisation en cours..." : "Réinitialiser le mot de passe"}
+                      className="btn bezel flex bg-black text-white w-full justify-center mt-6 mb-2"
                       variant="rounded"
-                  >
-                    <span>{loading ? "Réinitialisation en cours..." : "Réinitialiser le mot de passe"}</span>
-                  </Button>
+                  />
                 </form>
               </div>
-            </div> : <NotFoundPage/>}
+            </CardComponent> : <NotFoundPage/>}
       </>
   );
 };

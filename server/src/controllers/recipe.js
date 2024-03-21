@@ -1,6 +1,8 @@
-import ApiResponse from "../utils/apiResponse.js";
-import db from "../models/index.js";
+import ApiResponse from '../utils/apiResponse.js';
+import db from '../models/index.js';
 import { uuidv7 } from 'uuidv7';
+
+import { nanoid } from 'nanoid';
 
 const create = async (req, res) => {
   try {
@@ -15,6 +17,7 @@ const create = async (req, res) => {
       level: recipeData.level,
       tags: recipeData.tags,
       instructions: recipeData.instructions,
+      url: createRecipeUrl(recipeData.title),
     });
 
     const quantities = recipeData.Quantities.map(quantity => ({
@@ -93,5 +96,13 @@ const getById = async (req, res) => {
   if (model) return res.status(200).json(new ApiResponse(true, model));
   return res.sendStatus(404);
 }
+
+const createRecipeUrl = (title) => {
+  const cleanedTitle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+  const baseUrl = "/recettes/";
+  return baseUrl + cleanedTitle + "-" + nanoid(6);
+}
+
 
 export default {create, getAll, getById}

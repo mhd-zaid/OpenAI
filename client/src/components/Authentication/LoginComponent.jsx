@@ -64,62 +64,60 @@ const LoginComponent = () => {
   };
 
   return (
-      <>
-        <div className="login-bg">
-          <CardComponent title="SE CONNECTER" className={"w-3/4"} backgroundImage={"C:/Users/makan/ESGI/5iw/Intégration AI/OpenAI/client/public/img/login-bg.jpg"}>
-            {errors.global ? <p className="error">{errors.global}</p> : null}
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block mb-1" htmlFor="identifier">
-                  Email ou pseudo
-                </label>
-                <input
-                    type="text"
-                    name="identifier"
-                    value={formData.identifier}
-                    onChange={handleChange}
-                    placeholder="Entrez votre adresse e-mail ou pseudo"
-                    className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-                />
-                {errors.identifier ? <p className="error">{errors.identifier}</p> : null}
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1" htmlFor="password">
-                  Mot de passe
-                </label>
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Entrez votre mot de passe"
-                    className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-                />
-                {errors.password ? <p className="error">{errors.password}</p> : null}
-              </div>
-              <div className="mt-6 flex items-center justify-between">
-                <Link to="/auth/forgetpassword" className="text-sm">
-                  Mot de passe oublié ?
-                </Link>
-              </div>
-              <Button
-                  className="flex bg-black text-white w-full justify-center mt-6 mb-2"
-                  variant="rounded"
-              >
-                <span>Se Connecter</span>
-              </Button>
-              <p>ou</p>
-              <Button
-                  className="flex bg-black text-white w-full justify-center mt-2"
-                  variant="rounded"
-                  onClick={() => navigate("/auth/register")}
-              >
-                <span>Créer un compte</span>
-              </Button>
-            </form>
-          </CardComponent>
-        </div>
-      </>
+    <>
+      <CardComponent title="SE CONNECTER" className={"w-full lg:w-2/5"}>
+        {errors.global ? <p className="error">{errors.global}</p> : null}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block mb-1 text-sm font-medium" htmlFor="identifier">
+              Email ou pseudo
+            </label>
+            <input
+              autoComplete={"on"}
+              type="text"
+              name="identifier"
+              value={formData.identifier}
+              onChange={handleChange}
+              placeholder="Entrez votre adresse e-mail ou pseudo"
+              className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
+            />
+            {errors.identifier ? <p className="error">{errors.identifier}</p> : null}
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 text-sm font-medium" htmlFor="password">
+              Mot de passe
+            </label>
+            <input
+              autoComplete={"on"}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Entrez votre mot de passe"
+              className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
+            />
+            {errors.password ? <p className="error">{errors.password}</p> : null}
+          </div>
+          <div className="mt-6 flex items-center justify-between">
+            <Link to="/auth/forgetpassword" className="text-sm">
+              Mot de passe oublié ?
+            </Link>
+          </div>
+          <Button
+            title={"Se Connecter"}
+            className="flex btn bezel w-full justify-center mt-6 mb-2"
+            variant="rounded"
+          />
+          <p className={"text-center"}>ou</p>
+          <Button
+            title={"Créer un compte"}
+            className="flex btn bezel w-full justify-center mt-2"
+            variant="rounded"
+            onClick={() => navigate("/auth/register")}
+          />
+        </form>
+      </CardComponent>
+    </>
   );
 };
 

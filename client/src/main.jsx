@@ -16,6 +16,9 @@ import DashboardPage from '@/pages/DashboardPage';
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import EmailVerifiedPage from '@/pages/EmailVerifiedPage.jsx';
 import AboutPage from '@/pages/AboutPage.jsx';
+import RecipePage from '@/pages/Recipe/RecipePage.jsx';
+import RecipesPage from '@/pages/Recipe/RecipesPage.jsx';
+import ContactPage from '@/pages/ContactPage.jsx';
 
 const theme = extendTheme(extend_theme);
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,9 +28,27 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
+            <Route index element={<DashboardPage />} />
+            <Route path="recettes">
+              <Route path=":recipeUrl" element={<RecipePage />} />
+              <Route index element={<RecipesPage type="all" />} />
+              <Route path="entrees" element={<RecipesPage type="entrees" />} />
+              <Route path="plats" element={<RecipesPage type="plats" />} />
+              <Route
+                path="desserts"
+                element={<RecipesPage type="desserts" />}
+              />
+              <Route
+                path="boissons"
+                element={<RecipesPage type="boissons" />}
+              />
+              <Route path="saisons" element={<RecipesPage type="seasonal" />} />
+              <Route path="fetes" element={<RecipesPage type="holidays" />} />
+              <Route path="world" element={<RecipesPage type="world" />} />
+            </Route>
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="about" element={<AboutPage />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="about" element={<AboutPage />} />
-              <Route index element={<DashboardPage />} />
               <Route path="profile" element={<Profile />} />
             </Route>
             <Route path="auth">

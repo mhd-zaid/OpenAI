@@ -1,0 +1,41 @@
+.btn {
+
+  &.flat {
+    @apply text-white bg-yellow-500;
+    &:hover {
+      @apply bg-yellow-600;
+    }
+    &:active {
+      @apply bg-yellow-700;
+    }
+    &:disabled {
+      @apply text-yellow-400 bg-yellow-100;
+    }
+  }
+
+  &.outline {
+    @apply border-yellow-400 text-yellow-400;
+    &:hover {
+      @apply border-yellow-600 text-yellow-600;
+    }
+    &:active {
+      @apply border-yellow-600 text-yellow-600;
+    }
+    &:disabled {
+      @apply border-yellow-200 text-yellow-200;
+    }
+  }
+
+  &.bezel {
+    @apply text-white from-yellow-500 to-yellow-600 bg-gradient-to-r;
+    &:hover {
+      @apply from-yellow-600 to-yellow-700 bg-gradient-to-r;
+    }
+    &:active {
+      @apply from-yellow-700 to-yellow-800 bg-gradient-to-r;
+    }
+    &:disabled {
+      @apply border-yellow-200 text-yellow-400;
+    }
+  }
+}
