@@ -50,11 +50,16 @@ const getAll = async(req, res) => {
         include: [
           {
             model: db.Quantity,
-            as: 'Quantities' 
+            as: 'Quantities',
+            include: [db.Ingredient]
           },
           {
             model: db.Comment,
             as: 'Comments' 
+          },
+          {
+            model: db.Like,
+            as: 'Likes' 
           }
         ],
       });
@@ -85,11 +90,16 @@ const getById = async (req, res) => {
     include: [
       {
         model: db.Quantity,
-        as: 'Quantities' 
+        as: 'Quantities',
+        include: [db.Ingredient]
       },
       {
         model: db.Comment,
         as: 'Comments' 
+      },
+      {
+        model: db.Like,
+        as: 'Likes' 
       }
     ],
   });
