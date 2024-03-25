@@ -37,16 +37,16 @@ const App = () => {
     <>
       <AuthProvider>
         <ChakraProvider>
-          <div className="min-h-screen flex flex-col justify-between">
+          <div className="min-h-screen col justify-between">
             <Header menus={menus} />
-            <main className="flex-grow card max-w-screen-md self-center md:my-4 md:mx-4">
+            <main className="flex-grow card max-w-screen-lg self-center md:my-32 md:mx-4">
               <Outlet />
             </main>
             <Footer menus={menus} />
           </div>
           <Chatbot />
           <ToastContainer
-            position="top-right"
+            position="bottom-right"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}

@@ -27,6 +27,7 @@ class GenericService {
 
       const countTotal = await this.Model.count({ where: filters });
       res.set('X-Total-Count', countTotal);
+      res.set('Access-Control-Expose-Headers', 'X-Total-Count');
       return res.status(200).json(new ApiResponse(true, models));
     } catch (error) {
       console.error("Une erreur s'est produite :", error);

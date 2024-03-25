@@ -19,6 +19,7 @@ import AboutPage from "@/pages/AboutPage.jsx";
 import RecipePage from '@/pages/Recipe/RecipePage.jsx';
 import RecipesPage from '@/pages/Recipe/RecipesPage.jsx';
 import ContactPage from '@/pages/ContactPage.jsx';
+import CommentsPage from '@/pages/CommentsPage.jsx';
 
 const theme = extendTheme(extend_theme);
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route index element={<DashboardPage />} />
             <Route path="recettes">
               <Route path=":recipeUrl" element={<RecipePage />} />
+              <Route path=":recipeUrl/comments" element={<CommentsPage />} />
               <Route index element={<RecipesPage type="all" />} />
               <Route path="entrees" element={<RecipesPage type="entrees" />} />
               <Route path="plats" element={<RecipesPage type="plats" />} />

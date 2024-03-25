@@ -1,11 +1,20 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext.jsx';
+import { apiService } from '@/services/apiService.js';
 
 export default function useToken() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const getToken = () => {
-    const tokenString = localStorage.getItem('token');
-    return JSON.parse(tokenString);
+    try {
+      const tokenString = localStorage.getItem('token');
+      if (tokenString === null) {
+        return null;
+      }
+      return JSON.parse(tokenString);
+    } catch (error) {
+      console.error('Failed to parse token:', error);
+      return null;
+    }
   };
 
   const [token, setToken] = useState(getToken());

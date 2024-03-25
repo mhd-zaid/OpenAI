@@ -66,14 +66,14 @@ const Chatbot = () => {
     <>
       <Button
         zIndex={10}
-        pos="absolute"
+        pos="fixed"
         right="2%"
         bottom="4%"
         w={10}
         h={10}
         rounded="full"
         variant="unstyled"
-        bgColor="red"
+        bgColor="yellow.500"
         onClick={() => setShowChatbot(!showChatbot)}
       ></Button>
       <Box

@@ -10,31 +10,31 @@ export const apiService = {
     getAll(instance, params){
         let url = `${API_URL_BASE}/${instance}?${params}`;
         return fetch(url, { ...defaultHeaders })
-            .then((response) => response.json());
+            .then((response) => response);
     },
 
     getOne(instance, id){
         return fetch(`${API_URL_BASE}/${instance}/${id}`, { ...defaultHeaders })
-            .then((response) => response.json());
+            .then((response) => response);
     },
 
     create(instance, data){
         defaultHeaders.method = "POST";
         defaultHeaders.body = JSON.stringify(data);
         return fetch(`${API_URL_BASE}/${instance}`, { ...defaultHeaders })
-            .then((response) => response.json());
+            .then((response) => response);
     },
 
     update(instance, id, data){
         defaultHeaders.method = "PUT";
         defaultHeaders.body = JSON.stringify(data);
         return fetch(`${API_URL_BASE}/${instance}/${id}`, { ...defaultHeaders })
-            .then((response) => response.json());
+            .then((response) => response);
     },
 
     deleteById(instance, id){
         defaultHeaders.method = "DELETE";
         return fetch(`${API_URL_BASE}/${instance}/${id}`, { ...defaultHeaders })
-            .then((response) => response.json());
+            .then((response) => response);
     }
 }

@@ -12,8 +12,12 @@ export default function (connection) {
   Comment.init(
     {
       id: { type: DataTypes.UUID, primaryKey: true },
-      text: {
+      comment: {
         type: DataTypes.STRING,
+        allowNull: false
+      },
+      rating: {
+        type: DataTypes.FLOAT,
         allowNull: false
       }
     },

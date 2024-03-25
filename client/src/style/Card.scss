@@ -1,15 +1,15 @@
 .card {
     @apply bg-[white] w-full md:w-4/5 flex flex-col justify-center items-center p-[2em] md:rounded-[0.5em];
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    & h1 {
-        @apply /*text-[1.5em]*/ mb-[0.5em];
-    }
-    & p {
-        @apply /*text-[1em]*/ mb-[1em];
-    }
-    & button {
-        @apply mt-[1em];
-    }
+    //& h1 {
+    //    @apply /*text-[1.5em]*/ mb-[0.5em];
+    //}
+    //& p {
+    //    @apply /*text-[1em]*/ mb-[1em];
+    //}
+    //& button {
+    //    @apply mt-[1em];
+    //}
     & .card__image {
         @apply w-full h-[200px] object-cover rounded-[0.5em];
     }

@@ -22,7 +22,7 @@ const Navbar = ({basename, onLogout, menus}) => {
 
   return (
     <>
-      <div className="grid grid-cols-12 p-2 bg-white z-10">
+      <div className="grid grid-cols-12 p-2 bg-white z-20 fixed w-full shadow-xl">
         {/* Menu items */}
         <div className="col-span-1 flex justify-center items-center">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -70,52 +70,63 @@ const Navbar = ({basename, onLogout, menus}) => {
 
       <div id={"main-menu"} className={`absolute top-12 bg-white w-full h-screen flex-grow px-4 ${isMenuOpen ? 'open' : ''}`}>
         <div className="grid grid-cols-12 grid-rows-12 text-sm lg:flex-grow text-black h-full">
-          <div className={'col-span-6 flex justify-center items-center'}>
-            <Button className="flex btn bezel" onClick={() => {navigate('/auth/login'); setIsMenuOpen(false)}} variant="rounded">
-              <Icon icon="ic:outline-person-outline" style={{ fontSize: '20px' }} />
-              <span>Connexion</span>
-            </Button>
-          </div>
-          <div className={'col-span-6 flex justify-center items-center text-lg underline text-yellow-500'}>
-            <Link to="/auth/register" onClick={() => setIsMenuOpen(false)}>Inscription</Link>
-          </div>
+          {!isLoggedIn ? (
+            <>
+              <div className="col-span-6 flex justify-center items-center">
+                <Button className="flex btn bezel" onClick={() => {navigate('/auth/login'); setIsMenuOpen(false)}} variant="rounded">
+                  <Icon icon="ic:outline-person-outline" style={{ fontSize: '20px' }} />
+                  <span>Connexion</span>
+                </Button>
+              </div>
+              <div className="col-span-6 flex justify-center items-center text-lg underline text-yellow-500">
+                <Link to="/auth/register" onClick={() => setIsMenuOpen(false)}>Inscription</Link>
+              </div>
+            </>
+          ) : (
+            <div className="col-span-12 flex justify-center items-center">
+              <Button className="flex btn bezel" onClick={onLogout} variant="rounded">
+                <Icon icon="ic:outline-person-outline" style={{ fontSize: '20px' }} />
+                <span>Déconnexion</span>
+              </Button>
+            </div>
+          )}
           <div className="col-span-12">
             <span>Découvrez des recettes personnalisées en créant votre profil Cuisine Connect</span>
           </div>
 
           <div className={"col-span-12"}>
-          {Array.from(menus).map((menu, menuIndex) => (
-            <div key={menuIndex} className="mb-2">
-              <div key={menuIndex} className="col-span-12 grid h-10">
-                {menu.subMenus ? (
-                <span className="main-menu-items w-full mb-2" onClick={() => toggleMenu(menuIndex)}>
+            {Array.from(menus).map((menu, menuIndex) => (
+              <div key={menuIndex} className="mb-2">
+                <div key={menuIndex} className="col-span-12 grid h-10">
+                  {menu.subMenus ? (
+                    <span className="main-menu-items w-full mb-2" onClick={() => toggleMenu(menuIndex)}>
                   {menu.title}
-                  <Icon icon="bi:chevron-down" style={{ color: openMenus.includes(menuIndex) ? 'gray' : 'black', transform: openMenus.includes(menuIndex) ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
+                      <Icon icon="bi:chevron-down" style={{ color: openMenus.includes(menuIndex) ? 'gray' : 'black', transform: openMenus.includes(menuIndex) ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </span>) : (
-                <Link to={menu.url} className="main-menu-items">
-                  {menu.title}
-                  <Icon icon="bi:chevron-right" style={{ color: 'black' }} />
-                </Link>
-                )}
-              </div>
+                    <Link to={menu.url} className="main-menu-items">
+                      {menu.title}
+                      <Icon icon="bi:chevron-right" style={{ color: 'black' }} />
+                    </Link>
+                  )}
+                </div>
 
-              <div
-                className={`ml-4 transition-max-height ease-in-out duration-300 ${
-                  openMenus.includes(menuIndex) ? 'max-h-48' : 'max-h-0'
-                } overflow-hidden`}
-              >
-                <ul className={"flex flex-col gap-2"}>
-                  {menu.subMenus && menu.subMenus.map((subMenu, index) => (
-                    <li key={index} className={"text-lg"}>
-                      <Link to={subMenu.url}>
-                        {subMenu.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <div
+                  className={`ml-4 transition-max-height ease-in-out duration-300 ${
+                    openMenus.includes(menuIndex) ? 'max-h-48' : 'max-h-0'
+                  } overflow-hidden`}
+                >
+                  <ul className={"col gap-2"}>
+                    {menu.subMenus && menu.subMenus.map((subMenu, index) => (
+                      <li key={index} className={"text-lg"}>
+                        <Link to={subMenu.url}>
+                          {subMenu.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
 
         </div>
