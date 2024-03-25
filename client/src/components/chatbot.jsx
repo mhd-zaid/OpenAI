@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Image } from '@chakra-ui/react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {
   MainContainer,
@@ -65,22 +65,24 @@ const Chatbot = () => {
   return (
     <>
       <Button
-        zIndex={10}
-        pos="absolute"
-        right="2%"
-        bottom="4%"
-        w={10}
-        h={10}
+        pos="fixed"
+        right="3%"
+        bottom={70}
+        w={14}
+        h={14}
         rounded="full"
         variant="unstyled"
-        bgColor="red"
         onClick={() => setShowChatbot(!showChatbot)}
-      ></Button>
+      >
+        <Image src="/img/chatbot-logo.png" rounded="full" />
+      </Button>
       <Box
-        pos="absolute"
+        pos="fixed"
         right="2%"
+        bottom={130}
+        zIndex={10}
         w={{ sm: '75%', md: '50%', lg: '30%' }}
-        h="80%"
+        h="75%"
         hidden={!showChatbot}
       >
         <MainContainer>
@@ -111,6 +113,7 @@ const Chatbot = () => {
             <MessageInput
               attachButton={false}
               placeholder="Envoyer un message..."
+              style={{ textAlign: 'initial' }}
               onSend={handleUserMessage}
             />
           </ChatContainer>

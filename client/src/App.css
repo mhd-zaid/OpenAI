@@ -93,12 +93,12 @@ form input {
     counter-reset: counter;
   }
   #root .recipe-instructionContent li:before {
-    content: counter(counter) ". ";
+    content: counter(counter) '. ';
     counter-increment: counter;
     position: relative;
     left: 0;
     color: #f98972;
-    font-variation-settings: "wght" 700;
+    font-variation-settings: 'wght' 700;
   }
 
   .error {
