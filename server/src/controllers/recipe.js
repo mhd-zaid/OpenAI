@@ -58,8 +58,8 @@ const getAll = async(req, res) => {
             as: 'Comments' 
           },
           {
-            model: db.Like,
-            as: 'Likes' 
+            model: db.Rating,
+            as: 'Ratings' 
           }
         ],
       });
@@ -98,8 +98,8 @@ const getById = async (req, res) => {
         as: 'Comments' 
       },
       {
-        model: db.Like,
-        as: 'Likes' 
+        model: db.Rating,
+        as: 'Ratings' 
       }
     ],
   });

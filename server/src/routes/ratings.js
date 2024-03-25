@@ -1,8 +1,8 @@
 
-import GenericRouter from "../routes/genericRouter.js";
+import GenericRouter from "./genericRouter.js";
 import GenericController from "../controllers/genericController.js";
 import GenericService from "../Services/genericService.js";
-import db from "../../src/models/index.js";
+import db from "../models/index.js";
 
 const genericRoutes = [
     { method: 'GET', path: '/', handler: 'getAll', middlewares: [] },
@@ -13,15 +13,14 @@ const genericRoutes = [
     { method: 'DELETE', path: '/:id', handler: 'delete', middlewares: [] },
   ];
 
-
-  const genericLikesRouter = new GenericRouter(
-  new GenericController(new GenericService(db.Like)),
+  const genericRatingRouter = new GenericRouter(
+  new GenericController(new GenericService(db.Rating)),
 );
 genericRoutes.forEach(route => {
-    genericLikesRouter.addRoute(route, route.middlewares);
+  genericRatingRouter.addRoute(route, route.middlewares);
 });
 
 export default (router) => {
-  router.use('/', genericLikesRouter.getRouter());
+  router.use('/', genericRatingRouter.getRouter());
   return router;
 };
