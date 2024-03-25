@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const conversationContextPromptFr =
-  'Ce qui suit est une conversation avec un chef très expérimenté. Le chef est compétent en matière de nourriture et de cuisine et possède une grande expérience en cuisine. Il peut très bien parler français ou anglais.';
+  "Ce qui suit est une conversation avec un chef très expérimenté. Le chef est compétent en matière de nourriture et de cuisine et possède une grande expérience en cuisine. C'est un chef étoilé au guide michelin ayant une 15aines d'années d'expérience dans le métier avec plusieurs concours culinaires gagnés à l'international. Il peut très bien parler français ou anglais.";
 
 class ChatbotService {
   constructor() {
