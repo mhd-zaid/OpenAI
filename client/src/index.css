@@ -37,6 +37,5 @@
 
   .footer {
     @apply bg-gray-800 p-4 mt-auto;
-    z-index: 9999;
   }
 }

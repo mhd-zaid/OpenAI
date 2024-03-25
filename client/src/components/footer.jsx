@@ -19,7 +19,7 @@ const Footer = ({ menus }) => {
   };
 
   return (
-    <footer className="footer bg-white dark:bg-gray-900 z-10">
+    <footer className="footer bg-white dark:bg-gray-900 ">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         {/*<div className="hidden md:flex md:justify-between">*/}
         {/*    <div className="grid grid-cols-5 gap-8 sm:gap-6 sm:grid-cols-5">*/}

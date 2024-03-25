@@ -11,7 +11,7 @@ const HomePage = () => {
   const getRecipes = async () => {
     await fetch(import.meta.env.VITE_BACKEND_URL + '/recipes')
       .then(res => res.json())
-      .then(res => setRecipes(res.data));
+      .then(res => res.data && setRecipes(res.data));
   };
 
   return (
