@@ -2,9 +2,8 @@ import { uuidv7 } from 'uuidv7';
 import ApiResponse from '../utils/apiResponse.js';
 
 class GenericService {
-  constructor(model, include) {
+  constructor(model) {
     this.Model = model;
-    this.include = include;
   }
 
   async getAll(req, res) {
@@ -14,15 +13,10 @@ class GenericService {
     const offset = (page - 1) * limit;
 
     try {
-      const includeOptions = this.includeModels();
-
-      console.log("INCLUDE OPTIONS : ", includeOptions)
-
       const models = await this.Model.findAll({
         where: filters,
         limit,
         offset,
-        include: includeOptions,
       });
 
       const countTotal = await this.Model.count({ where: filters });
@@ -43,38 +37,12 @@ class GenericService {
     }
   }
 
-  // Méthode pour gérer les inclusions
-  includeModels() {
-    if (!this.include) {
-      return [];
-    }
-
-    const includeOptions = [];
-
-    // Gérez chaque modèle inclus
-    this.include.forEach(includeModel => {
-      const modelInclude = { model: includeModel };
-
-      // Vérifiez s'il y a un sous-modèle à inclure
-      if (includeModel.include) {
-        const subIncludeOptions = this.includeModels(includeModel.include);
-        modelInclude.include = subIncludeOptions;
-      }
-
-      includeOptions.push(modelInclude);
-    });
-
-    return includeOptions;
-  }
-
   async getById(req, res) {
     const id = req.params.id;
-    const includeOptions = this.includeModels();
     const model = await this.Model.findOne({
       where: {
         id,
-      },
-      include: includeOptions,
+      }
     });
     if (model) return res.status(200).json(new ApiResponse(true, model));
     return res.sendStatus(404);
@@ -93,16 +61,12 @@ class GenericService {
   async update(req, res, next) {
     try {
       const id = req.params.id;
-      const include = this.includeModels();
       const nbDeleted = await this.Model.destroy({ where: { id } });
       const updatedItem = await this.Model.create(
         {
           id,
           ...req.body,
-        },
-        {
-          include: include,
-        },
+        }
       );
 
       if (nbDeleted > 0) {
