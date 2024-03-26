@@ -5,8 +5,7 @@ const SocialShare = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href)
       .then(() => {
-        console.log("Lien copié dans le presse-papier");
-        toast.success('Lien copié dans le presse-papier');
+        toast.success("Lien copié dans le presse-papier");
       })
       .catch(err => console.error("Erreur lors de la copie du lien : ", err));
   };

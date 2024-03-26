@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import { cardContentClasses } from '@mui/material';
 
-const CardComponent = ({ title, children, variant, className, boxShadow }) => {
+const CardComponent = ({ title, children, variant, className, cardContentClass, boxShadow }) => {
     const headerClassName = "relative top-0 bg-gray-800 text-white w-full py-8 sm:py-2 md:py-2 lg:py-4 xl:py-4 p-5 rounded-t-2xl mb-16";
     const shadowClassName = "card__shadow border-radius-5 p-20 mb-20 relative line-height-1.5";
 
@@ -25,7 +26,7 @@ const CardComponent = ({ title, children, variant, className, boxShadow }) => {
 
     return (
       // <div className="w-full h-full flex justify-center items-center py-6" >
-      <div className="w-full h-full flex justify-center items-center" >
+      <div className={`${cardContentClass} flex justify-center items-center`}>
           <div className={` ${className} ${variant === 'withShadow' ? shadowClassName : ''} ${variant === 'withShadow' ? 'shadow-bottomLeft' : ''}`} style={variant === 'withShadow' ? shadowStyle : null}>
               {renderHeader()}
               <div className={""}>
@@ -40,6 +41,7 @@ CardComponent.propTypes = {
     children: PropTypes.node.isRequired,
     variant: PropTypes.oneOf(['withHeader', 'default', 'withShadow']),
     className: PropTypes.string,
+    cardContentClass: PropTypes.string,
     backgroundImage: PropTypes.string,
     boxShadow: PropTypes.shape({
         position: PropTypes.oneOf(['bottomRight', 'bottomLeft', 'topRight', 'topLeft']),

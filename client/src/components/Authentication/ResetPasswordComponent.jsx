@@ -84,7 +84,7 @@ const ResetPasswordComponent = () => {
   return (
       <>
         {hasTokenOwner ?
-            <CardComponent title="RÉINITIALISEZ VOTRE MOT DE PASSE">
+            <CardComponent title="RÉINITIALISEZ VOTRE MOT DE PASSE" cardContentClass={"w-full h-full"}>
               <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto px-4 py-8 lg:w-2/3">
                 <div>
                   <h2 className="text-xl font-bold mb-4">Création de votre nouveau mot de passe</h2>

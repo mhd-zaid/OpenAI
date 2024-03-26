@@ -60,12 +60,20 @@ const Navbar = ({basename, onLogout, menus}) => {
         </div>
 
         {/* Connexion */}
-        <div className={'col-span-2 justify-center items-center hidden lg:flex'}>
-          <Button className="flex btn bezel" onClick={() => navigate('/auth/login')} variant="rounded">
-            <Icon icon="ic:outline-person-outline" style={{ fontSize: '20px' }} />
-            <span>Connexion</span>
-          </Button>
-        </div>
+        {!isLoggedIn ? (
+          <div className={'col-span-2 justify-center items-center hidden lg:flex'}>
+            <Button className="flex btn bezel" onClick={() => navigate('/auth/login')} variant="rounded">
+              <Icon icon="ic:outline-person-outline" style={{ fontSize: '20px' }} />
+              <span>Connexion</span>
+            </Button>
+          </div>
+        ) : (
+          <div className={'col-span-2 justify-center items-center hidden lg:flex'}>
+            <Button className="flex btn bezel" onClick={onLogout} variant="rounded">
+              <span>Mes recettes</span>
+            </Button>
+          </div>
+        )}
       </div>
 
       <div id={"main-menu"} className={`absolute top-12 bg-white w-full h-screen flex-grow px-4 ${isMenuOpen ? 'open' : ''}`}>

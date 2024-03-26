@@ -5,7 +5,6 @@ import ratingTheme from '@/theme/ratingTheme.js';
 
 const CommentComponent = ({ comments, recipeUrl, limit }) => {
   const displayedComments = limit ? comments.slice(0, limit) : comments;
-  //récupère l'url et vérifie si on est sur la page de recette ou de commentaire
   const url = window.location.href.split("/");
 
   const renderHeader = () => {
@@ -23,7 +22,7 @@ const CommentComponent = ({ comments, recipeUrl, limit }) => {
       {renderHeader()}
 
       {displayedComments?.map((comment, index) => (
-        <div key={index} className="border rounded-md p-3 ml-3 my-3 bg-gray-50 w-full">
+        <div key={index} className="border rounded-md p-3 my-3 bg-gray-50 w-full">
           <div className="flex gap-3 items-center">
             <div
               className={`p-2 h-10 w-10 border border-yellow-500 rounded-full flex justify-center font-medium`}>
