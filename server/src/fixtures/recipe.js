@@ -142,6 +142,95 @@ const recipesFixture = [
     average_rating: 4,
     nb_rating: 10
   },
+  {
+    id: uuidv4(),
+    title: 'Dêguê',
+    tips: null,
+    time: 25,
+    level: getRandomElement(levelEnum),
+    tags: 'dessert',
+    duration: 25,
+    nb_person: 6,
+    instructions: [
+      'Mouiller la semoule de mil avec un demi-verre d\'eau en remuant.',
+      'Laisser absorber 5 min.',
+      'Faire cuire le mil 15 min à la vapeur : les grains sont cuits quand ils ramollissent et changent légèrement de couleur.',
+      'Ajouter le beurre et mélanger.',
+      'Laisser refroidir.',
+      'Incorporer le sucre puis le lait caillé ou fermenté.',
+      'Remuer.',
+      'Verser dans des bols et mettre au frigo.',
+      'Servir avec une touche de miel.'
+    ],
+    url: 'degue-010107',
+    average_rating: 4,
+    nb_rating: 100
+  },
+  {
+    id: uuidv4(),
+    title: 'Lasagnes à la bolognaise',
+    tips: null,
+    time: 125,
+    level: getRandomElement(levelEnum),
+    tags: 'plat',
+    duration: 125,
+    nb_person: 8,
+    instructions: [
+      'Faire revenir gousses hachées d\'ail et les oignons émincés dans un peu d\'huile d\'olive.',
+      'Ajouter la carotte et la branche de céleri hachée puis la viande et faire revenir le tout.',
+      'Au bout de quelques minutes, ajouter le vin rouge. Laisser cuire jusqu\'à évaporation.',
+      'Ajouter la purée de tomates, l\'eau et les herbes. Saler, poivrer, puis laisser mijoter à feu doux 45 minutes.',
+      'Préparer la béchamel : faire fondre 100 g de beurre.',
+      'Hors du feu, ajouter la farine d\'un coup.',
+      'Remettre sur le feu et remuer avec un fouet jusqu\'à l\'obtention d\'un mélange bien lisse.',
+      'Ajouter le lait peu à peu.',
+      'Remuer sans cesse, jusqu\'à ce que le mélange s\'épaississe.',
+      'Ensuite, parfumer avec la muscade, saler, poivrer. Laisser cuire environ 5 minutes, à feu très doux, en remuant. Réserver.',
+      'Préchauffer le four à 200°C (thermostat 6-7). Huiler le plat à lasagnes. Poser une fine couche de béchamel puis des feuilles de lasagnes, de la bolognaise, de la béchamel et du parmesan. Répéter l\'opération 3 fois de suite.',
+      'Sur la dernière couche de lasagnes, ne mettre que de la béchamel et recouvrir de fromage râpé. Parsemer quelques noisettes de beurre.',
+      'Enfourner pour environ 25 minutes de cuisson.',
+      'Déguster'
+    ],
+    url: 'lasagnes-a-la-bolognaise-010108',
+    average_rating: 5,
+    nb_rating: 1477
+  },
+  {
+    id: uuidv4(),
+    title: 'Saint-Jacques marinées au citron',
+    tips: null,
+    time: 15,
+    level: getRandomElement(levelEnum),
+    tags: 'plat',
+    duration: 15,
+    nb_person: 4,
+    instructions: [
+      'Réservez les assiettes de service au réfrigérateur. Rincez et épongez les noix de Saint-Jacques. Escalopez-les en très fines tranches à l\'aide d\'un couteau à lame souple.',
+      'Mettez-les dans un plat creux. Salez et poivrez. Arrosez-les du jus des citrons. Couvrez d\'un film étirable. Faites mariner 30 min au réfrigérateur. Le jus des citrons va "cuire" légèrement la chair des Saint-Jacques.',
+      'Répartissez-les alors dans les assiettes rafraîchies. Arrosez d\'un filet d\'huile d\'olive. Parsemez de baies roses, de ciboules et de ciboulettes émincées. Servez très frais.'
+    ],
+    url: 'saint-jacques-marinees-au-citron-010109',
+    average_rating: 5,
+    nb_rating: 2
+  },
+  {
+    id: uuidv4(),
+    title: 'Tajine',
+    tips: null,
+    time: 70,
+    level: getRandomElement(levelEnum),
+    tags: 'plat',
+    duration: 70,
+    nb_person: 4,
+    instructions: [
+      'Mélangez l\'huile d\'olive avec le curry et faites-y revenir le poulet dans une cocotte pour le faire légèrement dorer.',
+      'Épluchez et émincez les oignons et ajoutez-les dans la cocotte. Quand ils sont translucides, recouvrez d\'eau et laissez mijoter 30 min.',
+      'Ajoutez les olives et le jus de citron et laissez mijoter encore 15 à 20 min.'
+    ],
+    url: 'tajine-010110',
+    average_rating: 4,
+    nb_rating: 34
+  },
 ];
 
 export default recipesFixture;

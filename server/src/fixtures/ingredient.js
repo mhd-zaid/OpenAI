@@ -296,6 +296,90 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: "Caramel"
+  },
+  {
+    id: uuidv4(),
+    name: "Semoule de mil précuite"
+  },
+  {
+    id: uuidv4(),
+    name: "Lait fermenté"
+  },
+  {
+    id: uuidv4(),
+    name: "Poivre"
+  },
+  {
+    id: uuidv4(),
+    name: "Fromage râpé"
+  },
+  {
+    id: uuidv4(),
+    name: "muscade râpée"
+  },
+  {
+    id: uuidv4(),
+    name: "Thym"
+  },
+  {
+    id: uuidv4(),
+    name: "Feuilles de laurier"
+  },
+  {
+    id: uuidv4(),
+    name: "Vin rouge"
+  },
+  {
+    id: uuidv4(),
+    name: "Purée de tomate"
+  },
+  {
+    id: uuidv4(),
+    name: "Lasagne"
+  },
+  {
+    id: uuidv4(),
+    name: "Boeuf haché"
+  },
+  {
+    id: uuidv4(),
+    name: "Eau"
+  },
+  {
+    id: uuidv4(),
+    name: "Basilic"
+  },
+  {
+    id: uuidv4(),
+    name: "Parmesan"
+  },
+  {
+    id: uuidv4(),
+    name: "Noix de Saint-Jacques"
+  },
+  {
+    id: uuidv4(),
+    name: "Ciboullette"
+  },
+  {
+    id: uuidv4(),
+    name: "Ciboule"
+  },
+  {
+    id: uuidv4(),
+    name: "Baies roses"
+  },
+  {
+    id: uuidv4(),
+    name: "Curry"
+  },
+  {
+    id: uuidv4(),
+    name: "Jus de citron"
+  },
+  {
+    id: uuidv4(),
+    name: "Olives vertes"
   }
 ];
 
