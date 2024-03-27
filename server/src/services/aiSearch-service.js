@@ -21,10 +21,12 @@ class AiSearchService {
       allQuantities,
     );
 
-    searchPrompt += JSON.stringify(formattedRecipes);
+    const searchPromptWithData =
+      searchPrompt + JSON.stringify(formattedRecipes);
+
     context.push({
       role: 'system',
-      content: searchPrompt,
+      content: searchPromptWithData,
     });
     context.push({ role: 'user', content: prompt });
     const completion = await this.openai.chat.completions.create({
