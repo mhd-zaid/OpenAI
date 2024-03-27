@@ -1,4 +1,4 @@
-export default (getOpenAICompletion) => ({
+export default getOpenAICompletion => ({
   search: async (req, res) => {
     try {
       const { message } = req.body;

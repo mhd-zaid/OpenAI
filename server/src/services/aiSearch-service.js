@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
-import db  from '../models/index.js';
-let searchPrompt = "Ce qui suit est une demande basée sur les recettes disponibles dans la base de données.\
+import db from '../models/index.js';
+let searchPrompt =
+  "Ce qui suit est une demande basée sur les recettes disponibles dans la base de données.\
 La réponse doit inclure uniquement les recettes qui correspondent aux noms de recette et aux quantités spécifiées.\
 Si une recette correspond aux critères donnés, l'objet JSON contenant cette recette doit être retourné au même format fournies; sinon, l'objet JSON retourné doit être vide.\
 Les recettes disponibles dans la base de données sont les suivantes : ";
@@ -12,7 +13,9 @@ class AiSearchService {
 
   async getOpenAICompletion(prompt) {
     const context = [];
-    const recipes = await db.Quantity.findAll({ include: [db.Recipe,db.Ingredient] });
+    const recipes = await db.Quantity.findAll({
+      include: [db.Recipe, db.Ingredient],
+    });
     searchPrompt += JSON.stringify(recipes);
     context.push({
       role: 'system',
@@ -25,6 +28,8 @@ class AiSearchService {
       temperature: 0.2,
       frequency_penalty: 0,
       presence_penalty: 0,
+      seed: 0,
+      response_format: { type: 'json_object' },
     });
 
     return completion;
