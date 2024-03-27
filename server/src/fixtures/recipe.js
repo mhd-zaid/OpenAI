@@ -29,6 +29,8 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'buche-aux-fruits-exotiques-et-chocolat-noisettes-nestle-dessert-010101',
+    average_rating: 2,
+    nb_rating: 291,
   },
   {
     id: uuidv4(),
@@ -52,6 +54,8 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'tarte-tatin-aux-pommes-et-caramel-beurre-sale-010102',
+    average_rating: 4,
+    nb_rating: 180,
   },
   {
     id: uuidv4(),
@@ -72,6 +76,8 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'omelette-aux-tomates-et-au-fromage-010103',
+    average_rating: 3,
+    nb_rating: 250,
   },
   {
     id: uuidv4(),
@@ -92,6 +98,8 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'omelette-aux-oignons-et-herbes-de-provence-010104',
+    average_rating: 5,
+    nb_rating: 150,
   },
   {
     id: uuidv4(),
@@ -110,6 +118,8 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'poulet-roti-aux-herbes-de-provence-010105',
+    average_rating: 4,
+    nb_rating: 200,
   },
   {
     id: uuidv4(),
@@ -129,6 +139,8 @@ const recipesFixture = [
       'Servez aussitôt.'
     ],
     url: 'pates-a-la-carbonara-010106',
+    average_rating: 4,
+    nb_rating: 10
   },
 ];
 

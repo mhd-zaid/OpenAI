@@ -1,9 +1,11 @@
 import OpenAI from 'openai';
 import db from '../models/index.js';
+
+import quantity from '../routes/quantity.js';
 let searchPrompt =
   "Ce qui suit est une demande basée sur les recettes disponibles dans la base de données.\
-La réponse doit inclure uniquement les recettes qui correspondent aux noms de recette et aux quantités spécifiées.\
-Si une recette correspond aux critères donnés, l'objet JSON contenant cette recette doit être retourné au même format fournies; sinon, l'objet JSON retourné doit être vide.\
+La réponse doit inclure uniquement les recettes qui correspondent aux noms de recette, aux nom de l'ingredient et aux quantités spécifiées.\
+Si une recette correspond aux critères donnés, l'objet JSON contenant cette recette doit être retourné à ce format la sans les ingrédients, Exemple : [{title : 'patte', url: 'patte-123'},...] ; sinon, un tableau vide doit être retourné.\
 Les recettes disponibles dans la base de données sont les suivantes : ";
 
 class AiSearchService {
@@ -13,10 +15,15 @@ class AiSearchService {
 
   async getOpenAICompletion(prompt) {
     const context = [];
-    const recipes = await db.Quantity.findAll({
+
+    const allQuantities = await db.Quantity.findAll({
       include: [db.Recipe, db.Ingredient],
     });
-    searchPrompt += JSON.stringify(recipes);
+    const formattedRecipes = await this.formatRecipesWithIngredients(
+      allQuantities,
+    );
+
+    searchPrompt += JSON.stringify(formattedRecipes);
     context.push({
       role: 'system',
       content: searchPrompt,
@@ -33,6 +40,35 @@ class AiSearchService {
     });
 
     return completion;
+  }
+
+  async formatRecipesWithIngredients(quantities) {
+    const allQuantitiesFormatted = Promise.all(
+      quantities.map(async quantity => {
+        const ingredient = { name: quantity.Ingredient.name };
+        return {
+          title: quantity.Recipe.title,
+          url: quantity.Recipe.url,
+          ingredient,
+        };
+      }),
+    );
+
+    return (await allQuantitiesFormatted).reduce((acc, quantity) => {
+      const existingRecipe = acc.find(item => item.title === quantity.title);
+
+      if (existingRecipe) {
+        existingRecipe.ingredient.push(quantity.ingredient);
+      } else {
+        acc.push({
+          title: quantity.title,
+          url: quantity.url,
+          ingredient: [quantity.ingredient],
+        });
+      }
+
+      return acc;
+    }, []);
   }
 }
 

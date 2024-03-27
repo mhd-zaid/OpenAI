@@ -55,7 +55,7 @@ const LoginComponent = () => {
     if (!login.errors) {
       const { token } = login.data;
       setToken(token);
-      navigate('/');
+      navigate(-1);
     } else {
       setErrors(login.errors || ["Une erreur inattendue s'est produite."]);
       setToken();
@@ -64,7 +64,7 @@ const LoginComponent = () => {
 
   return (
     <>
-      <CardComponent title="SE CONNECTER" className={'w-full lg:w-2/5'}>
+      <CardComponent title="SE CONNECTER" className={'w-full lg:w-2/5'} cardContentClass={"w-full h-full"}>
         {errors.global ? <p className="error">{errors.global}</p> : null}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

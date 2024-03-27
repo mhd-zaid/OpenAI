@@ -38,6 +38,12 @@ export default function (connection) {
       url: {
         type: DataTypes.STRING,
       },
+      average_rating: {
+        type: DataTypes.FLOAT,
+      },
+      nb_rating: {
+        type: DataTypes.INTEGER,
+      },
     },
     {
       sequelize: connection,

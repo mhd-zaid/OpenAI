@@ -22,7 +22,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
 
   return (
     <>
-      <div className="grid grid-cols-12 p-2 bg-white z-10">
+      <div className="grid grid-cols-12 p-2 bg-white z-20 fixed w-full shadow-xl">
         {/* Menu items */}
         <div className="col-span-1 flex justify-center items-center">
           <button
@@ -64,37 +64,13 @@ const Navbar = ({ basename, onLogout, menus }) => {
         </div>
 
         {/* Connexion */}
-        <div
-          className={'col-span-2 justify-center items-center hidden lg:flex'}
-        >
-          <Button
-            className="flex btn bezel"
-            onClick={() => navigate('/auth/login')}
-            variant="rounded"
+        {!isLoggedIn ? (
+          <div
+            className={'col-span-2 justify-center items-center hidden lg:flex'}
           >
-            <Icon
-              icon="ic:outline-person-outline"
-              style={{ fontSize: '20px' }}
-            />
-            <span>Connexion</span>
-          </Button>
-        </div>
-      </div>
-
-      <div
-        id={'main-menu'}
-        className={`absolute top-12 bg-white w-full h-screen flex-grow px-4 ${
-          isMenuOpen ? 'open' : ''
-        }`}
-      >
-        <div className="grid grid-cols-12 grid-rows-12 text-sm lg:flex-grow text-black h-full">
-          <div className={'col-span-6 flex justify-center items-center'}>
             <Button
               className="flex btn bezel"
-              onClick={() => {
-                navigate('/auth/login');
-                setIsMenuOpen(false);
-              }}
+              onClick={() => navigate('/auth/login')}
               variant="rounded"
             >
               <Icon
@@ -104,15 +80,67 @@ const Navbar = ({ basename, onLogout, menus }) => {
               <span>Connexion</span>
             </Button>
           </div>
+        ) : (
           <div
-            className={
-              'col-span-6 flex justify-center items-center text-lg underline text-yellow-500'
-            }
+            className={'col-span-2 justify-center items-center hidden lg:flex'}
           >
-            <Link to="/auth/register" onClick={() => setIsMenuOpen(false)}>
-              Inscription
-            </Link>
+            <Button
+              className="flex btn bezel"
+              onClick={onLogout}
+              variant="rounded"
+            >
+              <span>Mes recettes</span>
+            </Button>
           </div>
+        )}
+      </div>
+
+      <div
+        id={'main-menu'}
+        className={`absolute top-12 bg-white w-full h-screen flex-grow px-4 ${
+          isMenuOpen ? 'open' : ''
+        }`}
+      >
+        <div className="grid grid-cols-12 grid-rows-12 text-sm lg:flex-grow text-black h-full">
+          {!isLoggedIn ? (
+            <>
+              <div className="col-span-6 flex justify-center items-center">
+                <Button
+                  className="flex btn bezel"
+                  onClick={() => {
+                    navigate('/auth/login');
+                    setIsMenuOpen(false);
+                  }}
+                  variant="rounded"
+                >
+                  <Icon
+                    icon="ic:outline-person-outline"
+                    style={{ fontSize: '20px' }}
+                  />
+                  <span>Connexion</span>
+                </Button>
+              </div>
+              <div className="col-span-6 flex justify-center items-center text-lg underline text-yellow-500">
+                <Link to="/auth/register" onClick={() => setIsMenuOpen(false)}>
+                  Inscription
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="col-span-12 flex justify-center items-center">
+              <Button
+                className="flex btn bezel"
+                onClick={onLogout}
+                variant="rounded"
+              >
+                <Icon
+                  icon="ic:outline-person-outline"
+                  style={{ fontSize: '20px' }}
+                />
+                <span>Déconnexion</span>
+              </Button>
+            </div>
+          )}
           <div className="col-span-12">
             <span>
               Découvrez des recettes personnalisées en créant votre profil
@@ -158,7 +186,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                     openMenus.includes(menuIndex) ? 'max-h-48' : 'max-h-0'
                   } overflow-hidden`}
                 >
-                  <ul className={'flex flex-col gap-2'}>
+                  <ul className={'col gap-2'}>
                     {menu.subMenus &&
                       menu.subMenus.map((subMenu, index) => (
                         <li key={index} className={'text-lg'}>

@@ -81,7 +81,7 @@ const RegisterComponent = () => {
 
     return (
         <>
-            <CardComponent title="CRÉER UN COMPTE" className={"w-full lg:w-2/5"}>
+            <CardComponent title="CRÉER UN COMPTE" className={"w-full lg:w-2/5"}  cardContentClass={"w-full h-full"}>
                 {errors.global ? <p className="error">{errors.global}</p> : null}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">

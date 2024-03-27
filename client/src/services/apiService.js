@@ -8,7 +8,7 @@ const defaultHeaders = {
 export const apiService = {
 
     getAll(instance, params){
-        let url = `${API_URL_BASE}/${instance}?${params}`;
+        let url = params.includes("/") ? `${API_URL_BASE}/${instance}${params}`:  `${API_URL_BASE}/${instance}?${params}`;
         return fetch(url, { ...defaultHeaders })
             .then((response) => response.json());
     },

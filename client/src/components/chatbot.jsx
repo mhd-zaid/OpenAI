@@ -72,6 +72,7 @@ const Chatbot = () => {
         h={14}
         rounded="full"
         variant="unstyled"
+        bgColor="yellow.500"
         onClick={() => setShowChatbot(!showChatbot)}
       >
         <Image src="/img/chatbot-logo.png" rounded="full" />

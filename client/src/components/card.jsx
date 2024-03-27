@@ -9,7 +9,7 @@ const Card = ({ item }) => {
       minW={64}
       p={4}
       as="a"
-      href={`/recipe/${item.id}`}
+      href={`/recettes/${item.url}`}
       mb={4}
     >
       <Box>

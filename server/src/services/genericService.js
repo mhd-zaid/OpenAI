@@ -20,8 +20,7 @@ class GenericService {
       });
 
       const countTotal = await this.Model.count({ where: filters });
-      res.set('X-Total-Count', countTotal);
-      return res.status(200).json(new ApiResponse(true, models));
+      return res.status(200).json(new ApiResponse(true, models, null, null, { 'X-Total-Count': countTotal }));
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
       return res

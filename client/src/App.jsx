@@ -1,10 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/header';
+import { Outlet } from 'react-router-dom';
 import Footer from './components/footer';
 import Chatbot from './components/chatbot';
-import { ToastContainer } from 'react-toastify';
 import '@/App.css';
 import { AuthProvider } from '@/Context/AuthContext.jsx';
+
 
 const menus = [
   {
@@ -39,7 +41,7 @@ const App = () => {
     <AuthProvider>
       <div className="min-h-screen flex flex-col justify-between">
         <Header menus={menus} />
-        <main className="flex-grow card max-w-screen-md self-center md:my-4 md:mx-4">
+        <main className="flex-grow card max-w-screen-xl self-center my-10 md:my-20 pt-20">
           <Outlet />
         </main>
         <Footer menus={menus} />
@@ -55,9 +57,10 @@ const App = () => {
         pauseOnFocusLoss={false}
         draggable={false}
         pauseOnHover={false}
-        theme="colored"
+        theme={"colored"}
         transition:Bounce
       />
+      <ToastContainer />
     </AuthProvider>
   );
 };
