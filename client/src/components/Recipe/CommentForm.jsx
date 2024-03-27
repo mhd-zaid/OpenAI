@@ -6,6 +6,7 @@ import { apiService } from '@/services/apiService.js'
 import useToken from '@/utils/useToken.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { comment } from 'postcss';
 
 async function submitComment(commentData) {
   apiService.create('comments', commentData)
@@ -27,6 +28,28 @@ const CommentForm = ({ recipeId }) => {
     RecipeId: recipeId,
   });
 
+  const getRating = async (userId) => {
+    try {
+      const res = await apiService.getAll('comments', `RecipeId=${recipeId}&UserId=${userId}`);
+      if (res.data && Array.isArray(res.data)) {
+        const ratings = res.data.map((comment) => {
+          return (
+            comment.rating,
+            comment.comment
+          )
+        });
+        console.log("ratings", ratings);
+        setFormData((formData) => ({ ...formData, rating: ratings[0] }));
+        console.log("formData", formData);
+      } else {
+        console.log("Aucun commentaire trouvé ou réponse inattendue de l'API", res);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération des évaluations:", error);
+    }
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,24 +59,35 @@ const CommentForm = ({ recipeId }) => {
       return;
     }
 
-    const user = apiService.getAll('users', `token=${token}`);
-    setFormData({ ...formData, UserId: user[0]?.id });
     const comment = await submitComment(formData);
 
     if (!comment?.errors) {
-      toast('Comment submitted');
-      console.log('Comment submitted');
+      toast.success('Merci pour votre avis !');
     } else {
       console.error(comment.errors);
     }
   }
 
   useEffect(() => {
-    if(localStorage.getItem('tempComment')) {
-      setFormData({ ...formData, comment: localStorage.getItem('tempComment') });
+    if (localStorage.getItem('tempComment')) {
+      setFormData(formData => ({ ...formData, comment: localStorage.getItem('tempComment') }));
       localStorage.removeItem('tempComment');
     }
-  }, [])
+
+    const fetchUserData = async () => {
+      try {
+        const res = await apiService.getAll('users', `token=${token}`);
+        if (res.data && res.data[0]) {
+          setFormData(formData => ({ ...formData, UserId: res.data[0].id }));
+        }
+        getRating(res.data[0].id);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données de l'utilisateur:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <>
@@ -65,7 +99,7 @@ const CommentForm = ({ recipeId }) => {
           <ThemeProvider theme={ratingTheme}>
             <Rating
               name="half-rating"
-              defaultValue={formData.rating}
+              value={formData.rating}
               precision={0.5}
               onChange={(event, newRate) => {
                 setFormData({ ...formData, rating: newRate });
@@ -81,6 +115,7 @@ const CommentForm = ({ recipeId }) => {
                       value={formData?.comment || localStorage.getItem('tempComment')}
                       onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
             />
+            <small>Le commentaire est facultatif, mais votre note est obligatoire.</small><small>Compte tenu de la modération, votre avis sera publié sous 24h.</small>
             <div>
               <Button className={"btn bezel"} variant={"rounded"}>Partagez votre avis</Button>
             </div>

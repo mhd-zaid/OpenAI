@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import ratingTheme from '@/theme/ratingTheme.js';
 
 const CommentComponent = ({ comments, recipeUrl, limit }) => {
-  const displayedComments = limit ? comments.slice(0, limit) : comments;
+  const displayedComments = limit ? comments?.slice(0, limit) : comments;
   const url = window.location.href.split("/");
 
   const renderHeader = () => {

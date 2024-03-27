@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { apiService } from '@/services/apiService.js';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import Button from '@/lib/components/Button.jsx';
 import SocialBar from '@/components/SocialBar.jsx';
-import CommentsPage from '@/pages/CommentsPage.jsx';
 
 import { Icon } from '@iconify/react';
 import CommentForm from '@/components/Recipe/CommentForm.jsx';
@@ -14,6 +13,9 @@ import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
 import { Rating, ThemeProvider } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
 import useToken from '@/utils/useToken.js';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
+import { toast } from 'react-toastify';
 
 const RecipePage = () => {
   const { recipeUrl } = useParams();
@@ -26,6 +28,7 @@ const RecipePage = () => {
 
   const fetchRecipe = async () => {
     try {
+      setLoading(true)
       const res = await apiService.getAll('recipes', `url=${recipeUrl}`);
       if (res.data.length > 0) {
         setRecipe(res.data[0]);
@@ -36,19 +39,15 @@ const RecipePage = () => {
       }
     } catch (err) {
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchRecommandedRecipes = async (recipeId) => {
-    setLoading(true)
     try {
       const res = await apiService.getAll('recommendation', `/${recipeId}`);
       if (!res.error) {
         const recommendations = JSON.parse(res.content);
         setRecommandedRecipes(recommendations);
-        console.log("recommendations", recommendations);
       }
     } catch (err) {
       console.error(err);
@@ -72,11 +71,14 @@ const RecipePage = () => {
     try {
 
       const user = apiService.getAll('users', `token=${token}`);
+      // const isFavorite = await checkIfFavorite();
+      const favorite = {
+        RecipeId: recipe?.id,
+        UserId: user[0]?.id,
+      }
 
-      await apiService.create('favorites', {
-        RecipeId: recipe.id,
-        UserId: user[0].id,
-      });
+      await apiService.create('favorites', favorite);
+      toast.success('Recette ajoutée aux favoris');
     } catch (err) {
       console.error(err);
     }
@@ -84,7 +86,7 @@ const RecipePage = () => {
 
   useEffect(() => {
     fetchRecipe()
-  }, []);
+  }, [recipeUrl]);
 
 
   const handleAddPerson = () => {
@@ -97,8 +99,82 @@ const RecipePage = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if(loading) {
+    return (
+      <div>
+        <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
+
+        <div className="grid grid-cols-3 gap-4">
+          <div className={"col-span-2"}>
+
+            <div className={"grid grid-cols-2 gap-2"}>
+
+              <div className={'col-span-12 flex gap-4 justify-between'}>
+                <div className={'flex gap-4'}>
+                  <Skeleton width={100} height={20} />
+                  <Skeleton width={100} height={20} />
+                  <Skeleton width={100} height={20} />
+                </div>
+                <Skeleton width={200} height={20} />
+              </div>
+
+              <div className="recipe-media col-span-12">
+                <Skeleton width={"100%"} height={400} />
+              </div>
+
+              <div className={'col-span-12 flex gap-4 mb-4'}>
+                <Skeleton width={200} height={50} />
+                <Skeleton width={200} height={50} />
+              </div>
+
+            </div>
+
+            <div className={"grid grid-cols-5 gap-8"}>
+
+              <div className="recipe-instructionContent col-span-3">
+                <Skeleton width={300} height={40} />
+                <Skeleton count={5} />
+              </div>
+
+              <div className="recipe-ingredientsContent col-span-2">
+                <Skeleton width={300} height={40} />
+                <Skeleton count={5} />
+              </div>
+            </div>
+
+            <Skeleton width={300} height={40} />
+
+            <div className="my-8">
+              <Skeleton count={3} height={50} />
+            </div>
+
+            <div className="my-4">
+              <Skeleton count={5} height={50} />
+            </div>
+
+            <div className={"my-4"}>
+              <Skeleton count={3} height={50} />
+            </div>
+          </div>
+
+          <div className={"col"}>
+            <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
+
+            <div className="col gap-4">
+              <div className={'col gap-4'}>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div className="flex gap-4">
+                    <Skeleton circle={true} height={70} width={70} />
+                    <Skeleton count={3} height={20} width={300} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -154,11 +230,13 @@ const RecipePage = () => {
             </div>
 
             <div className={'col-span-12 flex gap-4 mb-4'}>
-              <Button className="flex btn bezel items-center gap-2">
+              <Button className="flex btn bezel items-center gap-2"
+                      onClick={()=> addToFavorites()}>
                 <Icon icon="ic:baseline-favorite" />
                 <span>Sauvegarder</span>
               </Button>
-              <Button className="flex btn bezel items-center gap-2" onClick={() => window.print()}>
+              <Button className="flex btn bezel items-center gap-2"
+                      onClick={() => window.print()}>
                 <Icon icon="ic:round-local-printshop" />
                 <span>Imprimer</span>
               </Button>
@@ -240,35 +318,34 @@ const RecipePage = () => {
           <h1 className={"text-xl font-medium mb-4"}>Recettes suggérées</h1>
 
           <div className="col gap-4">
-            {recommandedRecipes.length > 0 ? (
+            {loading ? (
+              <div className={'col gap-4'}>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div className="flex gap-4">
+                    <Skeleton circle={true} height={70} width={70} />
+                    <Skeleton count={3} height={20} width={300} />
+                  </div>
+                ))}
+              </div>
+            ) : (
               recommandedRecipes.map((recommandedRecipe, index) => (
-                <div key={index} className={"row gap-4"}>
-                  <img src="http://placehold.it/70x70" alt="Recipe image" />
-                  <div className={"col justify-between"}>
-                    <span className={"font-medium text-xl flex-wrap"}>{recommandedRecipe.title}</span>
-                    <div className="row justify-between">
-                      <ThemeProvider theme={ratingTheme}>
-                        <Rating name="half-rating" value={recommandedRecipe.average_rating} precision={0.5}
-                                readOnly={true} />
-                      </ThemeProvider>
-                      <small>({recommandedRecipe.nb_rating} notes)</small>
+                <>
+                  <div key={index} className={'row gap-4'}>
+                    <img src="http://placehold.it/70x70" alt="Recipe image" />
+                    <div className={'col justify-between'}>
+                      <Link to={`/recettes/${recommandedRecipe.url}`}
+                            className={"font-medium text-xl underline"}>{recommandedRecipe.title}</Link>
+                      <div className="row justify-between">
+                        <ThemeProvider theme={ratingTheme}>
+                          <Rating name="half-rating" value={recommandedRecipe.average_rating} precision={0.5}
+                                  readOnly={true} />
+                        </ThemeProvider>
+                        <small>({recommandedRecipe.nb_rating} notes)</small>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </>
               ))
-            ) : (
-              <div className={"row gap-4"}>
-                <img src="http://placehold.it/70x70" alt="Recipe image" />
-                <div className={"col justify-between"}>
-                  <span className={"font-medium text-xl flex-wrap"}>Gateau de semoule aux noisettes</span>
-                  <div className="row justify-between">
-                    <ThemeProvider theme={ratingTheme}>
-                      <Rating name="half-rating" value={recipe?.average_rating} precision={0.5} readOnly={true} />
-                    </ThemeProvider>
-                    <small>(104 notes)</small>
-                  </div>
-                </div>
-              </div>
             )}
           </div>
         </div>
