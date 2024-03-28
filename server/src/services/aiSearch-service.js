@@ -1,10 +1,8 @@
 import OpenAI from 'openai';
 import db from '../models/index.js';
-
-import quantity from '../routes/quantity.js';
 const searchPrompt =
   "Ce qui suit est une demande basée sur les recettes disponibles dans la base de données.Ca peut être une brève description ou un mot-clé existant dans les recettes ou ingrédients.\
-La réponse doit inclure uniquement les recettes qui correspondent aux noms de recette, aux nom de l'ingredient et aux quantités spécifiées.\
+La réponse doit inclure les recettes qui correspondent aux noms de recette, aux nom de l'ingredient et aux quantités spécifiées.\
 Si une recette correspond aux critères donnés, l'objet JSON contenant cette recette doit être retourné à ce format la sans les ingrédients, Exemple : [{title : 'patte', url: 'patte-123'},...] ; sinon, un tableau vide doit être retourné.\
 Les recettes disponibles dans la base de données sont les suivantes : ";
 
