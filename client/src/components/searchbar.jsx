@@ -1,19 +1,30 @@
 import { Icon } from '@iconify/react';
-import { useDebounce } from '@uidotdev/usehooks';
+import { useDebounce, useClickAway } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, Text, Heading } from '@chakra-ui/react';
 
 const Searchbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
   const [searchResults, setSearchResults] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useClickAway(() => {
+    setIsOpen(false);
+  });
+
+  useEffect(() => {
+    if (search.length > 2) {
+      setIsOpen(true);
+    }
+  }, [search]);
 
   useEffect(() => {
     handleSearch();
   }, [debouncedSearch]);
 
   const handleSearch = async () => {
+    setSearchResults([]);
     if (debouncedSearch.length < 3) return;
     setIsLoading(true);
     await fetch(import.meta.env.VITE_BACKEND_URL + '/search', {
@@ -25,7 +36,13 @@ const Searchbar = () => {
     })
       .then(res => res.json())
       .then(data => {
-        setSearchResults(JSON.parse(data.content));
+        try {
+          if (Array.isArray(JSON.parse(data.content))) {
+            setSearchResults(JSON.parse(data.content));
+          }
+        } catch (e) {
+          console.log(e);
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -49,8 +66,63 @@ const Searchbar = () => {
           placeholder="Une recette, un ingrédient, de l'aide..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          required
         />
+        {isOpen && (
+          <Flex
+            pos="absolute"
+            top="110%"
+            rounded={'lg'}
+            w="full"
+            minH={12}
+            bgColor="lightyellow"
+            ref={ref}
+            flexDir="column"
+          >
+            {isLoading && (
+              <Flex alignItems="center" pos={'relative'} p={4}>
+                <Icon
+                  icon="eos-icons:three-dots-loading"
+                  width={24}
+                  height={24}
+                  pos={'absolute'}
+                />
+                <Text as="small" ml={2}>
+                  Recherche en cours
+                </Text>
+              </Flex>
+            )}
+            {!isLoading && searchResults.length === 0 && (
+              <Flex p={4}>
+                <Text as="small" textAlign="center">
+                  Aucun résultat
+                </Text>
+              </Flex>
+            )}
+            {!isLoading && searchResults.length > 0 && (
+              <Box>
+                <Heading fontSize="md" p={4} pb={2}>
+                  Résultats de recherche
+                </Heading>
+                {searchResults.map((result, index) => (
+                  <Flex
+                    key={index}
+                    p={4}
+                    as="a"
+                    href={`/recettes/${result.url}`}
+                    rounded="lg"
+                    _hover={{ bgColor: 'lightgoldenrodyellow' }}
+                    onClick={() => {
+                      setSearch(result.title);
+                      setSearchResults([]);
+                    }}
+                  >
+                    <Text>{result.title}</Text>
+                  </Flex>
+                ))}
+              </Box>
+            )}
+          </Flex>
+        )}
       </div>
     </div>
   );
