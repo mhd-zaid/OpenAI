@@ -10,19 +10,20 @@ const CommentsPage = () => {
   const { recipeUrl } = useParams();
   const [ comments, setComments ] = useState([]);
   const [ recipe, setRecipe ] = useState(null);
+  const [ recipeAverageRating, setRecipeAverageRating ] = useState(0);
   const [ nbComments, setNbComments ] = useState(0);
   const [ currentPage, setCurrentPage ] = useState(1);
   const [ itemsPerPage, setItemsPerPage ] = useState(5);
 
   const fetchComments = async (recipeUrl) => {
     try {
-      const getRecipe = await apiService.getAll('recipes', `url=${recipeUrl}`);
-      const recipe = getRecipe.data[0];
+      const getRecipe = await apiService.getOne('recipes', `${recipeUrl}`);
+      const recipe = getRecipe.data;
 
-      const res = await apiService.getAll('comments', `RecipeId=${recipe.id}&limit=${itemsPerPage}&page=${currentPage}`);
-      setComments(res.data);
+      setComments(recipe.Comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
       setRecipe(recipe);
-      setNbComments(res.headers['X-Total-Count']);
+      setRecipeAverageRating(recipe.average_rating)
+      setNbComments(recipe.Comments.length);
     } catch (err) {
       console.error(err);
     }
@@ -45,7 +46,7 @@ const CommentsPage = () => {
             <div className={"w-full row items-center gap-4"}>
               <ThemeProvider theme={ratingTheme}>
                 <Typography variant="h6" component="legend">Note moyenne {recipe?.average_rating}/5</Typography>
-                <Rating name="half-rating" value={recipe?.average_rating} precision={0.5} readOnly={true} />
+                <Rating name="half-rating" value={recipeAverageRating} precision={0.5} readOnly={true} />
               </ThemeProvider>
             </div>
           </div>

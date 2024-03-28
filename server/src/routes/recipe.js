@@ -21,7 +21,7 @@ export default function (router) {
   router.use('/', genericRecipeRouter.getRouter());
   router.post("/", recipeController.create);
   router.get("/", recipeController.getAll);
-  router.get("/:id", recipeController.getById);
+  router.get("/:url", recipeController.getByUrl);
 
   return router;
 }

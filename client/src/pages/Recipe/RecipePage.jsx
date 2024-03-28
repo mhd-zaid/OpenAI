@@ -17,6 +17,15 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from 'react-toastify';
 
+async function submitFavorite(recipeId) {
+  try {
+    return await apiService.create('favorites', { RecipeId: recipeId });
+  } catch (error) {
+    console.error(error);
+    return { success: false, errors: error };
+  }
+}
+
 const RecipePage = () => {
   const { recipeUrl } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -24,16 +33,15 @@ const RecipePage = () => {
   const [error, setError] = useState(null);
   const [nbPerson, setNbPerson] = useState(1);
   const [recommandedRecipes, setRecommandedRecipes] = useState([]);
-  const { token } = useToken();
 
-  const fetchRecipe = async () => {
+  const getRecipe = async () => {
     try {
       setLoading(true)
-      const res = await apiService.getAll('recipes', `url=${recipeUrl}`);
-      if (res.data.length > 0) {
-        setRecipe(res.data[0]);
-        setNbPerson(res.data[0].nb_person);
-        fetchRecommandedRecipes(res.data[0].id);
+      const res = await apiService.getOne('recipes', `${recipeUrl}`);
+      if (res.data) {
+        setRecipe(res.data);
+        setNbPerson(res.data.nb_person)
+        getRecommandedRecipes(res.data.id);
       } else {
         setError(true);
       }
@@ -42,7 +50,7 @@ const RecipePage = () => {
     }
   };
 
-  const fetchRecommandedRecipes = async (recipeId) => {
+  const getRecommandedRecipes = async (recipeId) => {
     try {
       const res = await apiService.getAll('recommendation', `/${recipeId}`);
       if (!res.error) {
@@ -59,7 +67,6 @@ const RecipePage = () => {
 
   const checkIfFavorite = async () => {
     try {
-      const user = apiService.getAll('users', `token=${token}`);
       const favorite = apiService.getAll('favorites', `RecipeId=${recipe.id}&UserId=${user[0].id}`);
       return favorite.length > 0;
     } catch (err) {
@@ -69,23 +76,20 @@ const RecipePage = () => {
 
   const addToFavorites = async () => {
     try {
-
-      const user = apiService.getAll('users', `token=${token}`);
       // const isFavorite = await checkIfFavorite();
-      const favorite = {
-        RecipeId: recipe?.id,
-        UserId: user[0]?.id,
+      const favorite = await submitFavorite(recipe.id);
+
+      if (favorite.success) {
+        toast.success("Recette ajoutée aux favoris !");
       }
 
-      await apiService.create('favorites', favorite);
-      toast.success('Recette ajoutée aux favoris');
     } catch (err) {
       console.error(err);
     }
   }
 
   useEffect(() => {
-    fetchRecipe()
+    getRecipe()
   }, [recipeUrl]);
 
 

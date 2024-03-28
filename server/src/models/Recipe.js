@@ -4,6 +4,7 @@ export default function (connection) {
   class Recipe extends Model {
     static associate(db) {
       Recipe.hasMany(db.Quantity);
+      Recipe.hasMany(db.Comment);
     }
   }
   Recipe.init(

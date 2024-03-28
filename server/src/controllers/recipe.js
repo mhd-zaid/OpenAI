@@ -55,7 +55,7 @@ const getAll = async(req, res) => {
           },
           {
             model: db.Comment,
-            as: 'Comments' 
+            as: 'Comments'
           },
           {
             model: db.Rating,
@@ -81,30 +81,40 @@ const getAll = async(req, res) => {
     }
 }
 
-const getById = async (req, res) => {
-  const id = req.params.id;
+const getByUrl = async (req, res) => {
+  const url = req.params.url;
   const model = await db.Recipe.findOne({
     where: {
-      id,
+      url,
     },
     include: [
       {
         model: db.Quantity,
         as: 'Quantities',
-        include: [db.Ingredient]
+        attributes: ['unit', 'quantity'],
+        include: [
+          {
+            model: db.Ingredient,
+            attributes: ['name']
+          }
+        ]
       },
       {
         model: db.Comment,
-        as: 'Comments' 
-      },
-      {
-        model: db.Rating,
-        as: 'Ratings' 
+        as: 'Comments',
+        attributes: ['comment', 'rating', 'createdAt'],
+        include: [
+          {
+            model: db.User,
+            as: 'User',
+            attributes: ['userName']
+          }
+        ]
       }
     ],
   });
   if (model) return res.status(200).json(new ApiResponse(true, model));
-  return res.sendStatus(404);
+  return res.status(404).json(new ApiResponse(false, null, "Recette non trouvée"));
 }
 
 const createRecipeUrl = (title) => {
@@ -115,4 +125,4 @@ const createRecipeUrl = (title) => {
 }
 
 
-export default {create, getAll, getById}
+export default {create, getAll, getByUrl}

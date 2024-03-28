@@ -9,7 +9,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET_KEY));
 app.use(
-  cors(),
+  cors(
+    {
+      origin: process.env.CLIENT_URL,
+      credentials: true,
+    },
+  ),
 );
 
 // router

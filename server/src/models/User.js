@@ -9,7 +9,11 @@ const { createToken } = tokenUtils();
 
 export default function (connection) {
   class User extends Model {
-    static associate(db) {}
+    static associate(db) {
+      User.hasMany(db.Comment);
+      User.hasMany(db.Preferences);
+      User.hasMany(db.Favorite);
+    }
   }
 
   User.init(
@@ -54,22 +58,6 @@ export default function (connection) {
           //     }
           // },
         },
-      },
-      gender: {
-        type: DataTypes.ENUM('H', 'F'),
-        allowNull: true,
-      },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      city: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      zip: {
-        type: DataTypes.STRING,
-        allowNull: true,
       },
       dateOfBirth: {
         type: DataTypes.DATE,

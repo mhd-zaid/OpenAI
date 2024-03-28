@@ -23,7 +23,6 @@ class RecommendationService {
         id: recipe.id,
         title: recipe.title,
         url: recipe.url,
-        ingredients,
         average_rating: recipe.average_rating,
         nb_rating: recipe.nb_rating
       };
