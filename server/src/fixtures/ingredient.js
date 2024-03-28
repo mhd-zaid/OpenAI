@@ -283,104 +283,172 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
-    name: "Lardon"
+    name: 'Lardon',
   },
   {
     id: uuidv4(),
-    name: "Gousse d'ail"
+    name: "Gousse d'ail",
   },
   {
     id: uuidv4(),
-    name: "Huile d'olive"
+    name: "Huile d'olive",
   },
   {
     id: uuidv4(),
-    name: "Caramel"
+    name: 'Huile',
   },
   {
     id: uuidv4(),
-    name: "Semoule de mil précuite"
+    name: 'Caramel',
   },
   {
     id: uuidv4(),
-    name: "Lait fermenté"
+    name: 'Semoule de mil précuite',
   },
   {
     id: uuidv4(),
-    name: "Poivre"
+    name: 'Lait fermenté',
   },
   {
     id: uuidv4(),
-    name: "Fromage râpé"
+    name: 'Poivre',
   },
   {
     id: uuidv4(),
-    name: "muscade râpée"
+    name: 'Fromage râpé',
   },
   {
     id: uuidv4(),
-    name: "Thym"
+    name: 'muscade râpée',
   },
   {
     id: uuidv4(),
-    name: "Feuilles de laurier"
+    name: 'Muscade',
   },
   {
     id: uuidv4(),
-    name: "Vin rouge"
+    name: 'Thym',
   },
   {
     id: uuidv4(),
-    name: "Purée de tomate"
+    name: 'Feuilles de laurier',
   },
   {
     id: uuidv4(),
-    name: "Lasagne"
+    name: 'Vin rouge',
   },
   {
     id: uuidv4(),
-    name: "Boeuf haché"
+    name: 'Purée de tomate',
   },
   {
     id: uuidv4(),
-    name: "Eau"
+    name: 'Lasagne',
   },
   {
     id: uuidv4(),
-    name: "Basilic"
+    name: 'Boeuf haché',
   },
   {
     id: uuidv4(),
-    name: "Parmesan"
+    name: 'Eau',
   },
   {
     id: uuidv4(),
-    name: "Noix de Saint-Jacques"
+    name: 'Basilic',
   },
   {
     id: uuidv4(),
-    name: "Ciboullette"
+    name: 'Parmesan',
   },
   {
     id: uuidv4(),
-    name: "Ciboule"
+    name: 'Noix de Saint-Jacques',
   },
   {
     id: uuidv4(),
-    name: "Baies roses"
+    name: 'Ciboullette',
   },
   {
     id: uuidv4(),
-    name: "Curry"
+    name: 'Ciboule',
   },
   {
     id: uuidv4(),
-    name: "Jus de citron"
+    name: 'Baies roses',
   },
   {
     id: uuidv4(),
-    name: "Olives vertes"
-  }
+    name: 'Curry',
+  },
+  {
+    id: uuidv4(),
+    name: 'Jus de citron',
+  },
+  {
+    id: uuidv4(),
+    name: 'Olives vertes',
+  },
+  {
+    id: uuidv4(),
+    name: 'Pain de mie',
+  },
+  {
+    id: uuidv4(),
+    name: 'Soja',
+  },
+  {
+    id: uuidv4(),
+    name: 'Feuille de brick',
+  },
+  {
+    id: uuidv4(),
+    name: 'Gingembre en poudre',
+  },
+  {
+    id: uuidv4(),
+    name: 'Sucre de canne',
+  },
+  {
+    id: uuidv4(),
+    name: 'Eau gazeuse',
+  },
+  {
+    id: uuidv4(),
+    name: 'Citron vert',
+  },
+  {
+    id: uuidv4(),
+    name: 'Menthe',
+  },
+  {
+    id: uuidv4(),
+    name: 'Glaçon',
+  },
+  {
+    id: uuidv4(),
+    name: 'Rhum',
+  },
+  {
+    id: uuidv4(),
+    name: 'Glace à la vanille',
+  },
+  {
+    id: uuidv4(),
+    name: 'Crème chantilly',
+  },
+  {
+    id: uuidv4(),
+    name: 'Bissap',
+  },
+  {
+    id: uuidv4(),
+    name: 'Sucre vanillé',
+  },
+  {
+    id: uuidv4(),
+    name: 'Eau de fleur d’oranger',
+  },
 ];
 
 export default ingredientFixture;
