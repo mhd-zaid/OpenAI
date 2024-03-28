@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import db from '../models/index.js';
+
 import quantity from '../routes/quantity.js';
 const searchPrompt =
   "Ce qui suit est une demande basée sur les recettes disponibles dans la base de données.Ca peut être une brève description ou un mot-clé existant dans les recettes ou ingrédients.\
@@ -14,6 +15,7 @@ class AiSearchService {
 
   async getOpenAICompletion(prompt) {
     const context = [];
+
     const allQuantities = await db.Quantity.findAll({
       include: [db.Recipe, db.Ingredient],
     });
@@ -35,6 +37,7 @@ class AiSearchService {
       temperature: 0.2,
       frequency_penalty: 0,
       presence_penalty: 0,
+      seed: 0,
     });
 
     return completion;
