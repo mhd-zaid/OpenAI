@@ -27,14 +27,14 @@ const genericRoutes = [
   ];
 
 
-  const genericCommentRouter = new GenericRouter(
+const genericCommentRouter = new GenericRouter(
   new GenericController(new GenericService(db.Comment)),
 );
 genericRoutes.forEach(route => {
-    genericCommentRouter.addRoute(route, route.middlewares);
+  genericCommentRouter.addRoute(route, route.middlewares);
 });
 
-export default (router) => {
+export default router => {
   router.use('/', genericCommentRouter.getRouter());
   return router;
 };
