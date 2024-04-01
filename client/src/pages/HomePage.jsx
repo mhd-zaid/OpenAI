@@ -26,7 +26,7 @@ const HomePage = () => {
   };
 
   return (
-    <Flex flexDir="column" as="main" w="full" py={4} px={8}>
+    <Flex flexDir="column" w="full">
       {isLoggedIn && (
         <Box mb={8}>
           <Heading fontSize="xl">Mes recettes préférées:</Heading>
@@ -49,7 +49,7 @@ const HomePage = () => {
           <Card key={recipe.id} item={recipe} />
         ))}
       </Flex>
-      <Link color={'darkblue'} pt={8} href="/recipes">
+      <Link color={'darkblue'} pt={8} href="/recettes">
         Voir toutes nos recettes!
       </Link>
     </Flex>
