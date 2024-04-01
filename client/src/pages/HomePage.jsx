@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Badge, Link } from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, Link } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import Card from '../components/card';
