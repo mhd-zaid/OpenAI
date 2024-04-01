@@ -25,15 +25,18 @@ class ChatbotService {
       temperature: 0.2,
       frequency_penalty: 0,
       presence_penalty: 0,
+      stream: true,
     });
-
-    this.context.push(completion.choices[0].message);
 
     return completion;
   }
 
   getContext() {
     return this.context;
+  }
+
+  addToContext(message) {
+    this.context.push(message);
   }
 
   resetContext() {
