@@ -6,12 +6,16 @@ import quantityFixture from './quantity.js';
 import db from '../models/index.js';
 import usersFixture from './user.js';
 import commentsFixture from './comment.js';
+import _ from 'lodash';
+import {uuidv4} from "uuidv7";
 
 const loadIngredients = async () => {
   const model = (await import('../models/Ingredient.js')).default(connection);
   try {
     await Promise.all(
-      ingredientFixture.map(ingredient => model.create(ingredient)),
+      ingredientFixture.map(ingredient => {
+        model.create(ingredient)
+      }),
     );
     console.log('Ingredients loaded');
   } catch (err) {
@@ -62,22 +66,14 @@ const getIngredientByName = async name => {
   }
 };
 
-const getUsersByUsername = async userName => {
-  const model = (await import('../models/User.js')).default(connection);
-  try {
-    const user = await model.findOne({ where: { userName: userName } });
-    return user;
-  }catch (err) {
-    console.error(err);
-  }
-};
-
 const loadQuantity = async () => {
   const model = db.Quantity;
   try {
     await Promise.all(quantityFixture.map(async quantity => {
       const ingredient = await getIngredientByName(quantity.Ingredient);
       const recipe = await getRecipeByName(quantity.Recipe);
+      if(!ingredient) console.log("ingredient non trouvé", quantity);
+        if(!recipe) console.log("recette non trouvée", quantity);
       return model.create({
         quantity: quantity.quantity,
         unit: quantity.unit,
@@ -93,18 +89,22 @@ const loadQuantity = async () => {
 
 const loadComments = async () => {
   const model = db.Comment;
+  const recipes = await db.Recipe.findAll();
+  const users = await db.User.findAll();
   try {
-    await Promise.all(commentsFixture.map(async comment => {
-      const user = await getUsersByUsername(comment.User);
-      const recipe = await getRecipeByName(comment.Recipe);
-      return model.create({
-        id: comment.id,
-        comment: comment.comment,
-        rating: comment.rating,
-        UserId: user.id,
-        RecipeId: recipe.id,
-      });
-    }));
+    for (const recipe of recipes) {
+      const numComments = _.random(2, 13);
+      const randomUsers = _.sampleSize(users, numComments);
+      for (let i = 0; i < numComments; i++) {
+        await model.create({
+          id: uuidv4(),
+          comment: commentsFixture[i].comment,
+          rating: commentsFixture[i].rating,
+          UserId: randomUsers[i].id,
+          RecipeId: recipe.id,
+        });
+      }
+    }
     console.log('Comments loaded');
   } catch (err) {
     console.error(err);
@@ -120,7 +120,8 @@ const updateRecipeRate = async () => {
       for (const recipe1 of recipes) {
         const recipeComments = comments.filter(comment => comment.RecipeId === recipe1.id);
         const rate = recipeComments.reduce((acc, comment) => acc + comment.rating, 0) / recipeComments.length;
-        await recipe1.update({ average_rating: rate, nb_rating: recipeComments.length });
+        await recipe1.update({ average_rating: Math.round(rate).toFixed(1)
+          , nb_rating: recipeComments.length });
       }
     }));
   } catch (err) {
@@ -128,14 +129,39 @@ const updateRecipeRate = async () => {
   }
 }
 
+const loadPrefences = async () => {
+  const model = db.Preferences;
+  const ingredients = await db.Ingredient.findAll();
+  const users = await db.User.findAll();
+  try {
+    for (const user of users) {
+      const nbAllergies = _.random(0, 10);
+      const randomIngredients = _.sampleSize(ingredients, nbAllergies);
+      for (let i = 0; i < nbAllergies; i++) {
+        await model.create({
+          id: uuidv4(),
+          isLiked: _.sample([true, false]),
+          isAllergic: _.sample([true, false]),
+          UserId: user.id,
+          IngredientId: randomIngredients[i].id,
+        });
+      }
+    }
+    console.log('Preferences loaded');
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const main = async () => {
   try {
-    await loadIngredients();
-    await loadRecipes();
-    await loadQuantity();
-    await loadUsers();
-    await loadComments();
-    await updateRecipeRate()
+    // await loadIngredients();
+    // await loadRecipes();
+    // await loadQuantity();
+    // await loadUsers();
+    // await loadComments();
+    // await updateRecipeRate()
+    await loadPrefences();
   } catch (error) {
     console.error(error);
   } finally {

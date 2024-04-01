@@ -1,8 +1,8 @@
 import recipeController from '../controllers/recipe.js';
-import GenericRouter from '../routes/genericRouter.js';
-import GenericController from '../controllers/genericController.js';
-import GenericService from '../services/genericService.js';
-import db from '../../src/models/index.js';
+import GenericRouter from "../routes/genericRouter.js";
+import GenericController from "../controllers/genericController.js";
+import GenericService from "../services/genericService.js";
+import db from "../../src/models/index.js";
 
 export default function (router) {
   const genericRoutes = [

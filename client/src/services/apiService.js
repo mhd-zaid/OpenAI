@@ -9,9 +9,13 @@ export const apiService = {
             .then((response) => response.json());
     },
 
-    getOne(instance, id){
+    getUserInfo(instance, id){
         const headers = new Headers({ "Content-Type": "application/json" });
-        return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "GET", headers })
+        const token = localStorage.getItem("token");
+        if (token) {
+            headers.append("Authorization", `Bearer ${token}`);
+        }
+        return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "GET", headers, credentials: 'include'  })
             .then((response) => response.json());
     },
 

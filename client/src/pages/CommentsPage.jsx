@@ -5,6 +5,7 @@ import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
 import { Rating, ThemeProvider, Typography } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
 import Pagination from '@/components/Pagination.jsx';
+import CommentForm from "@/components/Recipe/CommentForm.jsx";
 
 const CommentsPage = () => {
   const { recipeUrl } = useParams();
@@ -13,46 +14,49 @@ const CommentsPage = () => {
   const [ recipeAverageRating, setRecipeAverageRating ] = useState(0);
   const [ nbComments, setNbComments ] = useState(0);
   const [ currentPage, setCurrentPage ] = useState(1);
-  const [ itemsPerPage, setItemsPerPage ] = useState(5);
+  const itemsPerPage = 4;
 
   const fetchComments = async (recipeUrl) => {
     try {
-      const getRecipe = await apiService.getOne('recipes', `${recipeUrl}`);
+      const getRecipe = await apiService.getUserInfo('recipes', `${recipeUrl}`);
       const recipe = getRecipe.data;
 
       setComments(recipe.Comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
       setRecipe(recipe);
       setRecipeAverageRating(recipe.average_rating)
-      setNbComments(recipe.Comments.length);
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchComments(recipeUrl);
+      fetchComments(recipeUrl);
   }, [currentPage]);
 
 
   return (
-    <div className={"w-3/4"}>
+    <div className={""}>
       <div>
         <h1 className={"font-medium text-4xl mb-4 text-yellow-400"}>{nbComments} avis sur cette recette</h1>
-        <div className={"row gap-4"}>
-          <img src="https://placehold.co/70x70" alt="" className={"rounded"}/>
-          <div>
-            {/*<p className={"font-medium text-2xl"}>{recipe?.title}</p>*/}
-            <Link to={`/recettes/${recipe?.url}`} className={"font-medium text-2xl underline"}>{recipe?.title}</Link>
+        <div className={"row gap-4 h-32"}>
+          <img src={`/img/recipe/${recipe?.image}`} width={200} height={150} alt="" className={"rounded"}/>
+          <div className={"col"}>
+            <Link to={`/recettes/${recipe?.url}`} className={"font-bold text-2xl"}>{recipe?.title}</Link>
             <div className={"w-full row items-center gap-4"}>
               <ThemeProvider theme={ratingTheme}>
-                <Typography variant="h6" component="legend">Note moyenne {recipe?.average_rating}/5</Typography>
+                <Typography variant="overline" component="legend">Cette recette a reçu {Math.round(recipeAverageRating * 10) / 10}/5</Typography>
                 <Rating name="half-rating" value={recipeAverageRating} precision={0.5} readOnly={true} />
               </ThemeProvider>
             </div>
           </div>
         </div>
       </div>
-      <CommentComponent comments={comments} recipeUrl={recipeUrl} />
+      <div className={"my-4"}>
+        <CommentForm recipeId={recipe?.id} />
+      </div>
+      <div className={"my-4"}>
+        <CommentComponent comments={comments} recipeUrl={recipeUrl} />
+      </div>
       <div className={"w-full row justify-end"}>
         <Pagination
           totalPages={Math.ceil(nbComments / itemsPerPage)}

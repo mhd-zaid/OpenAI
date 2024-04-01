@@ -1,8 +1,9 @@
 import userController from "../controllers/user.js";
 import GenericRouter from "../routes/genericRouter.js";
 import GenericController from "../controllers/genericController.js";
-import GenericService from "../Services/genericService.js";
+import GenericService from "../services/genericService.js";
 import db from "../../src/models/index.js";
+import verifyUser from "../middlewares/verifyUser.js";
 
 export default function (router) {
   const genericRoutes = [
@@ -23,7 +24,10 @@ export default function (router) {
   });
 
   router.use('/', genericUserRouter.getRouter());
-  router.get('/profile', userController.getProfile); 
+  router.get('/profile', verifyUser ,userController.getProfile);
+  router.get('/comments', verifyUser ,userController.getComments);
+  router.get('/favorites', verifyUser ,userController.getFavorites);
+  router.get('/preferences', verifyUser ,userController.getPreferences);
 
   return router;
 }

@@ -12,7 +12,6 @@ import CardComponent from '@/lib/components/CardComponent.jsx';
 import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
 import { Rating, ThemeProvider } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
-import useToken from '@/utils/useToken.js';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from 'react-toastify';
@@ -37,7 +36,7 @@ const RecipePage = () => {
   const getRecipe = async () => {
     try {
       setLoading(true)
-      const res = await apiService.getOne('recipes', `${recipeUrl}`);
+      const res = await apiService.getUserInfo('recipes', `${recipeUrl}`);
       if (res.data) {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person)
@@ -56,6 +55,7 @@ const RecipePage = () => {
       if (!res.error) {
         const recommendations = JSON.parse(res.content);
         setRecommandedRecipes(recommendations);
+        console.log(recommendations);
       }
     } catch (err) {
       console.error(err);
@@ -92,7 +92,6 @@ const RecipePage = () => {
     getRecipe()
   }, [recipeUrl]);
 
-
   const handleAddPerson = () => {
     setNbPerson(prevNbPerson => prevNbPerson + 1);
   };
@@ -103,83 +102,83 @@ const RecipePage = () => {
     }
   };
 
-  if(loading) {
-    return (
-      <div>
-        <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
-
-        <div className="grid grid-cols-3 gap-4">
-          <div className={"col-span-2"}>
-
-            <div className={"grid grid-cols-2 gap-2"}>
-
-              <div className={'col-span-12 flex gap-4 justify-between'}>
-                <div className={'flex gap-4'}>
-                  <Skeleton width={100} height={20} />
-                  <Skeleton width={100} height={20} />
-                  <Skeleton width={100} height={20} />
-                </div>
-                <Skeleton width={200} height={20} />
-              </div>
-
-              <div className="recipe-media col-span-12">
-                <Skeleton width={"100%"} height={400} />
-              </div>
-
-              <div className={'col-span-12 flex gap-4 mb-4'}>
-                <Skeleton width={200} height={50} />
-                <Skeleton width={200} height={50} />
-              </div>
-
-            </div>
-
-            <div className={"grid grid-cols-5 gap-8"}>
-
-              <div className="recipe-instructionContent col-span-3">
-                <Skeleton width={300} height={40} />
-                <Skeleton count={5} />
-              </div>
-
-              <div className="recipe-ingredientsContent col-span-2">
-                <Skeleton width={300} height={40} />
-                <Skeleton count={5} />
-              </div>
-            </div>
-
-            <Skeleton width={300} height={40} />
-
-            <div className="my-8">
-              <Skeleton count={3} height={50} />
-            </div>
-
-            <div className="my-4">
-              <Skeleton count={5} height={50} />
-            </div>
-
-            <div className={"my-4"}>
-              <Skeleton count={3} height={50} />
-            </div>
-          </div>
-
-          <div className={"col"}>
-            <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
-
-            <div className="col gap-4">
-              <div className={'col gap-4'}>
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <div className="flex gap-4">
-                    <Skeleton circle={true} height={70} width={70} />
-                    <Skeleton count={3} height={20} width={300} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    );
-  }
+  // if(loading) {
+  //   return (
+  //     <div>
+  //       <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
+  //
+  //       <div className="grid grid-cols-3 gap-4">
+  //         <div className={"col-span-2"}>
+  //
+  //           <div className={"grid grid-cols-2 gap-2"}>
+  //
+  //             <div className={'col-span-12 flex gap-4 justify-between'}>
+  //               <div className={'flex gap-4'}>
+  //                 <Skeleton width={100} height={20} />
+  //                 <Skeleton width={100} height={20} />
+  //                 <Skeleton width={100} height={20} />
+  //               </div>
+  //               <Skeleton width={200} height={20} />
+  //             </div>
+  //
+  //             <div className="recipe-media col-span-12">
+  //               <Skeleton width={"100%"} height={400} />
+  //             </div>
+  //
+  //             <div className={'col-span-12 flex gap-4 mb-4'}>
+  //               <Skeleton width={200} height={50} />
+  //               <Skeleton width={200} height={50} />
+  //             </div>
+  //
+  //           </div>
+  //
+  //           <div className={"grid grid-cols-5 gap-8"}>
+  //
+  //             <div className="recipe-instructionContent col-span-3">
+  //               <Skeleton width={300} height={40} />
+  //               <Skeleton count={5} />
+  //             </div>
+  //
+  //             <div className="recipe-ingredientsContent col-span-2">
+  //               <Skeleton width={300} height={40} />
+  //               <Skeleton count={5} />
+  //             </div>
+  //           </div>
+  //
+  //           <Skeleton width={300} height={40} />
+  //
+  //           <div className="my-8">
+  //             <Skeleton count={3} height={50} />
+  //           </div>
+  //
+  //           <div className="my-4">
+  //             <Skeleton count={5} height={50} />
+  //           </div>
+  //
+  //           <div className={"my-4"}>
+  //             <Skeleton count={3} height={50} />
+  //           </div>
+  //         </div>
+  //
+  //         <div className={"col"}>
+  //           <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
+  //
+  //           <div className="col gap-4">
+  //             <div className={'col gap-4'}>
+  //               {Array.from({ length: 3 }).map((_, index) => (
+  //                 <div className="flex gap-4">
+  //                   <Skeleton circle={true} height={70} width={70} />
+  //                   <Skeleton count={3} height={20} width={300} />
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           </div>
+  //         </div>
+  //
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return <NotFoundPage />;
@@ -187,9 +186,9 @@ const RecipePage = () => {
 
   return (
     <div>
-      <h1 className={"font-medium text-4xl mb-4"}>{recipe?.title}</h1>
 
       <div className="grid grid-cols-3 gap-4">
+        <h1 className={"font-medium text-4xl mb-4 col-span-2"}>{recipe?.title}</h1>
         <div className={"col-span-2"}>
 
           {/*Information générale sur la recette*/}
@@ -199,26 +198,31 @@ const RecipePage = () => {
               <div className={'flex gap-4'}>
             <span className={'flex items-center gap-1'}>
               <Icon icon="mdi:clock-outline" style={{ color: 'black' }} />
-              {recipe?.duration}
+              {recipe?.duration} min
             </span>
                 <span className={'flex items-center gap-1'}>
               <Icon icon="ic:baseline-stars" style={{ color: 'black' }} />
-                  {recipe?.level}
+                  <span className={"lowercase first-letter:capitalize"}>{recipe?.level}</span>
             </span>
-                <span className={'flex items-center gap-1 uppercase'}>
+                <span className={'flex items-center gap-1'}>
               <Icon icon="mdi:tags" style={{ color: 'black' }} />
-                  {recipe?.tags}
+                  {recipe?.tags.map((tag, index) => (
+                    <Link to={`/recettes?tag=${tag}`} key={index} className={'lowercase first-letter:capitalize'}>{tag}{index !== recipe.tags.length - 1 ? ' - ' : ''}</Link>
+                  ))
+                  }
             </span>
               </div>
               <span className={'flex items-center space-x-2'}>
-              <span><span className={'font-bold text-xl'}>{recipe?.average_rating}</span>/5</span>
+              <span><span className={'font-bold text-xl'}>{
+                Math.round(recipe?.average_rating * 10) / 10
+              }</span>/5</span>
               <svg className="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                    fill="currentColor" viewBox="0 0 22 20">
                 <path
                   d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
               </svg>
               <span className="w-1 h-1 mx-1 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-              <a href="#" className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{recipe?.nb_rating} notes</a>
+              <Link to={`/recettes/${recipeUrl}/comments`} className={"text-sm font-medium text-gray-900 underline hover:no-underline"}>{recipe?.nb_rating} notes</Link>
           </span>
             </div>
 
@@ -252,7 +256,7 @@ const RecipePage = () => {
 
             {/*Étapes de préparation*/}
             <div className="recipe-instructionContent col-span-3">
-              <p className={"border border-b-4 border-b-black w-full font-medium text-2xl pb-2 mb-4"}>Étapes de préparation</p>
+              <p className={"border-b-4 border-b-black w-full font-bold text-xl pb-2 mb-4"}>Étapes de préparation</p>
               <div>
                 <ol>
                   {recipe?.instructions && recipe.instructions.map((step, index) => (
@@ -264,12 +268,12 @@ const RecipePage = () => {
 
             {/*Ingrédients*/}
             <div className="recipe-ingredientsContent col-span-2">
-              <p className={"border border-b-4 border-b-black w-full font-medium text-2xl pb-2 mb-4"}>Ingrédients</p>
+              <p className={"border-b-4 border-b-black w-full font-bold text-xl pb-2 mb-4"}>Ingrédients</p>
 
               {/*Mise à jour du nombre de personnes*/}
               <div className={"flex w-full justify-around mb-8"}>
                 <Button onClick={handleRemovePerson}>
-                  <Icon icon="ic:sharp-remove-circle" style={{ color: 'black', fontSize: 40, boxShadow: "revert-layer" }} />
+                  <Icon icon="ic:sharp-remove-circle" style={{ color: 'black', fontSize: 40 }} />
                 </Button>
                 <span className={'m-0 text-xl flex items-center'}>{nbPerson} {nbPerson === 1 ? 'personnes' : 'personnes'}</span>
                 <Button onClick={handleAddPerson}>
@@ -308,38 +312,31 @@ const RecipePage = () => {
             <SocialBar />
           </div>
 
+          {recipe && recipe?.id && (
           <div className="my-4">
             <CommentForm recipeId={recipe?.id} />
           </div>
+            )}
 
           <div className={"my-4"}>
-            <CommentComponent comments={recipe?.Comments} recipeUrl={recipe?.url} limit={3} />
+            <CommentComponent comments={recipe?.Comments} recipeUrl={recipe?.url} limit={4} />
           </div>
         </div>
 
         {/*Recettes suggérées*/}
         <div className={"col"}>
-          <h1 className={"text-xl font-medium mb-4"}>Recettes suggérées</h1>
+          <h1 className={"text-xl font-medium mb-4 font-serif"}>A DÉGUSTER AUSSI</h1>
 
           <div className="col gap-4">
-            {loading ? (
-              <div className={'col gap-4'}>
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <div className="flex gap-4">
-                    <Skeleton circle={true} height={70} width={70} />
-                    <Skeleton count={3} height={20} width={300} />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              recommandedRecipes.map((recommandedRecipe, index) => (
-                <>
-                  <div key={index} className={'row gap-4'}>
-                    <img src="http://placehold.it/70x70" alt="Recipe image" />
-                    <div className={'col justify-between'}>
-                      <Link to={`/recettes/${recommandedRecipe.url}`}
-                            className={"font-medium text-xl underline"}>{recommandedRecipe.title}</Link>
-                      <div className="row justify-between">
+            {recommandedRecipes.map((recommandedRecipe, index) => (
+              <>
+              <div className={"effect-grew px-4"}>
+                <Link to={`/recettes/${recommandedRecipe.url}`}>
+                  <div key={index} className={'row gap-4 h-20'}>
+                    <img src={`/img/recipe/${recommandedRecipe.image}`} height={80} width={140} className={"rounded shadow-md object-cover"} alt="Recipe image" />
+                    <div className={'col justify-between w-full'}>
+                      <span className={"font-medium text-md font-mono"}>{recommandedRecipe.title}</span>
+                      <div className="row justify-between items-center">
                         <ThemeProvider theme={ratingTheme}>
                           <Rating name="half-rating" value={recommandedRecipe.average_rating} precision={0.5}
                                   readOnly={true} />
@@ -348,9 +345,10 @@ const RecipePage = () => {
                       </div>
                     </div>
                   </div>
-                </>
-              ))
-            )}
+                </Link>
+              </div>
+              </>
+            ))}
           </div>
         </div>
 

@@ -1,7 +1,8 @@
-import GenericRouter from '../routes/genericRouter.js';
-import GenericController from '../controllers/genericController.js';
-import GenericService from '../services/genericService.js';
-import db from '../../src/models/index.js';
+
+import GenericRouter from "../routes/genericRouter.js";
+import GenericController from "../controllers/genericController.js";
+import GenericService from "../services/genericService.js";
+import db from "../../src/models/index.js";
 import preferenceController from '../controllers/preference.js';
 const genericRoutes = [
   { method: 'GET', path: '/:id', handler: 'getById', middlewares: [] },

@@ -32,7 +32,7 @@ export default function Button({
       break;
     case 'icon':
       buttonStyle.backgroundColor = 'white';
-      buttonStyle.padding = 5;
+      buttonStyle.padding = 7;
       buttonStyle.borderRadius = 150;
       break;
     default:

@@ -4,6 +4,8 @@ import Button from '@/lib/components/Button.jsx';
 import { apiService } from '@/services/apiService.js';
 import useToken from '@/utils/useToken.js';
 import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
 async function submitComment(commentData) {
   try {
@@ -36,6 +38,7 @@ const CommentForm = ({ recipeId }) => {
     const comment = await submitComment(formData);
 
     if (comment.success) {
+      toast.success("Merci pour votre contribution");
       setMessage("Merci pour votre avis ! Compte tenu de la modération, votre avis sera publié sous 24h.");
       setFormData({
         comment: "",

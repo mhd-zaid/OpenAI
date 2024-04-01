@@ -3,19 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 const ingredientFixture = [
   {
     id: uuidv4(),
-    name: 'Farine',
-  },
-  {
-    id: uuidv4(),
     name: 'Sucre',
-  },
-  {
-    id: uuidv4(),
-    name: 'Oeuf',
-  },
-  {
-    id: uuidv4(),
-    name: 'Lait',
   },
   {
     id: uuidv4(),
@@ -52,10 +40,6 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: 'Fraise',
-  },
-  {
-    id: uuidv4(),
-    name: 'Banane',
   },
   {
     id: uuidv4(),
@@ -179,6 +163,22 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
+    name: 'Quinoa',
+  },
+  {
+    id: uuidv4(),
+    name: 'Vinaigre de cidre',
+  },
+  {
+    id: uuidv4(),
+    name: 'Oignon rouge',
+  },
+  {
+    id: uuidv4(),
+    name: 'Tomate cerise',
+  },
+  {
+    id: uuidv4(),
     name: 'Oignon',
   },
   {
@@ -284,14 +284,6 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: 'Lardon',
-  },
-  {
-    id: uuidv4(),
-    name: "Gousse d'ail",
-  },
-  {
-    id: uuidv4(),
-    name: "Huile d'olive",
   },
   {
     id: uuidv4(),
@@ -407,10 +399,6 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
-    name: 'Sucre de canne',
-  },
-  {
-    id: uuidv4(),
     name: 'Eau gazeuse',
   },
   {
@@ -435,10 +423,6 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
-    name: 'Crème chantilly',
-  },
-  {
-    id: uuidv4(),
     name: 'Bissap',
   },
   {
@@ -448,6 +432,238 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: 'Eau de fleur d’oranger',
+  },
+  {
+    id: uuidv4(),
+    name: 'Pâte brisée',
+  },
+  {
+    id: uuidv4(),
+    name: 'Pommes',
+  },
+  {
+    id: uuidv4(),
+    name: 'Cannelle',
+  },
+  {
+    id: uuidv4(),
+    name: 'Saumon',
+  },
+  {
+    id: uuidv4(),
+    name: 'Sauce teriyaki',
+  },
+  {
+    id: uuidv4(),
+    name: 'Miel',
+  },
+  {
+    id: uuidv4(),
+    name: 'Vinaigre de riz',
+  },
+  {
+    id: uuidv4(),
+    name: "Champignons sauvages",
+  },
+  {
+    id: uuidv4(),
+    name: "Bouillon de légumes",
+  },
+  {
+    id: uuidv4(),
+    name: "Riz arborio",
+  },
+  {
+    id: uuidv4(),
+    name: "Parmesan râpé",
+  },
+  {
+    id: uuidv4(),
+    name: "Persil frais",
+  },
+  {
+    id: uuidv4(),
+    name: "Gousse d'ail",
+  },
+  {
+    id: uuidv4(),
+    name: "Huile d'olive",
+  },
+  {
+    id: uuidv4(),
+    name: "Riz à sushi",
+  },
+  {
+    id: uuidv4(),
+    name: "Feuilles d'algue nori",
+  },
+  {
+    id: uuidv4(),
+    name: "Saumon frais",
+  },
+  {
+    id: uuidv4(),
+    name: "Avocat",
+  },
+  {
+    id: uuidv4(),
+    name: "Wasabi",
+  },
+  {
+    id: uuidv4(),
+    name: "Mûres fraîches",
+  },
+  {
+    id: uuidv4(),
+    name: "Épinards frais",
+  },
+  {
+    id: uuidv4(),
+    name: "Ananas frais",
+  },
+  {
+    id: uuidv4(),
+    name: "Banane",
+  },
+  {
+    id: uuidv4(),
+    name: "Lait de coco",
+  },
+  {
+    id: uuidv4(),
+    name: "Jus de fruit de la passion",
+  },
+  {
+    id: uuidv4(),
+    name: "Jus d'orange",
+  },
+  {
+    id: uuidv4(),
+    name: "Sirop de grenadine",
+  },
+  {
+    id: uuidv4(),
+    name: "Gin",
+  },
+  {
+    id: uuidv4(),
+    name: "Eau tonique",
+  },
+  {
+    id: uuidv4(),
+    name: "Glaçons",
+  },
+  {
+    id: uuidv4(),
+    name: "Tranches de citron",
+  },
+  {
+    id: uuidv4(),
+    name: "Lait",
+  },
+  {
+    id: uuidv4(),
+    name: "Levure chimique",
+  },
+  {
+    id: uuidv4(),
+    name: "Extrait de vanille",
+  },
+  {
+    id: uuidv4(),
+    name: "Oeufs",
+  },
+  {
+    id: uuidv4(),
+    name: "Crème pâtissière",
+  },
+  {
+    id: uuidv4(),
+    name: "Crème chantilly",
+  },
+  {
+    id: uuidv4(),
+    name: "Amandes effilées",
+  },
+  {
+    id: uuidv4(),
+    name: "Sucre glace",
+  },
+  {
+    id: uuidv4(),
+    name: "Oeuf",
+  },
+  {
+    id: uuidv4(),
+    name: "Bicarbonate de soude",
+  },
+  {
+    id: uuidv4(),
+    name: "Pépites de chocolat",
+  },
+  {
+    id: uuidv4(),
+    name: "Biscuits (type sablés)",
+  },
+  {
+    id: uuidv4(),
+    name: "Beurre fondu",
+  },
+  {
+    id: uuidv4(),
+    name: "Fromage frais (type Philadelphia)",
+  },
+  {
+    id: uuidv4(),
+    name: "Crème fraîche épaisse",
+  },
+  {
+    id: uuidv4(),
+    name: "Nouilles de riz",
+  },
+  {
+    id: uuidv4(),
+    name: "Huile de sésame",
+  },
+  {
+    id: uuidv4(),
+    name: "Crevettes",
+  },
+  {
+    id: uuidv4(),
+    name: "Poulet (ou tofu pour une version végétarienne)",
+  },
+  {
+    id: uuidv4(),
+    name: "Pousse de soja",
+  },
+  {
+    id: uuidv4(),
+    name: "Cacahuètes grillées non salées",
+  },
+  {
+    id: uuidv4(),
+    name: "Sauce soja",
+  },
+  {
+    id: uuidv4(),
+    name: "Sucre de canne",
+  },
+  {
+    id: uuidv4(),
+    name: "Jus de citron vert",
+  },
+  {
+    id: uuidv4(),
+    name: "Ciboulette",
+  },
+  {
+    id: uuidv4(),
+    name: "Farine",
+  },
+  {
+    id: uuidv4(),
+    name: "Piment rouge (optionnel pour une version épicée)",
   },
 ];
 
