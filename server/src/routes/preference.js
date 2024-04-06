@@ -22,5 +22,6 @@ genericRoutes.forEach(route => {
 export default router => {
   router.use('/', genericPreferenceRouter.getRouter());
   router.get('/user/:id', preferenceController.getAllByUser);
+  router.post('/bulk', preferenceController.bulkPreferences);
   return router;
 };

@@ -1,5 +1,6 @@
 import ApiResponse from '../utils/apiResponse.js';
 import db from '../models/index.js';
+import { uuidv7 } from 'uuidv7';
 
 const getAllByUser = async(req, res) => {
     const { page: reqPage, limit: reqLimit, ...filters } = req.query;
@@ -40,4 +41,22 @@ const getAllByUser = async(req, res) => {
     }
 }
 
-export default {getAllByUser}
+const bulkPreferences = async (req, res) => {
+  try {
+    const preferencesData = req.body.Preferences;
+    console.log(req.body)
+
+    console.log("TABLEAU DE PREFERENCE : ", preferencesData)
+    preferencesData.forEach((preference) => {
+      preference.id = uuidv7(); 
+    });
+    await db.Preferences.bulkCreate(preferencesData);
+
+    return res.status(201).json(new ApiResponse(true, preferencesData));
+  } catch (error) {
+      console.error("Erreur lors de la création des preferences :", error);
+      throw error;
+  }
+}
+
+export default {getAllByUser, bulkPreferences}
