@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Badge, Link } from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, Link } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import Card from '../components/card';
@@ -14,7 +14,7 @@ const HomePage = () => {
   }, [isLoggedIn]);
 
   const getRecipes = async () => {
-    await fetch(import.meta.env.VITE_BACKEND_URL + '/recipes')
+    await fetch(import.meta.env.VITE_BACKEND_URL + '/recipes?limit=5')
       .then(res => res.json())
       .then(res => res.data && setRecipes(res.data));
   };
@@ -26,7 +26,7 @@ const HomePage = () => {
   };
 
   return (
-    <Flex flexDir="column" as="main" w="full" py={4} px={8}>
+    <Flex flexDir="column" w="full">
       {isLoggedIn && (
         <Box mb={8}>
           <Heading fontSize="xl">Mes recettes préférées:</Heading>
@@ -49,7 +49,7 @@ const HomePage = () => {
           <Card key={recipe.id} item={recipe} />
         ))}
       </Flex>
-      <Link color={'darkblue'} pt={8} href="/recipes">
+      <Link color={'darkblue'} pt={8} href="/recettes">
         Voir toutes nos recettes!
       </Link>
     </Flex>

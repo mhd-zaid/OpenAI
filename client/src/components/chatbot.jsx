@@ -90,7 +90,7 @@ const Chatbot = () => {
       <Button
         pos="fixed"
         right="3%"
-        bottom={70}
+        bottom="4%"
         w={14}
         h={14}
         rounded="full"
@@ -103,7 +103,7 @@ const Chatbot = () => {
       <Box
         pos="fixed"
         right="2%"
-        bottom={130}
+        bottom="14%"
         zIndex={10}
         w={{ sm: '75%', md: '50%', lg: '30%' }}
         h="70%"
