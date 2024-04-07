@@ -12,8 +12,12 @@ export default (
       let allMessages = [];
 
       for await (const chunk of response) {
-        console.log(chunk.choices[0].delta.content);
         allMessages.push(chunk.choices[0].delta.content);
+        res.write(
+          `data: ${JSON.stringify({
+            content: chunk.choices[0].delta.content,
+          })}\n\n`,
+        );
       }
       addToContext({ role: 'assistant', content: allMessages.join('') });
     } catch (error) {

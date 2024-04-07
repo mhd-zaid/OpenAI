@@ -40,7 +40,7 @@ class ChatbotService {
   }
 
   resetContext() {
-    this.context.length = 0;
+    this.context = [];
   }
 }
 
