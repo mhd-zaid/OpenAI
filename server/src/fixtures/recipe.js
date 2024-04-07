@@ -4,7 +4,7 @@ const levelEnum = ['FACILE', 'MOYEN', 'DIFFICILE'];
 const tagsEnum = ['ENTREE', 'PLAT', 'DESSERT', 'VEGETARIEN', 'VIANDE', 'POISSON', 'BOISSON'];
 
 const getRandomElement = array =>
-  array[Math.floor(Math.random() * array.length)];
+    array[Math.floor(Math.random() * array.length)];
 
 const recipesFixture = [
   {
@@ -772,6 +772,31 @@ const recipesFixture = [
     ],
     url: "pad-thai-010133",
     image: "pad-thai.jpeg",
+    average_rating: 0,
+    nb_rating: 0
+  },
+  {
+    id: uuidv4(),
+    title: "Taro sauce jaune",
+    tips: "Servez avec du riz blanc pour un repas complet.",
+    level: "MOYEN",
+    tags: ["PLAT", "VEGETARIEN"],
+    duration: 45,
+    nb_person: 4,
+    instructions: [
+      "Faire cuire le taro en robe des champs dans une casserole pendant environ 2h.",
+      "Éplucher les taros et les piler pendant qu'ils sont encore chauds. S'assurer qu'il n'y a plus de grumeaux en les écrasant, la pâte doit être lisse.",
+      "Humecter légèrement la pâte si vous la trouvez un peu dure, une fois la consistance voulue obtenue, réserver.",
+      "Faire cuire les tripes avec du sel pendant 1h environ et réserver.",
+      "Délayer les condiments pour sauce jaune dans un récipient et réserver.",
+      "Défiger l'huile de palme en chauffant légèrement, puis mettre le morceau de sel gemme dans l'huile de palme et y verser une moitié de l'eau tiède. Mélanger.\n" +
+      "A l'aide d'un bol, une fois que l'émulsion est stabilisée, ôter le restant de sel gemme",
+      "Émietter les 4 cubes dans la préparation de condiments, saler et mélanger.",
+      "Incorporer les condiments dans la sauce jaune puis les tripes, rectifier l'assaisonnement, ajouter le piment entier.",
+      "C'est prêt. Servez chaud, bon appétit !"
+    ],
+    url: "taro-sauce-jaune-010134",
+    image: "taro-sauce-jaune.jpg",
     average_rating: 0,
     nb_rating: 0
   },

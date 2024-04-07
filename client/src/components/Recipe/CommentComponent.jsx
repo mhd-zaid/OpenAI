@@ -26,13 +26,13 @@ const CommentComponent = ({ comments, recipeUrl, limit }) => {
     return (
 
       <div>
-          <SimpleGrid columns={2} spacingY={4}>
+          <SimpleGrid columns={[1, null, 2, 3]}  spacingY={4}>
               {displayedComments?.map((comment) => (
                 isProfile ? (
-                  <Container>
+                  <Container key={comment.id}>
                       <Card shadow={"md"} h={"full"}>
                           <CardHeader>
-                              <Flex gap={4}>
+                              <Flex gap={4} direction={{ base: 'column', xl: 'row' }}>
                                   <Img src={`/img/recipe/${comment.Recipe.image}`}
                                        alt={recipeUrl} width={135} height={75} className={"rounded"}/>
                                   <Text fontFamily={"sans-serif"} fontWeight={700}>{comment.Recipe.title}</Text>
@@ -52,7 +52,7 @@ const CommentComponent = ({ comments, recipeUrl, limit }) => {
                       </Card>
                   </Container>
                 ) : (
-                  <Container>
+                  <Container key={comment.id}>
                       <Card shadow={"md"} h={"full"}>
                           <CardHeader>
                               <Flex gap={4}>

@@ -664,7 +664,39 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: "Piment rouge (optionnel pour une version épicée)",
+  }
+  {
+    id: uuidv4(),
+    name: "Taro",
   },
+  {
+    id: uuidv4(),
+    name: "Tripes de boeuf",
+  },
+  {
+    id: uuidv4(),
+    name: "Huile de palme",
+  },
+  {
+    id: uuidv4(),
+    name: "Sel gemme",
+  },
+  {
+    id: uuidv4(),
+    name: "Condiments pour sauce jaune",
+  },
+  {
+    id: uuidv4(),
+    name: "Eau tiède",
+  },
+  {
+    id: uuidv4(),
+    name: "Cubes Maggi",
+  },
+  {
+    id: uuidv4(),
+    name: "Piment",
+  }
 ];
 
 export default ingredientFixture;

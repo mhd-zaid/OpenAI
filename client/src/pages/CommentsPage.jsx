@@ -6,6 +6,7 @@ import { Rating, ThemeProvider, Typography } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
 import Pagination from '@/components/Pagination.jsx';
 import CommentForm from "@/components/Recipe/CommentForm.jsx";
+import { Img } from '@chakra-ui/react';
 
 const CommentsPage = () => {
   const { recipeUrl } = useParams();
@@ -38,8 +39,10 @@ const CommentsPage = () => {
     <div className={""}>
       <div>
         <h1 className={"font-medium text-4xl mb-4 text-yellow-400"}>{nbComments} avis sur cette recette</h1>
-        <div className={"row gap-4 h-32"}>
-          <img src={`/img/recipe/${recipe?.image}`} width={200} height={150} alt="" className={"rounded"}/>
+        <div className={"flex flex-col-reverse md:flex-row gap-4"}>
+          <div>
+          <Img src={`/img/recipe/${recipe?.image}`} w={250} h={150} alt="" className={"rounded"}/>
+          </div>
           <div className={"col"}>
             <Link to={`/recettes/${recipe?.url}`} className={"font-bold text-2xl"}>{recipe?.title}</Link>
             <div className={"w-full row items-center gap-4"}>

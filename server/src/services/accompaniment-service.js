@@ -1,11 +1,11 @@
 import OpenAI from 'openai';
 import db  from '../models/index.js';
-let accompanimentPrompt = "Ce qui suit est une demande pour fournir des accompagnements pour une recette spécifique.\
-La réponse doit contenir une liste d'objets JSON représentant les accompagnements recommandés.\
-Au moins un accompagnement doit être inclus, mais jusqu'à trois accompagnements peuvent être fournis au maximum.\
+let accompanimentPrompt = 'Ce qui suit est une demande pour fournir des accompagnements pour une recette spécifique.\
+La réponse doit contenir une liste d\'objets JSON représentant les accompagnements recommandés.\
+Au moins un accompagnement doit être inclus, mais jusqu\'à trois accompagnements peuvent être fournis au maximum.\
 Si des accompagnements sont disponibles pour la recette spécifiée, ils doivent être inclus dans la réponse ;\
-La réponse doit être au format JSON suivante : [{'nom': 'exemple'},...] ; le tableau JSON ne doit pas avoir de nom\
-sinon, la réponse doit être un tableau JSON vide.";
+La réponse doit être au format JSON suivante : [{"nom": "exemple"},...] ; le tableau JSON ne doit pas avoir de nom\
+sinon, la réponse doit être un tableau JSON vide.';
 
 class AccompanimentService {
   constructor() {

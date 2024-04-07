@@ -1529,6 +1529,69 @@ const quantitiesFixture = [
         unit: null,
         Recipe: "Pad Thai",
     },
+  // 2 kg﻿ de taro
+  // 1 kg de Tripes de boeuf
+  // 190 grammes d'huile de palme
+  // 16 grammes de Sel gemme
+  // 1 sachet de condiments pour sauce jaune
+  // 1l d'eau tiède
+  // Sel
+  // 4 Cubes Maggi
+  // 1 piment
+  {
+    Ingredient: "Taro",
+    quantity: 2,
+    unit: "kg",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Tripes de boeuf",
+    quantity: 1,
+    unit: "kg",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Huile de palme",
+    quantity: 190,
+    unit: "g",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Sel gemme",
+    quantity: 16,
+    unit: "g",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Condiments pour sauce jaune",
+    quantity: 1,
+    unit: "sachet",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Eau tiède",
+    quantity: 1,
+    unit: "L",
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Sel",
+    quantity: null,
+    unit: null,
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Cubes Maggi",
+    quantity: 4,
+    unit: null,
+    Recipe: "Taro sauce jaune",
+  },
+  {
+    Ingredient: "Piment",
+    quantity: 1,
+    unit: null,
+    Recipe: "Taro sauce jaune",
+  }
 ]
 
 export default quantitiesFixture;
