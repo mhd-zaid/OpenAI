@@ -74,9 +74,11 @@ const Searchbar = () => {
             rounded={'lg'}
             w="full"
             minH={12}
+            maxH={'90vh'}
             bgColor="lightyellow"
             ref={ref}
             flexDir="column"
+            overflowY={'scroll'}
           >
             {isLoading && (
               <Flex alignItems="center" pos={'relative'} p={4}>

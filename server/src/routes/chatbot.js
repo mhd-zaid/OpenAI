@@ -8,6 +8,7 @@ export default function (router) {
     chatbotController(
       chatbotService.getOpenAICompletion.bind(chatbotService),
       chatbotService.getContext.bind(chatbotService),
+      chatbotService.addToContext.bind(chatbotService),
       chatbotService.resetContext.bind(chatbotService),
     );
 

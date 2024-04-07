@@ -6,18 +6,27 @@ import {
   MessageList,
   Message,
   MessageInput,
-  TypingIndicator,
 } from '@chatscope/chat-ui-kit-react';
 import { useEffect, useState } from 'react';
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const Chatbot = () => {
+  const [currentData, setCurrentData] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
-  const [isChatbotTyping, setIsChatbotTyping] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
 
   useEffect(() => {
     resetContext();
   }, []);
+
+  useEffect(() => {
+    if (currentData.length === 0) return;
+    setChatMessages(prevMessages => {
+      const lastMessage = prevMessages[prevMessages.length - 1];
+      lastMessage.message = currentData.join('');
+      return [...prevMessages];
+    });
+  }, [currentData]);
 
   const handleUserMessage = async userMessage => {
     const newUserMessage = {
@@ -27,28 +36,55 @@ const Chatbot = () => {
     };
 
     setChatMessages([...chatMessages, newUserMessage]);
-    setIsChatbotTyping(true);
     await processUserMessage(userMessage);
   };
 
   const processUserMessage = async userMessage => {
-    await fetch(import.meta.env.VITE_BACKEND_URL + '/chatbot', {
+    setCurrentData([]);
+    setChatMessages(prevMessages => [
+      ...prevMessages,
+      {
+        message: '',
+        sender: 'assistant',
+        direction: 'incoming',
+      },
+    ]);
+    await fetchEventSource(import.meta.env.VITE_BACKEND_URL + '/chatbot', {
       method: 'POST',
       body: JSON.stringify({ message: userMessage }),
       headers: {
+        Accept: 'text/event-stream',
         'Content-Type': 'application/json',
       },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setChatMessages(chatMessages => [
-          ...chatMessages,
-          { message: data.content, sender: 'assistant', direction: 'incoming' },
-        ]);
-      })
-      .finally(() => {
-        setIsChatbotTyping(false);
-      });
+      onopen: res => {
+        if (res.ok && res.status === 200) {
+          console.log('Connection made ', res);
+        } else if (
+          res.status >= 400 &&
+          res.status < 500 &&
+          res.status !== 429
+        ) {
+          console.log('Client-side error ', res);
+        }
+      },
+      onmessage: async event => {
+        if (!event.data) return;
+
+        try {
+          const parsedData = JSON.parse(event.data);
+          parsedData.content &&
+            setCurrentData(currentData => [...currentData, parsedData.content]);
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      onclose: () => {
+        console.log('Connection closed by the server');
+      },
+      onerror: async err => {
+        console.log('There was an error from server', err);
+      },
+    });
   };
 
   const getContext = async () => {
@@ -56,6 +92,7 @@ const Chatbot = () => {
       .then(res => res.json())
       .then(data => console.log(data));
   };
+
   const resetContext = async () => {
     await fetch(import.meta.env.VITE_BACKEND_URL + '/chatbot/reset', {
       method: 'POST',
@@ -67,7 +104,7 @@ const Chatbot = () => {
       <Button
         pos="fixed"
         right="3%"
-        bottom={70}
+        bottom="4%"
         w={14}
         h={14}
         rounded="full"
@@ -80,21 +117,15 @@ const Chatbot = () => {
       <Box
         pos="fixed"
         right="2%"
-        bottom={130}
+        bottom="14%"
         zIndex={10}
         w={{ sm: '75%', md: '50%', lg: '30%' }}
-        h="75%"
+        h="70%"
         hidden={!showChatbot}
       >
         <MainContainer>
           <ChatContainer>
-            <MessageList
-              typingIndicator={
-                isChatbotTyping ? (
-                  <TypingIndicator content="Le chef réflechit" />
-                ) : null
-              }
-            >
+            <MessageList>
               {chatMessages.map((message, i) => {
                 return <Message key={i} model={message} />;
               })}

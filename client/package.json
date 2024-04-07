@@ -18,6 +18,7 @@
     "@mui/material": "^5.15.14",
     "@uidotdev/usehooks": "^2.4.1",
     "chakra-react-select": "^4.7.6",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "dotenv": "^16.4.4",
     "framer-motion": "^6.5.1",
     "history": "^5.3.0",
