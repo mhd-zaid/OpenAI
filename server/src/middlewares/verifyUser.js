@@ -30,8 +30,6 @@ const verifyUser = async (req, res, next) => {
 
   req.body.UserId = user.dataValues.id;
 
-  console.log("user", userInfo)
-
   next();
 };
 

@@ -4,9 +4,13 @@ export const apiService = {
 
     getAll(instance, params){
         const headers = new Headers({ "Content-Type": "application/json" });
-        let url = params.includes("/") ? `${API_URL_BASE}/${instance}${params}`:  `${API_URL_BASE}/${instance}?${params}`;
+        let url = `${API_URL_BASE}/${instance}`;
+        if (params) {
+            url += params.includes("/") ? params : `?${params}`;
+            // url = params.includes("/") ? `${API_URL_BASE}/${instance}${params}`:  `${API_URL_BASE}/${instance}?${params}`;
+        }
         return fetch(url, { method: "GET", headers })
-            .then((response) => response.json());
+          .then((response) => response.json());
     },
 
     getUserInfo(instance, id){
@@ -16,7 +20,7 @@ export const apiService = {
             headers.append("Authorization", `Bearer ${token}`);
         }
         return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "GET", headers, credentials: 'include'  })
-            .then((response) => response.json());
+          .then((response) => response.json());
     },
 
     create(instance, data){
@@ -26,18 +30,39 @@ export const apiService = {
             headers.append("Authorization", `Bearer ${token}`);
         }
         return fetch(`${API_URL_BASE}/${instance}`, { method: "POST", headers, body: JSON.stringify(data), credentials: 'include' })
-            .then((response) => response.json());
+          .then((response) => response.json());
     },
 
     update(instance, id, data){
         const headers = new Headers({ "Content-Type": "application/json" });
-        return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "PUT", headers, body: JSON.stringify(data) })
-            .then((response) => response.json());
+        const token = localStorage.getItem("token");
+        if (token) {
+            headers.append("Authorization", `Bearer ${token}`);
+        }
+        return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "PUT", headers, body: JSON.stringify(data), credentials: 'include' })
+          .then((response) => response.json());
     },
+
+    patch(instance, id, data){
+        const headers = new Headers({ "Content-Type": "application/json" });
+        const token = localStorage.getItem("token");
+        if (token) {
+            headers.append("Authorization", `Bearer ${token}`);
+        }
+        return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "PATCH", headers, body: JSON.stringify(data), credentials: 'include' })
+          .then((response) => response.json());
+    },
+
 
     deleteById(instance, id){
         const headers = new Headers({ "Content-Type": "application/json" });
         return fetch(`${API_URL_BASE}/${instance}/${id}`, { method: "DELETE", headers })
-            .then((response) => response.json());
+          .then((response) => {
+              if (response.status === 204 || response.status === 200) {
+                  return { success: true };
+              } else {
+                  return response.json();
+              }
+          });
     }
 }

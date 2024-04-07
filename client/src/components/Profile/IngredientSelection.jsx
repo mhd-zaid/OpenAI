@@ -1,39 +1,54 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import Button from "@/lib/components/Button.jsx";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex, Stack,
+  VStack
+} from "@chakra-ui/react";
+import {
+  AsyncCreatableSelect,
+  AsyncSelect,
+  CreatableSelect,
+  Select,
+} from "chakra-react-select";
 
-const IngredientsSelection = ({ ingredients }) => {
+const IngredientsSelection = ({ preferences, ingredients }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  // Fonction pour gérer la sélection d'un ingrédient
-  const handleIngredientToggle = (ingredientId) => {
-    setSelectedIngredients((prevSelected) => {
-      // Vérifie si l'ingrédient est déjà sélectionné
-      const isAlreadySelected = prevSelected.some((item) => item.IngredientId === ingredientId);
+  useEffect(() => {
+    setSelectedIngredients(preferences.map(preference => preference.Ingredient));
+  }, []);
 
-      // Si l'ingrédient est déjà sélectionné, le retire de la liste
-      if (isAlreadySelected) {
-        return prevSelected.filter((item) => item.IngredientId !== ingredientId);
-      } else {
-        // Sinon, l'ajoute à la liste avec des valeurs par défaut
-        return [...prevSelected, { IngredientId: ingredientId, isLiked: true, isAllergic: false }];
-      }
-    });
-  };
+  const handleSelectChange = (selectedOptions) => {
+    setSelectedIngredients(selectedOptions);
+    console.log(selectedOptions);
+  }
+
+  const handleSave = (selectedOptions) => {
+    console.log(selectedOptions);
+  }
+
+  const handleCancel = () => {
+    setSelectedIngredients(preferences.map(preference => {
+      preference.Ingredient.id;
+      preference.Ingredient.name
+    }));
+  }
 
   return (
-    <div>
-      {ingredients.map((ingredient) => (
-        <div key={ingredient.id} className="flex items-center mb-2">
-          {/* Checkbox pour la sélection de l'ingrédient */}
-          <input
-            type="checkbox"
-            checked={selectedIngredients.some((item) => item.IngredientId === ingredient.id)}
-            onChange={() => handleIngredientToggle(ingredient.id)}
-            className="form-checkbox h-5 w-5 text-blue-600"
-          />
-          {/* Nom de l'ingrédient */}
-          <span className="ml-2">{ingredient.name}</span>
-        </div>
-      ))}
+    <div className={"grid gap-8"}>
+      <ul className={"col-span-1"}>
+        {preferences.map((preference) => (
+          <li key={preference.id} className="flex items-center mb-2">
+            <span className="ml-2">{preference.Ingredient.name}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

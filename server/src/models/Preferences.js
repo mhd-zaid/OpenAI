@@ -12,8 +12,8 @@ export default function (connection) {
   Preferences.init(
     {
         id: { type: DataTypes.UUID, primaryKey: true },
-        isLiked: { type: DataTypes.BOOLEAN, allowNull: false },
-        isAllergic: { type: DataTypes.BOOLEAN, allowNull: false },
+        isLiked: { type: DataTypes.BOOLEAN, allowNull: true },
+        isAllergic: { type: DataTypes.BOOLEAN, allowNull: true },
     },
     {
       sequelize: connection,

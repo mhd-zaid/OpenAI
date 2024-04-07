@@ -3,11 +3,12 @@ import connection from '../config/sequelize.js';
 import ingredientFixture from './ingredient.js';
 import recipeFixture from './recipe.js';
 import quantityFixture from './quantity.js';
-import db from '../models/index.js';
-import usersFixture from './user.js';
 import commentsFixture from './comment.js';
+import db from '../models/index.js';
 import _ from 'lodash';
+import { faker } from '@faker-js/faker';
 import {uuidv4} from "uuidv7";
+import usersFixture from "./user.js";
 
 const loadIngredients = async () => {
   const model = (await import('../models/Ingredient.js')).default(connection);
@@ -39,6 +40,21 @@ const loadUsers = async () => {
     await Promise.all(
       usersFixture.map(user => model.create(user)),
     );
+    const nbUsers = 13;
+    for (let i = 0; i < nbUsers; i++) {
+      const userName = faker.internet.userName();
+      await model.create({
+        id: uuidv4(),
+        userName: userName,
+        email: `${userName}@mail.fr`,
+        password: 'MotDePasse123!',
+        role: 'user',
+        isVerified: true,
+        loginAttempts: 0,
+        token: 'exampleToken13',
+        isActive: true,
+      });
+    }
     console.log('Users loaded');
   } catch (err) {
     console.error(err);
@@ -140,7 +156,7 @@ const loadPrefences = async () => {
       for (let i = 0; i < nbAllergies; i++) {
         await model.create({
           id: uuidv4(),
-          isLiked: _.sample([true, false]),
+          isLiked: _.sample([true, false, null]),
           isAllergic: _.sample([true, false]),
           UserId: user.id,
           IngredientId: randomIngredients[i].id,
@@ -153,15 +169,39 @@ const loadPrefences = async () => {
   }
 };
 
+const loadFavorites = async () => {
+  const model = db.Favorite;
+  const recipes = await db.Recipe.findAll();
+  const users = await db.User.findAll();
+  try {
+    for (const user of users) {
+      const nbFavorites = _.random(0, 10);
+      const randomRecipes = _.sampleSize(recipes, nbFavorites);
+      for (let i = 0; i < nbFavorites; i++) {
+        await model.create({
+          id: uuidv4(),
+          UserId: user.id,
+          RecipeId: randomRecipes[i].id,
+        });
+      }
+    }
+    console.log('Favorites loaded');
+  } catch (err) {
+    console.error(err);
+  }
+
+}
+
 const main = async () => {
   try {
-    // await loadIngredients();
-    // await loadRecipes();
-    // await loadQuantity();
-    // await loadUsers();
-    // await loadComments();
-    // await updateRecipeRate()
+    await loadIngredients();
+    await loadRecipes();
+    await loadQuantity();
+    await loadUsers();
+    await loadComments();
+    await updateRecipeRate()
     await loadPrefences();
+    await loadFavorites();
   } catch (error) {
     console.error(error);
   } finally {

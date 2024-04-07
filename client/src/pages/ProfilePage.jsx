@@ -2,69 +2,84 @@ import useToken from '@/utils/useToken.js';
 import React, { useEffect, useState } from 'react';
 import { apiService } from '@/services/apiService.js';
 import {
-    Avatar, Box,
-    Button,
-    Card, CardBody, CardFooter,
-    CardHeader,
-    Container,
+    Text,
+    Card, CardFooter,
     Flex,
-    Heading, Img,
-    SimpleGrid,
+    Heading, Img, Radio, RadioGroup, SimpleGrid,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
-    Tabs, Text
-} from "@chakra-ui/react";
-import CommentComponent from "@/components/Recipe/CommentComponent.jsx";
-import Pagination from "@/components/Pagination.jsx";
-import {Link} from "react-router-dom";
-import {Rating, ThemeProvider} from "@mui/material";
-import ratingTheme from "@/theme/ratingTheme.js";
+    Tabs, WrapItem,
+} from '@chakra-ui/react';
 import IngredientsSelection from "@/components/Profile/IngredientSelection.jsx";
+import {Icon} from "@iconify/react";
+import {Select} from "chakra-react-select";
+import Button from "@/lib/components/Button.jsx";
+import { uuidv7 } from 'uuidv7';
+import Pagination from '@/components/Pagination.jsx';
+import { Link } from 'react-router-dom';
+import { Rating, ThemeProvider } from '@mui/material';
+import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
+import ratingTheme from '@/theme/ratingTheme.js';
 
 const ProfilePage = () => {
     const { token } = useToken();
     const [user, setUser] = useState(null);
-    const [comments, setComments] = useState([]);
+
     const [favorites, setFavorites] = useState([]);
-    const [preferences, setPreferences] = useState([]);
-    const [ nbComments, setNbComments ] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [nbComments, setNbComments] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const [favoriteIngredients, setFavoriteIngredients] = useState(["Tomate", "Pomme de terre", "Oignon"]);
-    const [dislikedIngredients, setDislikedIngredients] = useState(["Chou-fleur", "Brocoli", "Chou de Bruxelles"]);
-    const [allergicIngredients, setAllergicIngredients] = useState(["Cacahuète", "Noix", "Crustacés"]);
-    const ingredientsList = ["Tomate", "Pomme de terre", "Oignon", "Chou-fleur", "Brocoli", "Chou de Bruxelles", "Cacahuète", "Noix", "Crustacés",
-        "Lait", "Oeuf", "Blé", "Soja", "Arachide", "Fruits à coque", "Moutarde", "Sésame", "Sulfites", "Lupin", "Mollusques",
-        "Poisson", "Céleri", "Gluten", "Lait de vache", "Noisette", "Pistache", "Amande", "Noix de cajou", "Noix de pécan", "Noix du Brésil"];
+    const [ingredients, setIngredients] = useState([]);
+    const [preferences, setPreferences] = useState([]);
+    const [favoriteIngredients, setFavoriteIngredients] = useState([]);
+    const [dislikedIngredients, setDislikedIngredients] = useState([]);
+    const [allergicIngredients, setAllergicIngredients] = useState([]);
+    const [editingSection, setEditingSection] = useState(null);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+    const fetchUserData = async () => {
+        try {
+            const getUser = await apiService.getUserInfo('users', 'profile');
+            if (getUser.data && getUser.data[0]) setUser(getUser.data[0]);
+
+            const getComments = await apiService.getUserInfo('users', '/comments');
+            if (getComments.data) {
+                setNbComments(getComments.data.length);
+                setComments(getComments.data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
+            }
+
+            const getFavorites = await apiService.getUserInfo('users', '/favorites');
+            if (getFavorites.data) setFavorites(getFavorites.data);
+
+            const getPreferences = await apiService.getUserInfo('users', '/preferences');
+            if (getPreferences.data) setPreferences(getPreferences.data);
+
+            const getIngredients = await apiService.getAll('ingredients');
+            if (getIngredients.data) setIngredients(getIngredients.data);
+
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données de l'utilisateur:", error);
+        }
+    };
+
+    const fetchUserPreferences = async () => {
+        const getPreferences = await apiService.getUserInfo('users', '/preferences');
+        if (getPreferences.data) setPreferences(getPreferences.data);
+    }
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const getUser = await apiService.getUserInfo('users', `profile`);
-                if (getUser.data && getUser.data[0]) setUser(getUser.data[0]);
-
-                const getComments = await apiService.getUserInfo('users', `/comments`);
-                if (getComments.data) {
-                    setNbComments(getComments.data.length);
-                    setComments(getComments?.data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
-                }
-
-                const getFavorites = await apiService.getUserInfo('users', `favorites`);
-                if (getFavorites.data) setFavorites(getFavorites?.data);
-
-                const getPreferences = await apiService.getUserInfo('users', `preferences`);
-                if (getPreferences.data) setPreferences(getPreferences?.data);
-
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données de l'utilisateur:", error);
-            }
-        };
-
         fetchUserData();
     }, []);
+
+    useEffect(() => {
+        setFavoriteIngredients(preferences.filter(pref => pref.isLiked === true));
+        setDislikedIngredients(preferences.filter(pref => pref.isLiked === false));
+        setAllergicIngredients(preferences.filter(pref => pref.isAllergic === true));
+    }, [preferences]);
 
     useEffect(() => {
         const fetchUserComments = async () => {
@@ -74,17 +89,146 @@ const ProfilePage = () => {
                 setComments(getComments?.data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
             }
         }
-
         fetchUserComments();
     }, [currentPage]);
 
+    const handleSelectChange = (selectedOptions) => {
+        setSelectedIngredients(selectedOptions);
+    }
+
+    const handleDeletePreference = async (preferenceId) => {
+        try {
+            const response = await apiService.delete('preferences', preferenceId);
+            if (response.success) {
+                setPreferences(prevPreferences => prevPreferences.filter(preference => preference.id !== preferenceId));
+            } else {
+                console.error("Erreur lors de la suppression de la préférence:", response.errors);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la préférence:", error);
+        }
+    }
+
+    const handleCancel = () => {
+        setEditingSection(null);
+        setSelectedIngredients([]);
+    }
+
+    const handleSelectList = (section) => {
+        setEditingSection(section);
+        let selectedOptions = [];
+        if(section === "like") {
+            selectedOptions = preferences.filter(pref => pref.isLiked === true).map(pref => pref.Ingredient);
+            setSelectedIngredients(selectedOptions);
+        } else if(section === "dislike") {
+            selectedOptions = preferences.filter(pref => pref.isLiked === false).map(pref => pref.Ingredient);
+            setSelectedIngredients(selectedOptions);
+        } else if(section === "allergic") {
+            selectedOptions = preferences.filter(pref => pref.isAllergic === true).map(pref => pref.Ingredient);
+            setSelectedIngredients(selectedOptions);
+        }
+    }
+
+    const handleSave = async () => {
+        const newPreferences = selectedIngredients.map(ingredient => {
+            const existingPreference = preferences.find(pref => pref.Ingredient.id === ingredient.id);
+            if (editingSection === "like" || editingSection === "dislike") {
+                return {
+                    id: existingPreference ? existingPreference.id : uuidv7(),
+                    IngredientId: ingredient.id,
+                    isLiked: editingSection === "like",
+                    isAllergic: existingPreference ? existingPreference.isAllergic : null,
+                }
+            } else if (editingSection === "allergic") {
+                return {
+                    id: existingPreference ? existingPreference.id : uuidv7(),
+                    IngredientId: ingredient.id,
+                    isAllergic: true,
+                    isLiked: existingPreference ? existingPreference.isLiked : null,
+                }
+            }
+        });
+
+        let oldPreferences = [];
+        if (editingSection === "like") oldPreferences = preferences.filter(pref => pref.isLiked === true);
+        else if (editingSection === "dislike") oldPreferences = preferences.filter(pref => pref.isLiked === false);
+        else if (editingSection === "allergic") oldPreferences = preferences.filter(pref => pref.isAllergic === true);
+
+        //verifie si des preferences ont été supprimées
+        const deletedPreferences = oldPreferences.filter(pref => !selectedIngredients.some(ingredient => ingredient.id === pref.Ingredient.id)).map(pref => {
+            return {
+                id: pref.id,
+                IngredientId: pref.Ingredient.id,
+                isLiked: editingSection === "like" || editingSection === "dislike" ? null : pref.isLiked,
+                isAllergic: editingSection === "allergic" ? null : pref.isAllergic
+            }
+        })
+        if(deletedPreferences.length > 0) console.log("DELETED PREFERENCES : ", deletedPreferences);
+
+
+        try {
+            let response = null;
+            for (const preference of deletedPreferences) {
+                console.log("preference courante : ", preference)
+                console.log("preference allergique : ", preference.isAllergic !==  true)
+                console.log("preference aimée : ", preference.isLiked !== true)
+                console.log("preference aucune : ", preference.isAllergic !==  true && preference.isLiked !== true)
+                if(preference.isAllergic === null && preference.isLiked === null){
+                    console.log("Suppression de la preference : ", preference.id);
+                    response = await apiService.deleteById('preferences', preference.id);
+                    if (!response.success) console.error("Erreur lors de la suppression des préférences:", response.errors);
+                    else setPreferences(prevPreferences => prevPreferences.filter(pref => !deletedPreferences.some(deletedPref => deletedPref.id === pref.id)));
+                } else{
+                    console.log("Suppression de la preference dans une categorie : ", preference.id);
+                    newPreferences.push(preference);
+                }
+            }
+        } catch (error) {
+            console.error("Erreur lors de la suppression des préférences:", error);
+        }
+
+        try {
+            let response = null;
+            for (const preference of newPreferences) {
+                const existingPreference = preferences.find(pref => pref.Ingredient.id === preference.IngredientId);
+                if (existingPreference && existingPreference !== preference) {
+                    response = await apiService.update('preferences', existingPreference.id, preference);
+                    console.log("Mise a jour de la preference : ", existingPreference.id, preference, response);
+                } else {
+                    response = await apiService.create('preferences', preference);
+                    console.log("Creation de la preference : ", preference, response);
+                }
+                if (!response.success) console.error("Erreur lors de la sauvegarde des préférences:", response.errors);
+            }
+            if (response.success) {
+                setPreferences(prevPreferences => {
+                    return prevPreferences.map(pref => {
+                        const newPref = newPreferences.find(newPref => newPref.IngredientId === pref.IngredientId);
+                        if (newPref) {
+                            return {
+                                ...pref,
+                                isLiked: newPref.isLiked,
+                                isAllergic: newPref.isAllergic
+                            }
+                        } else {
+                            return pref;
+                        }
+                    });
+                });
+                setEditingSection(null);
+                fetchUserPreferences();
+            }
+        } catch (error) {
+            console.error("Erreur lors de la sauvegarde des préférences:", error);
+        }
+    }
+
     return (
-      <>
+      <WrapItem flexDirection={"column"}>
           <Flex>
               <Heading as="h1" size="xl">Profil de {user?.username}</Heading>
-
           </Flex>
-          <Tabs width={1000}>
+          <Tabs>
               <TabList>
                   <Tab>Mes recettes favorites</Tab>
                   <Tab>Mes commentaires</Tab>
@@ -95,13 +239,13 @@ const ProfilePage = () => {
                   <TabPanel>
                       <SimpleGrid columns={3} spacing={5}>
                           {favorites.map((favorite) => (
-                            <Link to={`/recettes/${favorite.Recipe.url}`}>
-                                <Card data-type='Card'>
+                            <Link key={favorite.id} to={`/recettes/${favorite.Recipe.url}`}>
+                                <Card data-type='Card' h={"full"}>
                                     <Img data-type='Image' objectFit='cover' src={`/img/recipe/${favorite.Recipe.image}`} />
                                     <CardFooter data-type='CardFooter' justify='space-between' flexWrap='wrap'>
-                                        <Flex direction={"column"} w={"full"} bgColor={"white"}>
+                                        <Flex direction={"column"} w={"full"} justifyContent={"space-between"} bgColor={"white"}>
                                             <Text fontFamily={"sans-serif"} fontWeight={700}>{favorite.Recipe.title}</Text>
-                                            <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
+                                            <Flex justifyContent={"space-between"} w={"full"}>
                                                 <ThemeProvider theme={ratingTheme}>
                                                     <Rating name="half-rating" value={favorite.Recipe.average_rating} precision={0.5} readOnly={true}/>
                                                 </ThemeProvider>
@@ -145,30 +289,77 @@ const ProfilePage = () => {
                                   </p>
                               </div>
                               <div className="mt-12">
-                                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                                      {/* Section des ingrédients préférés */}
-                                      <div className="mb-6">
-                                          <h2 className="text-lg font-semibold mb-2">Ingrédients préférés</h2>
-                                          <IngredientsSelection
-                                            ingredients={favoriteIngredients}
-                                          />
-                                      </div>
+                                  <div className="grid grid-cols-3 gap-8">
 
-                                      {/* Section des ingrédients non appréciés */}
-                                      <div className="mb-6">
-                                          <h2 className="text-lg font-semibold mb-2">Ingrédients non appréciés</h2>
-                                          <IngredientsSelection
-                                            ingredients={dislikedIngredients}
-                                          />
-                                      </div>
+                                      {(editingSection === 'like' || editingSection === null) && (
+                                        <div className="mb-6">
+                                            <>
+                                                <Flex alignItems={"center"} gap={2}>
+                                                    <h2 className="text-lg font-semibold">J'aime</h2>
+                                                    {editingSection === null && (
+                                                      <Icon icon="material-symbols:edit-square-outline-rounded"
+                                                            className={"cursor-pointer"}
+                                                            onClick={() => handleSelectList('like')}/>)}
+                                                </Flex>
+                                                <IngredientsSelection preferences={favoriteIngredients}
+                                                                      ingredients={ingredients}/>
+                                            </>
+                                        </div>
+                                      )}
 
-                                      {/* Section des ingrédients allergiques */}
-                                      <div>
-                                          <h2 className="text-lg font-semibold mb-2">Ingrédients allergiques</h2>
-                                          <IngredientsSelection
-                                            ingredients={allergicIngredients}
-                                          />
-                                      </div>
+                                      {(editingSection === 'dislike' || editingSection === null) && (
+                                        <div className="mb-6">
+                                            <>
+                                                <Flex alignItems={"center"} gap={2}>
+                                                    <h2 className="text-lg font-semibold">Je n'aime pas</h2>
+                                                    {editingSection === null && (
+                                                      <Icon icon="material-symbols:edit-square-outline-rounded"
+                                                            className={"cursor-pointer"}
+                                                            onClick={() => handleSelectList('dislike')}/>)}
+                                                </Flex>
+                                                <IngredientsSelection preferences={dislikedIngredients}
+                                                                      ingredients={ingredients}/>
+                                            </>
+                                        </div>
+                                      )}
+
+                                      {(editingSection === 'allergic' || editingSection === null) && (
+                                        <div className="mb-6">
+                                            <>
+                                                <Flex alignItems={"center"} gap={2}>
+                                                    <h2 className="text-lg font-semibold">Je suis allergique à ...</h2>
+                                                    {editingSection === null && (
+                                                      <Icon icon="material-symbols:edit-square-outline-rounded"
+                                                            className={"cursor-pointer"}
+                                                            onClick={() => handleSelectList("allergic")}/>)}
+                                                </Flex>
+                                                <IngredientsSelection preferences={allergicIngredients}
+                                                                      ingredients={ingredients}/>
+                                            </>
+                                        </div>
+                                      )}
+                                      {selectedIngredients && editingSection != null && (
+                                        <>
+                                            <div className={"col-span-2"}>
+                                                <Select
+                                                  isMulti
+                                                  variant="flushed"
+                                                  colorScheme="orange"
+                                                  menuPlacement={"auto"}
+                                                  selectedOptionStyle="check"
+                                                  placeholder={"Sélectionnez les ingrédients..."}
+                                                  hideSelectedOptions={false}
+                                                  onChange={handleSelectChange}
+                                                  value={selectedIngredients}
+                                                  getOptionLabel={(option) => option.name}
+                                                  getOptionValue={(option) => option.id}
+                                                  options={ingredients} />
+                                            </div>
+                                            <Button onClick={handleSave}> Sauvegarder </Button>
+                                            <Button onClick={handleCancel}> Annuler </Button>
+                                        </>
+                                      )}
+
                                   </div>
                               </div>
                           </div>
@@ -176,9 +367,8 @@ const ProfilePage = () => {
                   </TabPanel>
               </TabPanels>
           </Tabs>
-      </>
-    )
-      ;
+      </WrapItem>
+    );
 };
 
 export default ProfilePage;

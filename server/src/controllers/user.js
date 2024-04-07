@@ -91,6 +91,7 @@ const getPreferences = async (req, res) => {
         where: {
             UserId: id
         },
+        attributes: ['id', 'isLiked', 'isAllergic'],
         include: [
             {
                 model: db.Ingredient,
