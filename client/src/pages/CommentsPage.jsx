@@ -5,53 +5,61 @@ import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
 import { Rating, ThemeProvider, Typography } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
 import Pagination from '@/components/Pagination.jsx';
+import CommentForm from "@/components/Recipe/CommentForm.jsx";
+import { Img } from '@chakra-ui/react';
 
 const CommentsPage = () => {
   const { recipeUrl } = useParams();
   const [ comments, setComments ] = useState([]);
   const [ recipe, setRecipe ] = useState(null);
+  const [ recipeAverageRating, setRecipeAverageRating ] = useState(0);
   const [ nbComments, setNbComments ] = useState(0);
   const [ currentPage, setCurrentPage ] = useState(1);
-  const [ itemsPerPage, setItemsPerPage ] = useState(5);
+  const itemsPerPage = 4;
 
   const fetchComments = async (recipeUrl) => {
     try {
-      const getRecipe = await apiService.getAll('recipes', `url=${recipeUrl}`);
-      const recipe = getRecipe.data[0];
+      const getRecipe = await apiService.getUserInfo('recipes', `${recipeUrl}`);
+      const recipe = getRecipe.data;
 
-      const res = await apiService.getAll('comments', `RecipeId=${recipe.id}&limit=${itemsPerPage}&page=${currentPage}`);
-      setComments(res.data);
+      setComments(recipe.Comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
       setRecipe(recipe);
-      setNbComments(res.headers['X-Total-Count']);
+      setRecipeAverageRating(recipe.average_rating)
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchComments(recipeUrl);
+      fetchComments(recipeUrl);
   }, [currentPage]);
 
 
   return (
-    <div className={"w-3/4"}>
+    <div className={""}>
       <div>
         <h1 className={"font-medium text-4xl mb-4 text-yellow-400"}>{nbComments} avis sur cette recette</h1>
-        <div className={"row gap-4"}>
-          <img src="https://placehold.co/70x70" alt="" className={"rounded"}/>
+        <div className={"flex flex-col-reverse md:flex-row gap-4"}>
           <div>
-            {/*<p className={"font-medium text-2xl"}>{recipe?.title}</p>*/}
-            <Link to={`/recettes/${recipe?.url}`} className={"font-medium text-2xl underline"}>{recipe?.title}</Link>
+          <Img src={`/img/recipe/${recipe?.image}`} w={250} h={150} alt="" className={"rounded"}/>
+          </div>
+          <div className={"col"}>
+            <Link to={`/recettes/${recipe?.url}`} className={"font-bold text-2xl"}>{recipe?.title}</Link>
             <div className={"w-full row items-center gap-4"}>
               <ThemeProvider theme={ratingTheme}>
-                <Typography variant="h6" component="legend">Note moyenne {recipe?.average_rating}/5</Typography>
-                <Rating name="half-rating" value={recipe?.average_rating} precision={0.5} readOnly={true} />
+                <Typography variant="overline" component="legend">Cette recette a reçu {Math.round(recipeAverageRating * 10) / 10}/5</Typography>
+                <Rating name="half-rating" value={recipeAverageRating} precision={0.5} readOnly={true} />
               </ThemeProvider>
             </div>
           </div>
         </div>
       </div>
-      <CommentComponent comments={comments} recipeUrl={recipeUrl} />
+      <div className={"my-4"}>
+        <CommentForm recipeId={recipe?.id} />
+      </div>
+      <div className={"my-4"}>
+        <CommentComponent comments={comments} recipeUrl={recipeUrl} />
+      </div>
       <div className={"w-full row justify-end"}>
         <Pagination
           totalPages={Math.ceil(nbComments / itemsPerPage)}

@@ -21,7 +21,6 @@ async function registerUser(credentials) {
 const registerValidationSchema = z.object({
     email: z.string().email({ message: 'Email non valide' }),
     userName: z.string().min(1, { message: 'Le nom d\'utilisateur est requis' }),
-    dateOfBirth: z.string().min(1, { message: 'La date de naissance est requise' }),
     password: z.string().min(8, { message: 'Le mot de passe doit comporter au moins 8 caractères' }),
     confirmPassword: z.string().min(8, { message: 'La confirmation du mot de passe doit comporter au moins 8 caractères' }),
 });
@@ -32,7 +31,6 @@ const RegisterComponent = () => {
         password: "",
         confirmPassword: "",
         userName: "",
-        dateOfBirth: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -111,19 +109,6 @@ const RegisterComponent = () => {
                             className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
                         />
                         {errors.userName ? <p className="error">{errors.userName}</p> : null}
-                    </div>
-                    <div className="mb-4">
-                        <label className="block mb-1" htmlFor="dateOfBirth">
-                            Date de naissance
-                        </label>
-                        <input
-                            type="date"
-                            name="dateOfBirth"
-                            value={formData.dateOfBirth}
-                            onChange={handleChange}
-                            className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-                        />
-                        {errors.dateOfBirth ? <p className="error">{errors.dateOfBirth}</p> : null}
                     </div>
                     <div className="mb-4">
                         <label className="block mb-1" htmlFor="password">

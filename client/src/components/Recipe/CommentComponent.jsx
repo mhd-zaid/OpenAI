@@ -1,53 +1,89 @@
 import moment from 'moment/moment.js';
-import { Rating, ThemeProvider } from '@mui/material';
+import {Rating, ThemeProvider, Typography} from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import ratingTheme from '@/theme/ratingTheme.js';
+import {
+    Box,
+    Card,
+    CardBody, CardFooter,
+    CardHeader,
+    Circle,
+    Container,
+    Flex,
+    Grid,
+    GridItem, Img,
+    SimpleGrid,
+    Text
+} from "@chakra-ui/react";
+import Button from "@/lib/components/Button.jsx";
+import {Icon} from "@iconify/react";
 
 const CommentComponent = ({ comments, recipeUrl, limit }) => {
-  const displayedComments = limit ? comments?.slice(0, limit) : comments;
-  const url = window.location.href.split("/");
+    const displayedComments = limit ? comments?.slice(0, limit) : comments;
+    const url = window.location.href.split("/");
+    const isProfile = url[url.length - 1] === "profile";
 
-  const renderHeader = () => {
-    if (url[url.length - 2] === "comments") {
-      return (
-        <h2 className={'items-center flex mb-4'}>
-          <span className={'font-medium text-2xl'}>Vos Commentaires •</span> {displayedComments?.length}
-        </h2>
-      );
-    }
-  }
+    return (
 
-  return (
-    <div>
-      {renderHeader()}
+      <div>
+          <SimpleGrid columns={[1, null, 2, 3]}  spacingY={4}>
+              {displayedComments?.map((comment) => (
+                isProfile ? (
+                  <Container key={comment.id}>
+                      <Card shadow={"md"} h={"full"}>
+                          <CardHeader>
+                              <Flex gap={4} direction={{ base: 'column', xl: 'row' }}>
+                                  <Img src={`/img/recipe/${comment.Recipe.image}`}
+                                       alt={recipeUrl} width={135} height={75} className={"rounded"}/>
+                                  <Text fontFamily={"sans-serif"} fontWeight={700}>{comment.Recipe.title}</Text>
+                              </Flex>
+                          </CardHeader>
+                          <CardBody gap={4}>
+                              <Text>{comment.comment}</Text>
+                          </CardBody>
+                          <CardFooter>
+                              <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
+                                  <ThemeProvider theme={ratingTheme}>
+                                      <Rating name="half-rating" value={comment.Recipe.average_rating} precision={0.5} readOnly={true}/>
+                                  </ThemeProvider>
+                                  <Text fontSize={"smaller"} color={"gray.400"}>31/03/2024</Text>
+                              </Flex>
+                          </CardFooter>
+                      </Card>
+                  </Container>
+                ) : (
+                  <Container key={comment.id}>
+                      <Card shadow={"md"} h={"full"}>
+                          <CardHeader>
+                              <Flex gap={4}>
+                                  <Text fontFamily={"sans-serif"} fontWeight={700}>{comment.User.userName}</Text>
+                              </Flex>
+                          </CardHeader>
+                          <CardBody gap={4}>
+                              <Text>{comment.comment}</Text>
+                          </CardBody>
+                          <CardFooter>
+                              <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
+                                  <ThemeProvider theme={ratingTheme}>
+                                      <Rating name="half-rating" value={comment.rating} precision={0.5} readOnly={true}/>
+                                  </ThemeProvider>
+                                  <Text fontSize={"smaller"} color={"gray.400"}>{moment(comment.createdAt).format('DD/MM/YYYY')}</Text>
+                              </Flex>
+                          </CardFooter>
+                      </Card>
+                  </Container>
+                )
+              ))}
+          </SimpleGrid>
 
-      {displayedComments?.map((comment, index) => (
-        <div key={index} className="border rounded-md p-3 my-3 bg-gray-50 w-full">
-          <div className="flex gap-3 items-center">
-            <div
-              className={`p-2 h-10 w-10 border border-yellow-500 rounded-full flex justify-center font-medium`}>
-              {comment.comment[0]}
+          {limit && comments?.length > limit && (
+            <div className={"w-full text-center my-4"}>
+                <Link to={`/recettes/${recipeUrl}/comments`}
+                      className={"text-yellow-400 font-medium underline text-center"}>Lire plus</Link>
             </div>
-            <div className={"flex justify-between w-full"}>
-              <span>{moment(comment.createdAt).format('DD/MM/YYYY')}</span>
-              <ThemeProvider theme={ratingTheme}>
-                <Rating name="half-rating" value={comment.rating} precision={0.5} readOnly={true} />
-              </ThemeProvider>
-            </div>
-          </div>
-          <p className="text-gray-600 mt-2">
-            {comment.comment}
-          </p>
-        </div>
-      ))}
-
-      {limit && comments?.length > limit && (
-        <div className={"w-full text-center"}>
-          <Link to={`/recettes/${recipeUrl}/comments`} className={"text-yellow-400 font-medium underline text-center"}>Lire plus</Link>
-        </div>
-      )}
-    </div>
-  );
+          )}
+      </div>
+    );
 };
 
 export default CommentComponent;

@@ -5,7 +5,7 @@ const recommendationPrompt = "Ce qui suit est une demande pour fournir des recet
 La recette est similaire si le titre de la recette contient le même mot. Elle est aussi similaire si la recette contient le même ingrédient.\
 La réponse doit contenir une liste d'objets JSON représentant les recettes similaires disponibles dans la base de données.\
 Si des recettes similaires sont disponibles pour la recette spécifiée, elles doivent être incluses dans la réponse;\
-La réponse doit respecter ce format la sans préfixe ni suffixe uniquement comme ceci: [{id: 15215, average_rating: 20.5, nb_rating: 104, title:'pates', url: 'pate-5555'}];\
+La réponse doit respecter ce format la sans préfixe ni suffixe uniquement comme ceci: [{id: 15215, average_rating: 20.5, nb_rating: 104, title:'pates', url: 'pate-5555', image: `pate.jpeg`}];\
 sinon, la réponse doit être un objet JSON vide. Les recettes disponibles dans la base de données sont les suivantes : ";
 
 class RecommendationService {
@@ -23,9 +23,10 @@ class RecommendationService {
         id: recipe.id,
         title: recipe.title,
         url: recipe.url,
-        ingredients,
         average_rating: recipe.average_rating,
-        nb_rating: recipe.nb_rating
+        nb_rating: recipe.nb_rating,
+        image: recipe.image,
+        ingredients: ingredients
       };
     }));
   }

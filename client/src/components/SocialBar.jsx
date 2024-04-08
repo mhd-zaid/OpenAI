@@ -29,6 +29,12 @@ const SocialShare = () => {
           <Icon icon="logos:instagram-icon" fontSize={30} />
         </a>
       </div>
+      <div className="cursor-pointer">
+        <a href={"mailto:?subject=Regarde cette recette&body=" + window.location.href}>
+          <Icon icon="arcticons:mail"  fontSize={30}  style={{color: "black"}} />
+        </a>
+      </div>
+
     </div>
   );
 };

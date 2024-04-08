@@ -66,8 +66,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               />
               <Route path="verify" element={<EmailVerifiedPage />} />
             </Route>
-          </Route>
           <Route path="*" element={<NotFoundPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

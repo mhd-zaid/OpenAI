@@ -50,7 +50,7 @@ class GenericService {
     try {
       const id = uuidv7();
       const model = await this.Model.create({ id, ...req.body });
-      return res.status(201).json(new ApiResponse(true, model));
+      return res.status(201).send(new ApiResponse(true, model));
     } catch (error) {
       next(error);
     }

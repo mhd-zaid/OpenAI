@@ -6,6 +6,7 @@ import Footer from './components/footer';
 import Chatbot from './components/chatbot';
 import '@/App.css';
 import { AuthProvider } from '@/Context/AuthContext.jsx';
+import {Container, Wrap} from "@chakra-ui/react";
 
 
 const menus = [
@@ -41,9 +42,9 @@ const App = () => {
     <AuthProvider>
       <div className="min-h-screen flex flex-col justify-between">
         <Header menus={menus} />
-        <main className="flex-grow card max-w-screen-xl self-center my-10 md:my-20 pt-20">
+        <div className="flex-grow card max-w-screen-xl self-center my-10 md:my-20 pt-20">
           <Outlet />
-        </main>
+        </div>
         <Footer menus={menus} />
       </div>
       <Chatbot />

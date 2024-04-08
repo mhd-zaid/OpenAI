@@ -12,8 +12,8 @@ export default function (connection) {
   Preferences.init(
     {
         id: { type: DataTypes.UUID, primaryKey: true },
-        preferences: {type: DataTypes.ENUM("AIME","AIME PAS","NEUTRE") },
-        allergies : {type: DataTypes.BOOLEAN},
+        isLiked: { type: DataTypes.BOOLEAN, allowNull: true },
+        isAllergic: { type: DataTypes.BOOLEAN, allowNull: true },
     },
     {
       sequelize: connection,

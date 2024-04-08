@@ -19,7 +19,7 @@ async function resetPassword(password, token) {
 }
 
 async function checkToken(token) {
-  return apiService.getOne("users", `?token=${token}`);
+  return apiService.getUserInfo("users", `?token=${token}`);
 }
 
 const resetPasswordValidationSchema = z.object({

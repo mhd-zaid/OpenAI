@@ -15,7 +15,7 @@ export default function (connection) {
         allowNull: true
       },
       quantity: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
       },
     },
     {
