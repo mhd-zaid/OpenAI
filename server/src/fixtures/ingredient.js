@@ -664,7 +664,7 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: "Piment rouge (optionnel pour une version épicée)",
-  }
+  },
   {
     id: uuidv4(),
     name: "Taro",
