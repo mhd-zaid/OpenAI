@@ -7,32 +7,27 @@ import Chatbot from './components/chatbot';
 import '@/App.css';
 import { AuthProvider } from '@/Context/AuthContext.jsx';
 import {Container, Wrap} from "@chakra-ui/react";
+import SearchComponent from "@/components/SearchComponent.jsx";
 
 
 const menus = [
   {
     title: 'Recettes par catégories',
     subMenus: [
-      { title: 'Entrées', url: '/recipes/entrees' },
-      { title: 'Plats', url: '/recipes/plats' },
-      { title: 'Desserts', url: '/recipes/desserts' },
-      { title: 'Boissons', url: '/recipes/boissons' },
+      { title: 'Entrées', url: '/recettes/entrees' },
+      { title: 'Plats', url: '/recettes/plats' },
+      { title: 'Desserts', url: '/recettes/desserts' },
+      { title: 'Boissons', url: '/recettes/boissons' },
     ],
   },
   {
-    title: 'Idées de recettes',
+    title: 'Mon atelier',
     subMenus: [
-      { title: 'Recettes de saison', url: '/recipes/seasonal' },
-      { title: 'Recettes de fêtes', url: '/recipes/holidays' },
-      { title: 'Recettes du monde', url: '/recipes/world' },
+      { title: 'Mes Recettes Favorites', url: '/recipes/seasonal' },
+      { title: 'Mes Commentaires', url: '/recipes/holidays' },
+      { title: 'Mes Préférences', url: '/recipes/world' },
     ],
   },
-  // { title: "Aide et astuces",
-  //   subMenus: [
-  //     { title: "Conseils", url: "/help/tips" },
-  //     { title: "Questions fréquentes", url: "/help/faq" },
-  //     { title: "Aide en ligne", url: "/help/online" }]
-  // },
   { title: 'Contact', url: '/contact' },
   { title: 'A propos', url: '/about' },
 ];
@@ -45,6 +40,7 @@ const App = () => {
         <div className="flex-grow card max-w-screen-xl self-center my-10 md:my-20 pt-20">
           <Outlet />
         </div>
+        {/*<SearchComponent />*/}
         <Footer menus={menus} />
       </div>
       <Chatbot />

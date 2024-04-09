@@ -50,7 +50,7 @@ const Searchbar = () => {
   };
 
   return (
-    <div className="lg:col-span-7 md:col-span-6 hidden md:block">
+    <div className="">
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           <Icon
@@ -116,6 +116,7 @@ const Searchbar = () => {
                     onClick={() => {
                       setSearch(result.title);
                       setSearchResults([]);
+                      onclose();
                     }}
                   >
                     <Text>{result.title}</Text>
