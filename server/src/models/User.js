@@ -26,7 +26,7 @@ export default function (connection) {
       email: {
         type: DataTypes.STRING({ length: 255 }),
         allowNull: false,
-        unique: true,
+        unique: false,
         validate: {
           notEmpty: {
             msg: "L'adresse e-mail ne peut pas être vide.",
@@ -111,16 +111,16 @@ export default function (connection) {
     }
   });
 
-  // User.addHook('afterCreate', async user => {
-  //   let content = await fs.readFile(`mails/validateUserAccount.txt`, 'utf8');
-  //   content = content
-  //     .replace('{{name}}', user.userName)
-  //     .replace(
-  //       '{{confirmLink}}',
-  //       `${process.env.SERVER_URL}/verify/${user.token}`,
-  //     );
-  //   await sendMail(user.email, 'Vérifiez votre compte', null, content);
-  // });
+  User.addHook('afterCreate', async user => {
+    let content = await fs.readFile(`mails/validateUserAccount.txt`, 'utf8');
+    content = content
+      .replace('{{name}}', user.userName)
+      .replace(
+        '{{confirmLink}}',
+        `${process.env.SERVER_URL}/api/verify/${user.token}`,
+      );
+    await sendMail(user.email, 'Vérifiez votre compte', null, content);
+  });
 
   return User;
 }

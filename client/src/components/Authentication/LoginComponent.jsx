@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import {useNavigate, Link, useLocation} from 'react-router-dom';
 import { z } from 'zod';
 
 import Button from '@/lib/components/Button.jsx';
@@ -32,6 +32,9 @@ const LoginComponent = () => {
   const { setToken } = useToken();
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isVerified = searchParams.get('verified');
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -55,7 +58,8 @@ const LoginComponent = () => {
     if (!login.errors) {
       const { token } = login.data;
       setToken(token);
-      navigate(-1);
+      if(isVerified) navigate("/")
+      else navigate(-1);
     } else {
       setErrors(login.errors || ["Une erreur inattendue s'est produite."]);
       setToken();
