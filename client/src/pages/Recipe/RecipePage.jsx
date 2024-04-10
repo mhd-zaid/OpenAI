@@ -19,6 +19,7 @@ import { Box, Text } from '@chakra-ui/react';
 
 async function submitFavorite(recipeId) {
   try {
+    console.log("create", recipeId);
     return await apiService.create('favorites', { RecipeId: recipeId });
   } catch (error) {
     console.error(error);
@@ -75,15 +76,33 @@ const RecipePage = () => {
   //   }
   // }
 
+  const toggleFavorite = async () => {
+    const favorites = await apiService.getAll('favorites', `?RecipeId=${recipe.id}`);
+    const isFavorite = favorites.length > 0;
+    if (isFavorite) {
+      deleteFavorite(favorites[0].id);
+    } else {
+      addToFavorites();
+    }
+  }
+
   const addToFavorites = async () => {
     try {
-      // const isFavorite = await checkIfFavorite();
       const favorite = await submitFavorite(recipe.id);
-
       if (favorite.success) {
         toast.success("Recette ajoutée aux favoris !");
       }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
+  const deleteFavorite = async (favoriteId) => {
+    try {
+      const res = await apiService.deleteById('favorites', favoriteId);
+      if (res.success) {
+        toast.success("Recette retirée des favoris !");
+      }
     } catch (err) {
       console.error(err);
     }
@@ -222,10 +241,10 @@ const RecipePage = () => {
                   </Text>
                   <span className={'flex items-center gap-1'}>
                     <Icon icon="mdi:tags" style={{ color: 'black' }} />
-                          {recipe?.tags.map((tag, index) => (
-                              <Link to={`/recettes?tag=${tag}`} key={index} className={'lowercase first-letter:capitalize'}>{tag}{index !== recipe.tags.length - 1 ? ' - ' : ''}</Link>
-                          ))
-                          }
+                    {recipe?.tags.map((tag, index) => (
+                        <Link to={`/recettes?tag=${tag}`} key={index} className={'lowercase first-letter:capitalize'}>{tag}{index !== recipe.tags.length - 1 ? ' - ' : ''}</Link>
+                    ))
+                    }
                   </span>
                 </div>
                 <span className={'flex items-center space-x-2'}>
@@ -254,13 +273,13 @@ const RecipePage = () => {
               </div>
 
               <div className="flex justify-between mb-4 gap-4">
-                <Button className="flex items-center gap-2 btn bezel" onClick={() => addToFavorites()}>
+                <Button className="flex items-center gap-2 btn bezel" onClick={() => toggleFavorite()}>
                   <Icon icon="ic:baseline-favorite"/>
                   <span>Ajouter aux favoris</span>
                 </Button>
                 <Button className="flex items-center gap-2 btn bezel" onClick={() => window.print()}>
                   <Icon icon="ic:round-local-printshop"/>
-                  <span>Imprimer la recette</span>
+                  <span>Imprimer</span>
                 </Button>
               </div>
 
@@ -346,7 +365,7 @@ const RecipePage = () => {
               <div className="col gap-4">
                 {recommandedRecipes.map((recommandedRecipe, index) => (
                     <>
-                      <div className={"effect-grew px-4"}>
+                      <div className={"effect-grew px-4"} key={index}>
                         <Link key={recommandedRecipe.id} to={`/recettes/${recommandedRecipe.url}`}>
                           <div key={index} className={'row gap-4 h-20'}>
                             <img src={`/img/recipe/${recommandedRecipe.image}`} height={80} width={140}

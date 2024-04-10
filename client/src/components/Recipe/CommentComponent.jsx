@@ -27,9 +27,9 @@ const CommentComponent = ({ comments, recipeUrl, limit }) => {
 
       <div>
           <SimpleGrid columns={[1, null, 2, 3]}  spacingY={4}>
-              {displayedComments?.map((comment) => (
+              {displayedComments?.map((comment, index) => (
                 isProfile ? (
-                  <Container key={comment.id}>
+                  <Container key={index}>
                       <Card shadow={"md"} h={"full"}>
                           <CardHeader>
                               <Flex gap={4} direction={{ base: 'column', xl: 'row' }}>

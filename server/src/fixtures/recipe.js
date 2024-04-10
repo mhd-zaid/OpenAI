@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const levelEnum = ['FACILE', 'MOYEN', 'DIFFICILE'];
-const tagsEnum = ['ENTREE', 'PLAT', 'DESSERT', 'VEGETARIEN', 'VIANDE', 'POISSON', 'BOISSON'];
+const tagsEnum = ['ENTREE', 'PLAT', 'DESSERT', 'BOISSON'];
 
 const getRandomElement = array =>
     array[Math.floor(Math.random() * array.length)];
@@ -12,7 +12,7 @@ const recipesFixture = [
     title: 'Bûche aux fruits exotiques et chocolat noisettes Nestlé Dessert',
     tips: 'Vous pouvez ajouter des fruits rouges.',
     level: getRandomElement(levelEnum),
-    tags: ['DESSERT'],
+    tags: 'DESSERT',
     duration: 90,
     nb_person: 6,
     instructions: [
@@ -39,7 +39,7 @@ const recipesFixture = [
     title: 'Tarte tatin aux pommes et caramel beurre salé',
     tips: 'Vous pouvez ajouter de la cannelle ou de la vanille.',
     level: getRandomElement(levelEnum),
-    tags: ['DESSERT'],
+    tags: 'DESSERT',
     duration: 60,
     nb_person: 6,
     instructions: [
@@ -64,7 +64,7 @@ const recipesFixture = [
     title: 'Omelette aux tomates et au fromage',
     tips: 'Vous pouvez ajouter des herbes de Provence.',
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 15,
     nb_person: 4,
     instructions: [
@@ -86,7 +86,7 @@ const recipesFixture = [
     title: 'Omelette aux oignons et herbes de Provence',
     tips: 'Vous pouvez ajouter des lardons.',
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 15,
     nb_person: 4,
     instructions: [
@@ -108,7 +108,7 @@ const recipesFixture = [
     title: 'Poulet rôti aux herbes de Provence',
     tips: 'Vous pouvez ajouter des pommes de terre à cuire en même temps que le poulet.',
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 90,
     nb_person: 4,
     instructions: [
@@ -127,7 +127,7 @@ const recipesFixture = [
     title: 'Pâtes à la carbonara',
     tips: 'Vous pouvez ajouter des champignons ou des petits pois.',
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 30,
     nb_person: 4,
     instructions: [
@@ -147,9 +147,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Dêguê',
     tips: 'Vous pouvez ajouter des raisins secs.',
-    time: 25,
     level: getRandomElement(levelEnum),
-    tags: ['DESSERT'],
+    tags: 'DESSERT',
     duration: 25,
     nb_person: 6,
     instructions: [
@@ -172,9 +171,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Lasagnes à la bolognaise',
     tips: "Vous pouvez ajouter des champignons.",
-    time: 125,
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 125,
     nb_person: 8,
     instructions: [
@@ -202,9 +200,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Saint-Jacques marinées au citron',
     tips: 'Vous pouvez ajouter des zestes de citron.',
-    time: 15,
     level: getRandomElement(levelEnum),
-    tags: ['ENTREE'],
+    tags: 'ENTREE',
     duration: 15,
     nb_person: 4,
     instructions: [
@@ -228,9 +225,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Tajine',
     tips: 'Vous pouvez ajouter des amandes effilées.',
-    time: 70,
     level: getRandomElement(levelEnum),
-    tags: ['PLAT'],
+    tags: 'PLAT',
     duration: 70,
     nb_person: 4,
     instructions: [
@@ -247,9 +243,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Pâte à crêpes',
     tips: "Vous pouvez ajouter de la vanille ou du rhum.",
-    time: 10,
     level: getRandomElement(levelEnum),
-    tags: ['DESSERT'],
+    tags: 'DESSERT',
     duration: 10,
     nb_person: 1,
     instructions: [
@@ -267,9 +262,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Gâteau au chocolat fondant',
     tips: "Vous pouvez ajouter des noix ou des noisettes.",
-    time: 40,
     level: getRandomElement(levelEnum),
-    tags: ['DESSERT'],
+    tags: 'DESSERT',
     duration: 40,
     nb_person: 6,
     instructions: [
@@ -289,9 +283,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: "Soupe à l'oignon",
     tips: "Vous pouvez ajouter du fromage râpé.",
-    time: 45,
     level: getRandomElement(levelEnum),
-    tags: ['ENTREE'],
+    tags: 'ENTREE',
     duration: 45,
     nb_person: 4,
     instructions: [
@@ -312,9 +305,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Soufflé au fromage',
     tips: "Vous pouvez ajouter des lardons.",
-    time: 50,
     level: getRandomElement(levelEnum),
-    tags: ['ENTREE'],
+    tags: 'ENTREE',
     duration: 50,
     nb_person: 4,
     instructions: [
@@ -337,9 +329,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Samoussa au boeuf',
     tips: "Vous pouvez ajouter des épices.",
-    time: 30,
     level: getRandomElement(levelEnum),
-    tags: ['ENTREE'],
+    tags: 'ENTREE',
     duration: 30,
     nb_person: 5,
     instructions: [
@@ -360,9 +351,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Mojito',
     tips: "Vous pouvez ajouter des fruits rouges.",
-    time: 5,
     level: getRandomElement(levelEnum),
-    tags: ['BOISSON'],
+    tags: 'BOISSON',
     duration: 5,
     nb_person: 1,
     instructions: [
@@ -383,9 +373,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Smoothie fraise',
     tips: 'Vous pouvez ajouter des bananes.',
-    time: 5,
     level: getRandomElement(levelEnum),
-    tags: ['BOISSON'],
+    tags: 'BOISSON',
     duration: 5,
     nb_person: 1,
     instructions: [
@@ -401,9 +390,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Smoothie banane',
     tips: 'Vous pouvez ajouter des fraises.',
-    time: 5,
     level: getRandomElement(levelEnum),
-    tags: ['BOISSON'],
+    tags: 'BOISSON',
     duration: 5,
     nb_person: 1,
     instructions: [
@@ -419,9 +407,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Milk shake à la vanille',
     tips: "Vous pouvez ajouter des copeaux de chocolat.",
-    time: 10,
     level: getRandomElement(levelEnum),
-    tags: ['BOISSON'],
+    tags: 'BOISSON',
     duration: 10,
     nb_person: 4,
     instructions: [
@@ -438,9 +425,8 @@ const recipesFixture = [
     id: uuidv4(),
     title: 'Bissap',
     tips: "Vous pouvez ajouter des feuilles de menthe.",
-    time: 30,
     level: getRandomElement(levelEnum),
-    tags: ['BOISSON'],
+    tags: 'BOISSON',
     duration: 30,
     nb_person: 4,
     instructions: [
@@ -459,7 +445,7 @@ const recipesFixture = [
     title: "Salade de quinoa aux légumes grillés",
     tips: "Vous pouvez ajouter des graines de tournesol pour plus de croquant.",
     level: "FACILE",
-    tags: ["ENTREE", "VEGETARIEN"],
+    tags: "ENTREE",
     duration: 30,
     nb_person: 4,
     instructions: [
@@ -480,7 +466,7 @@ const recipesFixture = [
     title: "Poulet au miel et à l'ail rôti",
     tips: "Accompagnez ce plat de pommes de terre rôties.",
     level: "MOYEN",
-    tags: ["PLAT", "VIANDE"],
+    tags: "PLAT",
     duration: 45,
     nb_person: 4,
     instructions: [
@@ -501,7 +487,7 @@ const recipesFixture = [
     title: "Risotto aux champignons sauvages",
     tips: "Ajoutez une pincée de safran pour une touche de luxe.",
     level: "DIFFICILE",
-    tags: ["PLAT", "VEGETARIEN"],
+    tags: "PLAT",
     duration: 40,
     nb_person: 4,
     instructions: [
@@ -524,7 +510,7 @@ const recipesFixture = [
     title: "Saumon grillé à la sauce teriyaki",
     tips: "Accompagnez ce plat de riz basmati cuit à la vapeur.",
     level: "FACILE",
-    tags: ["PLAT", "POISSON"],
+    tags: "PLAT",
     duration: 25,
     nb_person: 4,
     instructions: [
@@ -544,7 +530,7 @@ const recipesFixture = [
     title: "Tarte aux pommes maison",
     tips: "Servez cette tarte tiède avec une boule de glace à la vanille.",
     level: "MOYEN",
-    tags: ["DESSERT"],
+    tags: "DESSERT",
     duration: 60,
     nb_person: 8,
     instructions: [
@@ -567,7 +553,7 @@ const recipesFixture = [
     title: "Makis au saumon",
     tips: "Servez avec de la sauce soja et du wasabi.",
     level: "FACILE",
-    tags: ["ENTREE"],
+    tags: "ENTREE",
     duration: 45,
     nb_person: 4,
     instructions: [
@@ -590,7 +576,7 @@ const recipesFixture = [
     title: "Sirop de mûres",
     tips: "Conservez dans une bouteille en verre au réfrigérateur.",
     level: "FACILE",
-    tags: ["BOISSON"],
+    tags: "BOISSON",
     duration: 30,
     nb_person: 8,
     instructions: [
@@ -610,7 +596,7 @@ const recipesFixture = [
     title: "Gin tonic",
     tips: "Servez avec une tranche de citron ou de lime.",
     level: "FACILE",
-    tags: ["BOISSON"],
+    tags: "BOISSON",
     duration: 5,
     nb_person: 1,
     instructions: [
@@ -630,7 +616,7 @@ const recipesFixture = [
     title: "Mocktail passion",
     tips: "Décorez avec une rondelle de fruit de la passion.",
     level: "FACILE",
-    tags: ["BOISSON"],
+    tags: "BOISSON",
     duration: 5,
     nb_person: 1,
     instructions: [
@@ -652,7 +638,7 @@ const recipesFixture = [
     title: "Smoothie exotique aux épinards",
     tips: "Ajoutez un peu de miel ou de sirop d'érable pour plus de douceur.",
     level: "FACILE",
-    tags: ["BOISSON"],
+    tags: "BOISSON",
     duration: 10,
     nb_person: 1,
     instructions: [
@@ -670,7 +656,7 @@ const recipesFixture = [
     title: "Gaufre au sucre",
     tips: "Saupoudrez de sucre glace avant de servir.",
     level: "FACILE",
-    tags: ["DESSERT"],
+    tags: "DESSERT",
     duration: 30,
     nb_person: 4,
     instructions: [
@@ -689,7 +675,7 @@ const recipesFixture = [
     title: "Paris-Brest",
     tips: "Décorez avec des amandes effilées et du sucre glace.",
     level: "DIFFICILE",
-    tags: ["DESSERT"],
+    tags: "DESSERT",
     duration: 60,
     nb_person: 8,
     instructions: [
@@ -712,7 +698,7 @@ const recipesFixture = [
     title: "Cookies",
     tips: "Ajoutez des pépites de chocolat ou des noix pour plus de gourmandise.",
     level: "FACILE",
-    tags: ["DESSERT"],
+    tags: "DESSERT",
     duration: 20,
     nb_person: 12,
     instructions: [
@@ -734,7 +720,7 @@ const recipesFixture = [
     title: "Cheesecake",
     tips: "Ajoutez des fruits frais ou un coulis pour la décoration.",
     level: "DIFFICILE",
-    tags: ["DESSERT"],
+    tags: "DESSERT",
     duration: 90,
     nb_person: 8,
     instructions: [
@@ -757,7 +743,7 @@ const recipesFixture = [
     title: "Pad Thai",
     tips: "Servez chaud avec des cacahuètes concassées et des quartiers de citron vert.",
     level: "MOYEN",
-    tags: ["PLAT"],
+    tags: "PLAT",
     duration: 30,
     nb_person: 4,
     instructions: [
@@ -780,7 +766,7 @@ const recipesFixture = [
     title: "Taro sauce jaune",
     tips: "Servez avec du riz blanc pour un repas complet.",
     level: "MOYEN",
-    tags: ["PLAT", "VEGETARIEN"],
+    tags: "PLAT",
     duration: 45,
     nb_person: 4,
     instructions: [
