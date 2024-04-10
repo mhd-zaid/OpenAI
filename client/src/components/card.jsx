@@ -10,7 +10,6 @@ const Card = ({ item }) => {
       borderWidth={1}
       minW={96}
       maxW={96}
-      h={56}
       as="a"
       href={`/recettes/${item.url}`}
       mb={4}
@@ -20,11 +19,11 @@ const Card = ({ item }) => {
         src={'/img/recipe/' + item.image}
         alt={item.title}
         w="full"
-        h="full"
+        h={48}
       />
       <Box p={4} pt={0}>
         <Text as="small" color={'gray'}>
-          Temps estimé:&nbsp;{item.time}&nbsp;minutes
+          Temps estimé:&nbsp;{item.duration}&nbsp;minutes
         </Text>
         <Heading fontSize="sm" my={1}>
           {item.title}
