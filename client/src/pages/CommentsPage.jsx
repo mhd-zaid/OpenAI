@@ -41,7 +41,7 @@ const CommentsPage = () => {
         <h1 className={"font-medium text-4xl mb-4 text-yellow-400"}>{nbComments} avis sur cette recette</h1>
         <div className={"flex flex-col-reverse md:flex-row gap-4"}>
           <div>
-          <Img src={`/img/recipe/${recipe?.image}`} w={250} h={150} alt="" className={"rounded"}/>
+          <Img src={`/img/recipe/${recipe?.image}`} w={"100%"} h={150} alt="" className={"rounded"}/>
           </div>
           <div className={"col"}>
             <Link to={`/recettes/${recipe?.url}`} className={"font-bold text-2xl"}>{recipe?.title}</Link>

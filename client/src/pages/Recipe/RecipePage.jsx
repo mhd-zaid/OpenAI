@@ -29,25 +29,31 @@ async function submitFavorite(recipeId) {
 
 const RecipePage = () => {
   const { recipeUrl } = useParams();
-  const safeRecipeUrl = recipeUrl || 'default';
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nbPerson, setNbPerson] = useState(1);
   const [recommandedRecipes, setRecommandedRecipes] = useState([]);
   const [accompaniments, setAccompaniments] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const getRecipe = async () => {
     try {
       setLoading(true)
-      const res = await apiService.getUserInfo('recipes', `${safeRecipeUrl}`);
+      const res = await apiService.getUserInfo('recipes', `${recipeUrl}`);
       if (res.data) {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person)
-        getRecommandedRecipes(res.data.id);
+        // getRecommandedRecipes(res.data.id);
+        const getFavorites = await apiService.getUserInfo('users', '/favorites');
+        if (getFavorites.data) {
+          const isFavoriteRecipe = getFavorites.data.some(favorite => favorite.RecipeId === res.data.id);
+          setIsFavorite(isFavoriteRecipe);
+        }
       } else {
         setError(true);
       }
+      setLoading(false)
     } catch (err) {
       setError(true);
     }
@@ -68,21 +74,14 @@ const RecipePage = () => {
     }
   };
 
-  // const checkIfFavorite = async () => {
-  //   try {
-  //     const favorite = apiService.getAll('favorites', `RecipeId=${recipe.id}&UserId=${user[0].id}`);
-  //     return favorite.length > 0;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
-
   const toggleFavorite = async () => {
-    const favorites = await apiService.getAll('favorites', `?RecipeId=${recipe.id}`);
-    const isFavorite = favorites.length > 0;
+    const favorites = await apiService.getUserInfo('users', '/favorites');
+    const isFavorite = favorites.data.some(favorite => favorite.RecipeId === recipe.id);
     if (isFavorite) {
-      deleteFavorite(favorites[0].id);
+      console.log("supprime des favoris", favorites);
+      deleteFavorite(favorites.data[0].id);
     } else {
+      console.log("ajoute aux favoris");
       addToFavorites();
     }
   }
@@ -91,6 +90,7 @@ const RecipePage = () => {
     try {
       const favorite = await submitFavorite(recipe.id);
       if (favorite.success) {
+        setIsFavorite(true)
         toast.success("Recette ajoutée aux favoris !");
       }
     } catch (err) {
@@ -102,6 +102,7 @@ const RecipePage = () => {
     try {
       const res = await apiService.deleteById('favorites', favoriteId);
       if (res.success) {
+        setIsFavorite(false)
         toast.success("Recette retirée des favoris !");
       }
     } catch (err) {
@@ -111,7 +112,7 @@ const RecipePage = () => {
 
   useEffect(() => {
     getRecipe()
-  }, [safeRecipeUrl]);
+  }, [recipeUrl]);
 
   const handleAddPerson = () => {
     setNbPerson(prevNbPerson => prevNbPerson + 1);
@@ -140,79 +141,79 @@ const RecipePage = () => {
 
   // if(loading) {
   //   return (
-  //     <div>
-  //       <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
+  //       <div>
+  //         <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
   //
-  //       <div className="grid grid-cols-3 gap-4">
-  //         <div className={"col-span-2"}>
+  //         <div className="grid grid-cols-3 gap-4">
+  //           <div className={"col-span-2"}>
   //
-  //           <div className={"grid grid-cols-2 gap-2"}>
+  //             <div className={"grid grid-cols-2 gap-2"}>
   //
-  //             <div className={'col-span-12 flex gap-4 justify-between'}>
-  //               <div className={'flex gap-4'}>
-  //                 <Skeleton width={100} height={20} />
-  //                 <Skeleton width={100} height={20} />
-  //                 <Skeleton width={100} height={20} />
-  //               </div>
-  //               <Skeleton width={200} height={20} />
-  //             </div>
-  //
-  //             <div className="recipe-media col-span-12">
-  //               <Skeleton width={"100%"} height={400} />
-  //             </div>
-  //
-  //             <div className={'col-span-12 flex gap-4 mb-4'}>
-  //               <Skeleton width={200} height={50} />
-  //               <Skeleton width={200} height={50} />
-  //             </div>
-  //
-  //           </div>
-  //
-  //           <div className={"grid grid-cols-5 gap-8"}>
-  //
-  //             <div className="recipe-instructionContent col-span-3">
-  //               <Skeleton width={300} height={40} />
-  //               <Skeleton count={5} />
-  //             </div>
-  //
-  //             <div className="recipe-ingredientsContent col-span-2">
-  //               <Skeleton width={300} height={40} />
-  //               <Skeleton count={5} />
-  //             </div>
-  //           </div>
-  //
-  //           <Skeleton width={300} height={40} />
-  //
-  //           <div className="my-8">
-  //             <Skeleton count={3} height={50} />
-  //           </div>
-  //
-  //           <div className="my-4">
-  //             <Skeleton count={5} height={50} />
-  //           </div>
-  //
-  //           <div className={"my-4"}>
-  //             <Skeleton count={3} height={50} />
-  //           </div>
-  //         </div>
-  //
-  //         <div className={"col"}>
-  //           <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
-  //
-  //           <div className="col gap-4">
-  //             <div className={'col gap-4'}>
-  //               {Array.from({ length: 3 }).map((_, index) => (
-  //                 <div className="flex gap-4">
-  //                   <Skeleton circle={true} height={70} width={70} />
-  //                   <Skeleton count={3} height={20} width={300} />
+  //               <div className={'col-span-12 flex gap-4 justify-between'}>
+  //                 <div className={'flex gap-4'}>
+  //                   <Skeleton width={100} height={20} />
+  //                   <Skeleton width={100} height={20} />
+  //                   <Skeleton width={100} height={20} />
   //                 </div>
-  //               ))}
+  //                 <Skeleton width={200} height={20} />
+  //               </div>
+  //
+  //               <div className="recipe-media col-span-12">
+  //                 <Skeleton width={"100%"} height={400} />
+  //               </div>
+  //
+  //               <div className={'col-span-12 flex gap-4 mb-4'}>
+  //                 <Skeleton width={200} height={50} />
+  //                 <Skeleton width={200} height={50} />
+  //               </div>
+  //
+  //             </div>
+  //
+  //             <div className={"grid grid-cols-5 gap-8"}>
+  //
+  //               <div className="recipe-instructionContent col-span-3">
+  //                 <Skeleton width={300} height={40} />
+  //                 <Skeleton count={5} />
+  //               </div>
+  //
+  //               <div className="recipe-ingredientsContent col-span-2">
+  //                 <Skeleton width={300} height={40} />
+  //                 <Skeleton count={5} />
+  //               </div>
+  //             </div>
+  //
+  //             <Skeleton width={300} height={40} />
+  //
+  //             <div className="my-8">
+  //               <Skeleton count={3} height={50} />
+  //             </div>
+  //
+  //             <div className="my-4">
+  //               <Skeleton count={5} height={50} />
+  //             </div>
+  //
+  //             <div className={"my-4"}>
+  //               <Skeleton count={3} height={50} />
   //             </div>
   //           </div>
-  //         </div>
   //
+  //           <div className={"col"}>
+  //             <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
+  //
+  //             <div className="col gap-4">
+  //               <div className={'col gap-4'}>
+  //                 {Array.from({ length: 3 }).map((_, index) => (
+  //                     <div className="flex gap-4">
+  //                       <Skeleton circle={true} height={70} width={70} />
+  //                       <Skeleton count={3} height={20} width={300} />
+  //                     </div>
+  //                 ))}
+  //               </div>
+  //             </div>
+  //           </div>
+  //
+  //         </div>
   //       </div>
-  //     </div>
   //   );
   // }
 
@@ -233,56 +234,54 @@ const RecipePage = () => {
               <div className={'col-span-12 flex gap-4 justify-between'}>
                 <div className={'flex gap-4'}>
                   <Text className={'flex items-center gap-1'}>
-                    <Icon icon="mdi:clock-outline" style={{ color: 'black' }} />
+                    <Icon icon="mdi:clock-outline" style={{color: 'black'}}/>
                     <span>{recipe?.duration} min</span>
                   </Text>
                   <Text className={'flex items-center gap-1'}>
-                    <Icon icon="ic:baseline-stars" style={{ color: 'black' }} />
+                    <Icon icon="ic:baseline-stars" style={{color: 'black'}}/>
                     <span className={"lowercase first-letter:capitalize"}>{recipe?.level}</span>
                   </Text>
                   <span className={'flex items-center gap-1'}>
-                    <Icon icon="mdi:tags" style={{ color: 'black' }} />
-                        <Link to={`/recettes?tag=${recipe?.tags}`} className={'lowercase first-letter:capitalize'}>{recipe?.tags}</Link>
+                    <Icon icon="mdi:tags" style={{color: 'black'}}/>
+                        <Link to={`/recettes?tag=${recipe?.tags}`}
+                              className={'lowercase first-letter:capitalize'}>{recipe?.tags}</Link>
                   </span>
                 </div>
                 <span className={'flex items-center space-x-2'}>
-              <span><span className={'font-bold text-xl'}>{
-                  Math.round(recipe?.average_rating * 10) / 10
-              }</span>/5</span>
-              <svg className="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                   fill="currentColor" viewBox="0 0 22 20">
-                <path
-                    d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-              </svg>
-              <span className="w-1 h-1 mx-1 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-              <Link to={`/recettes/${safeRecipeUrl}/comments`} className={"text-sm font-medium text-gray-900 underline hover:no-underline"}>{recipe?.nb_rating} notes</Link>
+                  <span><span className={'font-bold text-xl'}>{Math.round(recipe?.average_rating * 10) / 10}</span>/5</span>
+                  <svg className="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                       fill="currentColor" viewBox="0 0 22 20">
+                  <path
+                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                </svg>
+              <Link to={`/recettes/${recipeUrl}/comments`} className={"text-sm font-medium text-gray-900 underline hover:no-underline"}>{recipe?.nb_rating} notes</Link>
           </span>
               </div>
 
               <div className="recipe-media col-span-12">
-                <iframe
-                    src={'https://placehold.co/1920x1080.mp4'}
-                    title="Recipe video"
-                    width="100%"
-                    height="400"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
+                <img
+                    src={`/img/recipe/${recipe?.image}`} // Remplacez l'URL par l'URL de vote image
+                    alt="Recipe image"
+                    className="w-full h-auto rounded-lg shadow-md object-cover"
                 />
               </div>
 
-              <div className="flex justify-between mb-4 gap-4">
-                <Button className="flex items-center gap-2 btn bezel" onClick={() => toggleFavorite()}>
-                  <Icon icon="ic:baseline-favorite"/>
-                  <span>Ajouter aux favoris</span>
-                </Button>
-                <Button className="flex items-center gap-2 btn bezel" onClick={() => window.print()}>
-                  <Icon icon="ic:round-local-printshop"/>
-                  <span>Imprimer</span>
-                </Button>
-              </div>
-
-
             </div>
+            <div className="flex my-4 gap-4">
+              <Button className="flex items-center gap-2 btn" onClick={() => toggleFavorite()}>
+                <Icon icon="ic:baseline-favorite" color={isFavorite ? 'red' : 'black'}  fontSize={"35"}/>
+                <span style={{color: isFavorite ? 'red' : 'black'}} className={"md:text-lg"}>{
+                  isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'
+                }</span>
+              </Button>
+              <Button className="flex items-center gap-2 btn" onClick={() => window.print()}>
+                <Icon icon="ic:round-local-printshop" fontSize={"35"}/>
+                <span className={"text-black font-medium md:text-xl"}>
+                    Imprimer</span>
+              </Button>
+            </div>
+
+
 
             <div className={"grid grid-cols-1 lg:grid-cols-5 gap-8"}>
 
@@ -329,7 +328,7 @@ const RecipePage = () => {
 
             {/*Astuces et conseils de la recette*/}
             {recipe?.tips && (
-                <CardComponent variant={"withShadow"} boxShadow={{color:"#d69a06", position:"bottomRight"}} className={""}>
+                <CardComponent variant={"withShadow"} boxShadow={{color:"#d69a06", position:"bottomRight"}} className={"w-full"}>
                   <Box className={"flex font-bold items-center mb-2 gap-4"}>
                     <Icon icon="flat-color-icons:idea" fontSize={50}/>
                     <Text fontSize={["md", "lg", "2xl"]} >Astuces et conseils pour {recipe?.title}</Text>

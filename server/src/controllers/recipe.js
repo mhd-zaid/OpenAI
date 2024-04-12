@@ -48,17 +48,7 @@ const getAll = async(req, res) => {
             where: filters,
             limit,
             offset,
-            include: [
-                {
-                    model: db.Quantity,
-                    as: 'Quantities',
-                    include: [db.Ingredient]
-                },
-                {
-                    model: db.Comment,
-                    as: 'Comments'
-                },
-            ],
+            attributes: ['id', 'title', 'level', 'tags', 'image', 'url', 'average_rating'],
         });
 
         const countTotal = await db.Recipe.count({ where: filters });

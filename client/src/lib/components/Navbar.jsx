@@ -42,7 +42,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
         <>
             <div className="grid grid-cols-12 p-2 bg-white z-20 fixed w-full shadow-xl">
                 {/* Menu items */}
-                <div className="col-span-1 flex justify-center items-center md:hidden">
+                <div className="col-span-1 flex justify-center items-center lg:hidden">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="flex items-center px-3 py-2 border rounded text-yellow-200 border-yellow-400"
@@ -61,7 +61,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                 {/* Logo */}
                 <button
                     onClick={() => navigate('/')}
-                    className="lg:col-span-2 md:col-span-4 col-span-10 flex items-center justify-center flex-shrink-0 gap-2 effect-grew"
+                    className="lg:col-span-2 lg:col-span-4 col-span-10 flex items-center justify-center flex-shrink-0 gap-2 effect-grew"
                 >
                     <Icon icon="noto:man-cook-dark-skin-tone" fontSize={30}/>
                     <span
@@ -71,7 +71,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                 </button>
 
                 {/* Search bar */}
-                <div className={"lg:col-span-8 md:col-span-6 hidden md:block"}>
+                <div className={"lg:col-span-8 lg:col-span-6 hidden lg:block"}>
                     <Searchbar/>
                 </div>
 
@@ -106,7 +106,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                     </div>
                 )}
 
-                <div className={"col-span-12 flex justify-center items-center"}>
+                <div className={"col-span-12 lg:flex justify-center items-center hidden"}>
                     {menus[0].subMenus.map((subMenu, subIndex) => (
                         <div onMouseEnter={() => setHoveredMenu(subIndex)} onMouseLeave={() => setHoveredMenu(null)}>
                             <Link
@@ -133,8 +133,8 @@ const Navbar = ({ basename, onLogout, menus }) => {
                     ))}
                 </div>
 
-                <div className={'flex cursor-pointer md:hidden'}>
-                    <div className="lg:col-span-7 md:col-span-6 hidden md:block">
+                <div className={'flex cursor-pointer lg:hidden'}>
+                    <div className="lg:col-span-7 :col-span-6 hidden lg:block">
                         <form>
                             <div className="relative">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -146,7 +146,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                             </div>
                         </form>
                     </div>
-                    <div className={"flex cursor-pointer md:hidden"}>
+                    <div className={"flex cursor-pointer lg:hidden"}>
                         <button onClick={() => setIsSearchOpen(true)}>
                             <Icon
                                 icon="line-md:search"
@@ -187,7 +187,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                         </div>
                     )}
                     <div id={"main-menu"}
-                         className={`absolute top-12 bg-white w-full md:w-3/12 h-screen flex-grow px-4 ${isMenuOpen ? 'open' : ''}`}>
+                         className={`absolute top-12 bg-white w-full lg:w-3/12 h-screen flex-grow px-4 ${isMenuOpen ? 'open' : ''}`}>
                         <div className="grid grid-cols-12 grid-rows-12 text-sm lg:flex-grow text-black h-full">
                             {!isLoggedIn ? (
                                 <>
