@@ -119,6 +119,7 @@ const recipesFixture = [
       'Dégustez.',
     ],
     url: 'poulet-roti-aux-herbes-de-provence-010105',
+    image: 'poulet-roti-aux-herbes-de-provence.jpeg',
     average_rating: 4,
     nb_rating: 200,
   },

@@ -14,6 +14,7 @@ const menus = [
   {
     title: 'Recettes par catégories',
     subMenus: [
+      { title: 'Toutes les recettes', url: '/recettes' },
       { title: 'Entrées', url: '/recettes/entrees' },
       { title: 'Plats', url: '/recettes/plats' },
       { title: 'Desserts', url: '/recettes/desserts' },
@@ -23,9 +24,9 @@ const menus = [
   {
     title: 'Mon atelier',
     subMenus: [
-      { title: 'Mes Recettes Favorites', url: '/recipes/seasonal' },
-      { title: 'Mes Commentaires', url: '/recipes/holidays' },
-      { title: 'Mes Préférences', url: '/recipes/world' },
+      { title: 'Mes Recettes Favorites', url: '/profile#favorites' },
+      { title: 'Mes Commentaires', url: '/profile#comments' },
+      { title: 'Mes Préférences', url: '/profile#preferences' },
     ],
   },
   { title: 'Contact', url: '/contact' },
@@ -37,7 +38,7 @@ const App = () => {
     <AuthProvider>
       <div className="min-h-screen flex flex-col justify-between">
         <Header menus={menus} />
-        <div className="flex-grow card max-w-screen-xl self-center my-10 md:my-20 pt-20">
+        <div className="flex-grow card max-w-screen-xl self-center my-10 md:my-36 pt-20">
           <Outlet />
         </div>
         {/*<SearchComponent />*/}

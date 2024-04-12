@@ -112,10 +112,18 @@ const loadComments = async () => {
       const numComments = _.random(2, 13);
       const randomUsers = _.sampleSize(users, numComments);
       for (let i = 0; i < numComments; i++) {
+        let rating;
+        if (i < numComments / 3) {
+          rating = 2 + Math.random(); // rating between 2 and 3
+        } else if (i < 2 * numComments / 3) {
+          rating = 3 + Math.random(); // rating between 3 and 4
+        } else {
+          rating = 4 + Math.random(); // rating between 4 and 5
+        }
         await model.create({
           id: uuidv4(),
           comment: commentsFixture[i].comment,
-          rating: commentsFixture[i].rating,
+          rating: parseFloat(rating.toFixed(1)),
           UserId: randomUsers[i].id,
           RecipeId: recipe.id,
         });
@@ -136,8 +144,7 @@ const updateRecipeRate = async () => {
       for (const recipe1 of recipes) {
         const recipeComments = comments.filter(comment => comment.RecipeId === recipe1.id);
         const rate = recipeComments.reduce((acc, comment) => acc + comment.rating, 0) / recipeComments.length;
-        await recipe1.update({ average_rating: Math.round(rate).toFixed(1)
-          , nb_rating: recipeComments.length });
+        await recipe1.update({ average_rating: parseFloat(rate.toFixed(1)), nb_rating: recipeComments.length });
       }
     }));
   } catch (err) {

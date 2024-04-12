@@ -36,17 +36,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route index element={<RecipesPage type="all" />} />
               <Route path="entrees" element={<RecipesPage type="entrees" />} />
               <Route path="plats" element={<RecipesPage type="plats" />} />
-              <Route
-                path="desserts"
-                element={<RecipesPage type="desserts" />}
-              />
-              <Route
-                path="boissons"
-                element={<RecipesPage type="boissons" />}
-              />
-              <Route path="saisons" element={<RecipesPage type="seasonal" />} />
-              <Route path="fetes" element={<RecipesPage type="holidays" />} />
-              <Route path="world" element={<RecipesPage type="world" />} />
+              <Route path="desserts" element={<RecipesPage type="desserts" />} />
+              <Route path="boissons" element={<RecipesPage type="boissons" />} />
             </Route>
             <Route path="contact" element={<ContactPage />} />
             <Route path="about" element={<AboutPage />} />

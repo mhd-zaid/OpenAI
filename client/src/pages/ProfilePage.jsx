@@ -18,7 +18,7 @@ import {Select} from "chakra-react-select";
 import Button from "@/lib/components/Button.jsx";
 import { uuidv7 } from 'uuidv7';
 import Pagination from '@/components/Pagination.jsx';
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import { Rating, ThemeProvider } from '@mui/material';
 import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
 import ratingTheme from '@/theme/ratingTheme.js';
@@ -35,6 +35,16 @@ const ProfilePage = () => {
     const itemsPerPage = 6;
 
     const [preferences, setPreferences] = useState([]);
+    const location = useLocation();
+    const anchorId = location.hash.substring(1);
+
+    const tabIndices = {
+        'favorites': 0,
+        'comments': 1,
+        'preferences': 2,
+    };
+
+    const tabIndex = tabIndices[anchorId] || 0;
 
     const fetchUserData = async () => {
         try {
@@ -72,7 +82,7 @@ const ProfilePage = () => {
 
     return (
       <WrapItem flexDirection={"column"}>
-          <Tabs isFitted >
+          <Tabs isFitted defaultIndex={tabIndex}>
 
               <TabPanels pt={"4"}>
 
@@ -116,9 +126,9 @@ const ProfilePage = () => {
 
 
               <TabList>
-                  <Tab fontSize={['xs', 'sm', null, 'lg']}>Mes recettes favorites</Tab>
-                  <Tab fontSize={['xs', 'sm', null, 'lg']}>Mes commentaires</Tab>
-                  <Tab fontSize={['xs', 'sm', null, 'lg']}>Mes préférences alimentaires</Tab>
+                  <Tab id="favorites" fontSize={['xs', 'sm', null, 'lg']}>Mes recettes favorites</Tab>
+                  <Tab id="comments" fontSize={['xs', 'sm', null, 'lg']}>Mes commentaires</Tab>
+                  <Tab id="preferences" fontSize={['xs', 'sm', null, 'lg']}>Mes préférences alimentaires</Tab>
               </TabList>
 
               <TabPanels pt={"4"}>

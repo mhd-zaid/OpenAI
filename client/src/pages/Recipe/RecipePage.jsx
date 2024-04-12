@@ -29,6 +29,7 @@ async function submitFavorite(recipeId) {
 
 const RecipePage = () => {
   const { recipeUrl } = useParams();
+  const safeRecipeUrl = recipeUrl || 'default';
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +40,7 @@ const RecipePage = () => {
   const getRecipe = async () => {
     try {
       setLoading(true)
-      const res = await apiService.getUserInfo('recipes', `${recipeUrl}`);
+      const res = await apiService.getUserInfo('recipes', `${safeRecipeUrl}`);
       if (res.data) {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person)
@@ -110,7 +111,7 @@ const RecipePage = () => {
 
   useEffect(() => {
     getRecipe()
-  }, [recipeUrl]);
+  }, [safeRecipeUrl]);
 
   const handleAddPerson = () => {
     setNbPerson(prevNbPerson => prevNbPerson + 1);
@@ -241,10 +242,7 @@ const RecipePage = () => {
                   </Text>
                   <span className={'flex items-center gap-1'}>
                     <Icon icon="mdi:tags" style={{ color: 'black' }} />
-                    {recipe?.tags.map((tag, index) => (
-                        <Link to={`/recettes?tag=${tag}`} key={index} className={'lowercase first-letter:capitalize'}>{tag}{index !== recipe.tags.length - 1 ? ' - ' : ''}</Link>
-                    ))
-                    }
+                        <Link to={`/recettes?tag=${recipe?.tags}`} className={'lowercase first-letter:capitalize'}>{recipe?.tags}</Link>
                   </span>
                 </div>
                 <span className={'flex items-center space-x-2'}>
@@ -257,7 +255,7 @@ const RecipePage = () => {
                     d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
               </svg>
               <span className="w-1 h-1 mx-1 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-              <Link to={`/recettes/${recipeUrl}/comments`} className={"text-sm font-medium text-gray-900 underline hover:no-underline"}>{recipe?.nb_rating} notes</Link>
+              <Link to={`/recettes/${safeRecipeUrl}/comments`} className={"text-sm font-medium text-gray-900 underline hover:no-underline"}>{recipe?.nb_rating} notes</Link>
           </span>
               </div>
 

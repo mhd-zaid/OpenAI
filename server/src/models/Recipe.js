@@ -22,7 +22,7 @@ export default function (connection) {
                 type: DataTypes.ENUM("FACILE","MOYEN","DIFFICILE"),
             },
             tags: {
-                type: DataTypes.JSON,
+                type: DataTypes.ENUM("ENTREE", "PLAT", "DESSERT", "BOISSON"),
             },
             duration: {
                 type: DataTypes.INTEGER,

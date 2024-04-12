@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import Card from '../../components/card';
 import { Icon } from '@iconify/react';
+import {useParams} from "react-router-dom";
 
 const RecipesPage = ({ type }) => {
   const [recipes, setRecipes] = useState([]);
@@ -23,13 +24,10 @@ const RecipesPage = ({ type }) => {
       label: 'Tags',
       slug: 'tags',
       options: [
-        { label: 'Entrée', value: 'entree' },
-        { label: 'Plat', value: 'plat' },
-        { label: 'Dessert', value: 'dessert' },
-        { label: 'Boisson', value: 'boisson' },
-        { label: 'Viande', value: 'viande' },
-        { label: 'Végétarien', value: 'vegetarien' },
-        { label: 'Poisson', value: 'poisson' },
+        { label: 'Entrée', value: 'ENTREE' },
+        { label: 'Plat', value: 'PLAT' },
+        { label: 'Dessert', value: 'DESSERT' },
+        { label: 'Boisson', value: 'BOISSON' },
       ],
     },
     {
@@ -66,7 +64,6 @@ const RecipesPage = ({ type }) => {
   return (
     <Flex flexDir="column" w="full">
       <Heading fontSize="xl">Voici toutes nos recettes:</Heading>
-      <Text mt={2}>Filtres:</Text>
       <Flex mt={2}>
         {filters.map(filter => (
           <Menu key={filter.slug} closeOnSelect={false}>
