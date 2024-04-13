@@ -783,7 +783,7 @@ const recipesFixture = [
       "C'est prêt. Servez chaud, bon appétit !"
     ],
     url: "taro-sauce-jaune-010134",
-    image: "taro-sauce-jaune.jpg",
+    image: "taro-sauce-jaune.jpeg",
     average_rating: 0,
     nb_rating: 0
   },
