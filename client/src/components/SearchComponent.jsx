@@ -18,7 +18,7 @@ const SearchComponent = ({ onClose }) => {
              display="flex" justifyContent="center" alignItems="center"
              onClick={handleOutsideClick}
         >
-            <Box ref={ref}>
+            <Box ref={ref} className={"w-full p-10"}>
                 <Searchbar onClose={onClose} />
             </Box>
         </Box>
