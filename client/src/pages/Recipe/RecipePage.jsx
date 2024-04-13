@@ -318,7 +318,8 @@ const RecipePage = () => {
                     <span className={"font-medium"}>
                       {quantities.unit
                           ? Math.round(((quantities.quantity / recipe.nb_person) * nbPerson) * 10) / 10
-                          : Math.round((quantities.quantity / recipe.nb_person) * nbPerson)}
+                          : quantities.quantity ? Math.round((quantities.quantity / recipe.nb_person) * nbPerson)
+                          : null}
                       {quantities.unit}
                     </span> {quantities.Ingredient.name}</li>
                   ))}
