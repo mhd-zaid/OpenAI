@@ -68,6 +68,10 @@ const RecipesPage = ({ type }) => {
         getRecipes();
     }, [type, currentPage, selectedFilters]);
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [type]);
+
 
     useEffect(() => {
         const getRecipes = async () => {
