@@ -75,7 +75,7 @@ const Navbar = ({ basename, onLogout, menus }) => {
                 <div className={'hidden lg:flex lg:col-span-2 justify-center items-center'}>
                     {!isLoggedIn ? (
                         <Button
-                            className="btn bezel"
+                            className="flex btn bezel"
                             onClick={() => navigate('/auth/login')}
                             variant="rounded"
                         >
@@ -212,7 +212,10 @@ const Navbar = ({ basename, onLogout, menus }) => {
                                 <div className="col-span-12 flex justify-center items-center">
                                     <Button
                                         className="flex btn bezel"
-                                        onClick={onLogout}
+                                        onClick={() => {
+                                            onLogout();
+                                            setIsMenuOpen(false);
+                                        }}
                                         variant="rounded"
                                     >
                                         <Icon
@@ -224,36 +227,36 @@ const Navbar = ({ basename, onLogout, menus }) => {
                                 </div>
                             )}
                             <div className="col-span-12 my-5">
-            <span>
-              Découvrez des recettes personnalisées en créant votre profil
-              Cuisine Connect
-            </span>
+                                <span>
+                                  Découvrez des recettes personnalisées en créant votre profil
+                                  Cuisine Connect
+                                </span>
                             </div>
 
                             <div className={'col-span-12 my-10'}>
                                 {Array.from(menus).map((menu, menuIndex) => (
                                     <div key={menuIndex} className="mb-2">
                                         <div key={menuIndex} className="col-span-12 grid h-10">
-                                            {menu.subMenus ? (
-                                                <span className="main-menu-items w-full mb-2"
-                                                      onClick={() => toggleMenu(menuIndex)}>
-                                                    {menu.title}
-                                                    <Icon icon="bi:chevron-down"
-                                                          style={{
-                                                              color: openMenus.includes(menuIndex)
-                                                                  ? 'gray'
-                                                                  : 'black',
-                                                              transform: openMenus.includes(menuIndex)
-                                                                  ? 'rotate(0deg)'
-                                                                  : 'rotate(-90deg)',
-                                                          }}/>
-                                                </span>
+                                            {menu.requireAuth && !isLoggedIn ? (
+                                                <></>
                                             ) : (
-                                                <Link to={menu.url} className="main-menu-items"
-                                                      onClick={() => setIsMenuOpen(false)}>
-                                                    {menu.title}
-                                                    <Icon icon="bi:chevron-right" style={{color: 'black'}}/>
-                                                </Link>
+                                                <>
+                                                    {menu.subMenus ? (
+                                                        <span className="main-menu-items w-full mb-2" onClick={() => toggleMenu(menuIndex)}>
+                            {menu.title}
+                                                            <Icon icon="bi:chevron-down"
+                                                                  style={{
+                                                                      color: openMenus.includes(menuIndex) ? 'gray' : 'black',
+                                                                      transform: openMenus.includes(menuIndex) ? 'rotate(0deg)' : 'rotate(-90deg)',
+                                                                  }}/>
+                        </span>
+                                                    ) : (
+                                                        <Link to={menu.url} className="main-menu-items" onClick={() => setIsMenuOpen(false)}>
+                                                            {menu.title}
+                                                            <Icon icon="bi:chevron-right" style={{ color: 'black' }}/>
+                                                        </Link>
+                                                    )}
+                                                </>
                                             )}
                                         </div>
                                         <div
@@ -264,14 +267,14 @@ const Navbar = ({ basename, onLogout, menus }) => {
                                                 {menu.subMenus &&
                                                     menu.subMenus.map((subMenu, index) => (
                                                         <li key={index} className={'text-lg'}>
-                                                            <Link to={subMenu.url}
-                                                                  onClick={() => setIsMenuOpen(false)}>{subMenu.title}</Link>
+                                                            <Link to={subMenu.url} onClick={() => setIsMenuOpen(false)}>{subMenu.title}</Link>
                                                         </li>
                                                     ))}
                                             </ul>
                                         </div>
                                     </div>
                                 ))}
+
                             </div>
                         </div>
                     </div>

@@ -6,8 +6,8 @@ import db from "../../src/models/index.js";
 
 export default function (router) {
   const genericRoutes = [
-    { method: 'PATCH', path: '/:id', handler: 'patch', middlewares: [] },
-    { method: 'DELETE', path: '/:id', handler: 'delete', middlewares: [] },
+    // { method: 'PATCH', path: '/:id', handler: 'patch', middlewares: [] },
+    // { method: 'DELETE', path: '/:id', handler: 'delete', middlewares: [] },
   ];
 
   const genericRecipeRouter = new GenericRouter(

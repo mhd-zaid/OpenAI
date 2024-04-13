@@ -20,6 +20,7 @@ const menus = [
       { title: 'Desserts', url: '/recettes/desserts', icon: 'ic:sharp-cake'},
       { title: 'Boissons', url: '/recettes/boissons', icon: 'fa-solid:glass-whiskey'},
     ],
+    requireAuth: false,
   },
   {
     title: 'Mon atelier',
@@ -28,9 +29,10 @@ const menus = [
       { title: 'Mes Commentaires', url: '/profile#comments' },
       { title: 'Mes Préférences', url: '/profile#preferences' },
     ],
+    requireAuth: true,
   },
-  { title: 'Contact', url: '/contact' },
-  { title: 'A propos', url: '/about' },
+  { title: 'Contact', url: '/contact', requireAuth: false },
+  { title: 'A propos', url: '/about', requireAuth: false },
 ];
 
 const App = () => {

@@ -40,7 +40,7 @@ const create = async (req, res) => {
 const getAll = async(req, res) => {
     const { page: reqPage, limit: reqLimit, ...filters } = req.query;
     const page = parseInt(reqPage) || 1;
-    const limit = parseInt(reqLimit) || 10;
+    const limit = parseInt(reqLimit) || null;
     const offset = (page - 1) * limit;
 
     try {

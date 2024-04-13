@@ -25,7 +25,6 @@ const CardComponent = ({ title, children, variant, className, cardContentClass, 
     };
 
     return (
-      // <div className="w-full h-full flex justify-center items-center py-6" >
       <div className={`${cardContentClass} flex justify-center items-center`}>
           <div className={` ${className} ${variant === 'withShadow' ? shadowClassName : ''} ${variant === 'withShadow' ? 'shadow-bottomLeft' : ''}`} style={variant === 'withShadow' ? shadowStyle : null}>
               {renderHeader()}

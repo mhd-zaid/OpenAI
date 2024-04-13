@@ -25,9 +25,6 @@ const HomePage = () => {
         if (getFavorites.data) {
             setFavoriteRecipes(getFavorites.data);
         }
-    // await fetch(import.meta.env.VITE_BACKEND_URL + '/') // TODO: Update to get favorites
-    //   .then(res => res.json())
-    //   .then(res => res.data && setFavoriteRecipes(res.data));
   };
 
   return (

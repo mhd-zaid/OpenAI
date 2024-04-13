@@ -7,7 +7,6 @@ export const apiService = {
         let url = `${API_URL_BASE}/${instance}`;
         if (params) {
             url += params.includes("/") ? params : `?${params}`;
-            // url = params.includes("/") ? `${API_URL_BASE}/${instance}${params}`:  `${API_URL_BASE}/${instance}?${params}`;
         }
         return fetch(url, { method: "GET", headers })
           .then((response) => response.json());

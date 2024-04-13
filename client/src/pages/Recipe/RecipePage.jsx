@@ -44,7 +44,7 @@ const RecipePage = () => {
       if (res.data) {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person)
-        // getRecommandedRecipes(res.data.id);
+        getRecommandedRecipes(res.data.id);
         const getFavorites = await apiService.getUserInfo('users', '/favorites');
         if (getFavorites.data) {
           const isFavoriteRecipe = getFavorites.data.some(favorite => favorite.RecipeId === res.data.id);

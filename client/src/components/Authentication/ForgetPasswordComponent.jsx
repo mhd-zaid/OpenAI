@@ -22,13 +22,11 @@ async function requestPasswordReset(formData) {
 }
 
 const ForgetPasswordComponent = () => {
-  // const [email, setEmail] = useState('');
   const [formData, setFormData] = useState({
     email: ""
   });
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
-
+  useNavigate();
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

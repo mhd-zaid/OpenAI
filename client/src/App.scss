@@ -130,6 +130,20 @@
     @apply cursor-pointer flex items-center justify-between font-medium text-lg border-b border-b-black ;
   }
 
+  .animate-bounce-light {
+    animation: bounce-light 300ms infinite alternate;
+  }
+
+  @keyframes bounce-light {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-5px);
+    }
+  }
+
+
 }
 
 @layer components {
