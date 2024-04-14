@@ -1,34 +1,19 @@
-import useToken from '@/utils/useToken.js';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { apiService } from '@/services/apiService.js';
 import {
-    Text,
-    Card, CardFooter,
-    Flex,
-    Heading, Img, Radio, RadioGroup, SimpleGrid,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
     Tabs, WrapItem,
 } from '@chakra-ui/react';
-import IngredientsSelection from "@/components/Profile/IngredientSelection.jsx";
-import {Icon} from "@iconify/react";
-import {Select} from "chakra-react-select";
-import Button from "@/lib/components/Button.jsx";
-import { uuidv7 } from 'uuidv7';
 import Pagination from '@/components/Pagination.jsx';
-import {Link, useLocation} from 'react-router-dom';
-import { Rating, ThemeProvider } from '@mui/material';
+import {useLocation} from 'react-router-dom';
 import CommentComponent from '@/components/Recipe/CommentComponent.jsx';
-import ratingTheme from '@/theme/ratingTheme.js';
 import FavoriteComponent from '@/components/Profile/FavoriteComponent.jsx';
 import PreferencesComponent from '@/components/Profile/PreferencesComponent.jsx';
 
 const ProfilePage = () => {
-    const { token } = useToken();
-    const [user, setUser] = useState(null);
-
     const [comments, setComments] = useState([]);
     const [nbComments, setNbComments] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -48,9 +33,6 @@ const ProfilePage = () => {
 
     const fetchUserData = async () => {
         try {
-            const getUser = await apiService.getUserInfo('users', 'profile');
-            if (getUser.data && getUser.data[0]) setUser(getUser.data[0]);
-
             const getComments = await apiService.getUserInfo('users', '/comments');
             if (getComments.data) {
                 setNbComments(getComments.data.length);

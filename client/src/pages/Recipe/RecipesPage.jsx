@@ -93,7 +93,6 @@ const RecipesPage = ({ type }) => {
         };
 
         getRecipes();
-        console.log("selectedFilters", selectedFilters);
     }, [selectedFilters]);
 
     const generateContentByType = (type) => {

@@ -15,13 +15,13 @@ const CommentsPage = () => {
   const [ recipeAverageRating, setRecipeAverageRating ] = useState(0);
   const [ nbComments, setNbComments ] = useState(0);
   const [ currentPage, setCurrentPage ] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
 
   const fetchComments = async (recipeUrl) => {
     try {
       const getRecipe = await apiService.getUserInfo('recipes', `${recipeUrl}`);
       const recipe = getRecipe.data;
-
+        setNbComments(recipe.Comments.length);
       setComments(recipe.Comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
       setRecipe(recipe);
       setRecipeAverageRating(recipe.average_rating)

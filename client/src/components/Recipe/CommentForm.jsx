@@ -2,10 +2,10 @@ import { Rating, ThemeProvider } from '@mui/material';
 import ratingTheme from '@/theme/ratingTheme.js';
 import Button from '@/lib/components/Button.jsx';
 import { apiService } from '@/services/apiService.js';
-import useToken from '@/utils/useToken.js';
 import { useNavigate } from 'react-router-dom';
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import {AuthContext} from "@/Context/AuthContext.jsx";
 
 async function submitComment(commentData) {
   try {
@@ -17,7 +17,7 @@ async function submitComment(commentData) {
 }
 
 const CommentForm = ({ recipeId }) => {
-  const { token } = useToken();
+  const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ const CommentForm = ({ recipeId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!token) {
+    if(!isLoggedIn) {
       localStorage.setItem('tempComment', formData.comment);
       navigate('/auth/login');
       return;

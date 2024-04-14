@@ -55,7 +55,6 @@ const RegisterComponent = () => {
         const validationErrors = validateData(registerValidationSchema, formData);
         if (validationErrors) {
             setErrors(validationErrors);
-            console.log("errors", errors);
             return;
         }
 

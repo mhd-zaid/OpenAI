@@ -7,7 +7,7 @@ import { AuthContext } from '@/Context/AuthContext.jsx';
 import Searchbar from '../../components/searchbar';
 import {Circle} from "@chakra-ui/react";
 import SearchComponent from "@/components/SearchComponent.jsx";
-const Navbar = ({ basename, onLogout, menus }) => {
+const Navbar = ({ onLogout, menus }) => {
     const { isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -15,10 +15,10 @@ const menus = [
     title: 'Recettes par catégories',
     subMenus: [
       { title: 'Toutes les recettes', url: '/recettes', icon: 'bi:book'},
-      { title: 'Entrées', url: '/recettes/entrees', icon: 'fa-solid:utensils'},
-      { title: 'Plats', url: '/recettes/plats', icon: 'ic:outline-restaurant-menu' },
-      { title: 'Desserts', url: '/recettes/desserts', icon: 'ic:sharp-cake'},
-      { title: 'Boissons', url: '/recettes/boissons', icon: 'fa-solid:glass-whiskey'},
+      { title: 'Entrées', url: '/recettes/entree', icon: 'fa-solid:utensils'},
+      { title: 'Plats', url: '/recettes/plat', icon: 'ic:outline-restaurant-menu' },
+      { title: 'Desserts', url: '/recettes/dessert', icon: 'ic:sharp-cake'},
+      { title: 'Boissons', url: '/recettes/boisson', icon: 'fa-solid:glass-whiskey'},
     ],
     requireAuth: false,
   },
@@ -44,7 +44,7 @@ const App = () => {
           <Outlet />
         </div>
         {/*<SearchComponent />*/}
-        <Footer menus={menus} />
+        <Footer />
       </div>
       <Chatbot />
       <ToastContainer

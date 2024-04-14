@@ -8,7 +8,6 @@ import verifyUser from '../middlewares/verifyUser.js';
 
 const isExistComment = async (req, res, next) => {
   const { UserId, RecipeId } = req.body;
-  console.log("comment", { UserId, RecipeId })
   const comment = await db.Comment.findAll({ where: { UserId, RecipeId } });
   if (comment.length === 0 || !comment) {
     next();

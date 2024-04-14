@@ -1,44 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { AuthContext } from '@/Context/AuthContext.jsx';
-import { useMediaQuery } from '@chakra-ui/react';
-
-const Footer = ({ menus }) => {
-  const { isLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openMenus, setOpenMenus] = useState([]);
-  const isTabletOrMobile = useMediaQuery('(max-width: 768px)');
-
-  const toggleMenu = menuIndex => {
-    if (openMenus.includes(menuIndex)) {
-      setOpenMenus([]);
-    } else {
-      setOpenMenus([menuIndex]);
-    }
-  };
+const Footer = () => {
 
   return (
     <footer className="footer bg-white ">
-      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        {/*<div className="hidden md:flex md:justify-between">*/}
-        {/*    <div className="grid grid-cols-5 gap-8 sm:gap-6 sm:grid-cols-5">*/}
-        {/*        {menus.map((menu, index) => (*/}
-        {/*            <div key={index}>*/}
-        {/*                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{menu.title}</h2>*/}
-        {/*                <ul className="text-gray-500 dark:text-gray-400 font-medium">*/}
-        {/*                    {menu.subMenus && menu.subMenus.map((subMenu, index) => (*/}
-        {/*                        <li key={index} className="mb-4">*/}
-        {/*                            <Link to={subMenu.url} className="hover:underline">{subMenu.title}</Link>*/}
-        {/*                        </li>*/}
-        {/*                    ))}*/}
-        {/*                </ul>*/}
-        {/*            </div>*/}
-        {/*        ))}*/}
-        {/*    </div>*/}
-        {/*</div>*/}
-        {/*<hr className="md:block my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 hidden"/>*/}
-        <div className="sm:flex sm:items-center sm:justify-between">
+      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8"><div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center">
             © 2023{' '}
             <a href="https://flowbite.com/" className="hover:underline">

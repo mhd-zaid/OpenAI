@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { apiService } from '@/services/apiService.js';
-import { Link, useParams } from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import Button from '@/lib/components/Button.jsx';
@@ -24,10 +24,10 @@ import {
   Link as CLink,
 } from '@chakra-ui/react';
 import { Loader } from '@chatscope/chat-ui-kit-react';
+import {AuthContext} from "@/Context/AuthContext.jsx";
 
 async function submitFavorite(recipeId) {
   try {
-    console.log('create', recipeId);
     return await apiService.create('favorites', { RecipeId: recipeId });
   } catch (error) {
     console.error(error);
@@ -36,6 +36,8 @@ async function submitFavorite(recipeId) {
 }
 
 const RecipePage = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
   const { recipeUrl } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,15 +60,17 @@ const RecipePage = () => {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person);
         getRecommandedRecipes(res.data.id);
-        const getFavorites = await apiService.getUserInfo(
-          'users',
-          '/favorites',
-        );
-        if (getFavorites.data) {
-          const isFavoriteRecipe = getFavorites.data.some(
-            favorite => favorite.RecipeId === res.data.id,
+        if(isLoggedIn) {
+          const getFavorites = await apiService.getUserInfo(
+              'users',
+              'favorites',
           );
-          setIsFavorite(isFavoriteRecipe);
+          if (getFavorites.data) {
+            const isFavoriteRecipe = getFavorites.data.some(
+                favorite => favorite.RecipeId === res.data.id,
+            );
+            setIsFavorite(isFavoriteRecipe);
+          }
         }
       } else {
         setError(true);
@@ -93,15 +97,19 @@ const RecipePage = () => {
   };
 
   const toggleFavorite = async () => {
-    const favorites = await apiService.getUserInfo('users', '/favorites');
+
+    if(!isLoggedIn) {
+      navigate('/auth/login');
+      return;
+    }
+
+    const favorites = await apiService.getUserInfo('users', 'favorites');
     const isFavorite = favorites.data.some(
       favorite => favorite.RecipeId === recipe.id,
     );
     if (isFavorite) {
-      console.log('supprime des favoris', favorites);
       deleteFavorite(favorites.data[0].id);
     } else {
-      console.log('ajoute aux favoris');
       addToFavorites();
     }
   };
@@ -295,7 +303,7 @@ const RecipePage = () => {
                 <span className={'flex items-center gap-1'}>
                   <Icon icon="mdi:tags" style={{ color: 'black' }} />
                   <Link
-                    to={`/recettes?tag=${recipe?.tags}`}
+                    to={`/recettes/${recipe?.tags.toLowerCase()}`}
                     className={'lowercase first-letter:capitalize'}
                   >
                     {recipe?.tags}

@@ -44,9 +44,6 @@ const getAllByUser = async(req, res) => {
 const bulkPreferences = async (req, res) => {
   try {
     const preferencesData = req.body.Preferences;
-    console.log(req.body)
-
-    console.log("TABLEAU DE PREFERENCE : ", preferencesData)
     preferencesData.forEach((preference) => {
       preference.id = uuidv7(); 
     });

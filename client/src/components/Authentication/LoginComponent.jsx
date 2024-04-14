@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import {useNavigate, Link, useLocation} from 'react-router-dom';
 import { z } from 'zod';
 
@@ -7,6 +7,7 @@ import CardComponent from '@/lib/components/CardComponent.jsx';
 
 import validateData from '@/utils/formValidator.js';
 import useToken from '@/utils/useToken.js';
+import {AuthContext} from "@/Context/AuthContext.jsx";
 
 async function loginUser(credentials) {
   return fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
@@ -30,6 +31,7 @@ const LoginComponent = () => {
   });
 
   const { setToken } = useToken();
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,6 +60,7 @@ const LoginComponent = () => {
     if (!login.errors) {
       const { token } = login.data;
       setToken(token);
+      setIsLoggedIn(true);
       if(isVerified) navigate("/")
       else navigate(-1);
     } else {
