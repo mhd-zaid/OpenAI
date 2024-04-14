@@ -118,7 +118,7 @@ const Chatbot = () => {
         pos="fixed"
         right="2%"
         bottom="14%"
-        zIndex={10}
+        zIndex={9999}
         w={{ sm: '75%', md: '50%', lg: '30%' }}
         h="70%"
         hidden={!showChatbot}
