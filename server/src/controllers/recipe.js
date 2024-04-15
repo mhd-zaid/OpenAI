@@ -48,7 +48,7 @@ const getAll = async(req, res) => {
             where: filters,
             limit,
             offset,
-            attributes: ['id', 'title', 'level', 'tags', 'image', 'url', 'average_rating'],
+            attributes: ['id', 'title', 'level', 'tags', 'image', 'url', 'average_rating', 'duration'],
         });
 
         const countTotal = await db.Recipe.count({ where: filters });
