@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { apiService } from '@/services/apiService.js';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import Button from '@/lib/components/Button.jsx';
@@ -24,7 +24,7 @@ import {
   Link as CLink,
 } from '@chakra-ui/react';
 import { Loader } from '@chatscope/chat-ui-kit-react';
-import {AuthContext} from "@/Context/AuthContext.jsx";
+import { AuthContext } from '@/Context/AuthContext.jsx';
 
 async function submitFavorite(recipeId) {
   try {
@@ -60,14 +60,14 @@ const RecipePage = () => {
         setRecipe(res.data);
         setNbPerson(res.data.nb_person);
         getRecommandedRecipes(res.data.id);
-        if(isLoggedIn) {
+        if (isLoggedIn) {
           const getFavorites = await apiService.getUserInfo(
-              'users',
-              'favorites',
+            'users',
+            'favorites',
           );
           if (getFavorites.data) {
             const isFavoriteRecipe = getFavorites.data.some(
-                favorite => favorite.RecipeId === res.data.id,
+              favorite => favorite.RecipeId === res.data.id,
             );
             setIsFavorite(isFavoriteRecipe);
           }
@@ -83,6 +83,7 @@ const RecipePage = () => {
 
   const getRecommandedRecipes = async recipeId => {
     try {
+      setLoading(true);
       const res = await apiService.getAll('recommendation', `/${recipeId}`);
       if (!res.error) {
         const recommendations = JSON.parse(res.content);
@@ -98,7 +99,7 @@ const RecipePage = () => {
 
   const toggleFavorite = async () => {
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
       navigate('/auth/login');
       return;
     }
@@ -182,10 +183,10 @@ const RecipePage = () => {
   const copyShoppingListToClipboard = () => {
     navigator.clipboard.writeText(
       recipe.title +
-        ` pour ${nbPerson} personnes:\n` +
-        shoppingList
-          .map(el => `- ${el.quantity}${el.unit || ''} ${el.name}`)
-          .join(`\n`),
+      ` pour ${nbPerson} personnes:\n` +
+      shoppingList
+        .map(el => `- ${el.quantity}${el.unit || ''} ${el.name}`)
+        .join(`\n`),
     );
   };
 
@@ -197,83 +198,86 @@ const RecipePage = () => {
     window.open(facebookUrl, '_blank');
   };
 
-  // if(loading) {
-  //   return (
-  //       <div>
-  //         <h1 className={"font-medium text-4xl mb-4"}><Skeleton width={300} height={40} /></h1>
-  //
-  //         <div className="grid grid-cols-3 gap-4">
-  //           <div className={"col-span-2"}>
-  //
-  //             <div className={"grid grid-cols-2 gap-2"}>
-  //
-  //               <div className={'col-span-12 flex gap-4 justify-between'}>
-  //                 <div className={'flex gap-4'}>
-  //                   <Skeleton width={100} height={20} />
-  //                   <Skeleton width={100} height={20} />
-  //                   <Skeleton width={100} height={20} />
-  //                 </div>
-  //                 <Skeleton width={200} height={20} />
-  //               </div>
-  //
-  //               <div className="recipe-media col-span-12">
-  //                 <Skeleton width={"100%"} height={400} />
-  //               </div>
-  //
-  //               <div className={'col-span-12 flex gap-4 mb-4'}>
-  //                 <Skeleton width={200} height={50} />
-  //                 <Skeleton width={200} height={50} />
-  //               </div>
-  //
-  //             </div>
-  //
-  //             <div className={"grid grid-cols-5 gap-8"}>
-  //
-  //               <div className="recipe-instructionContent col-span-3">
-  //                 <Skeleton width={300} height={40} />
-  //                 <Skeleton count={5} />
-  //               </div>
-  //
-  //               <div className="recipe-ingredientsContent col-span-2">
-  //                 <Skeleton width={300} height={40} />
-  //                 <Skeleton count={5} />
-  //               </div>
-  //             </div>
-  //
-  //             <Skeleton width={300} height={40} />
-  //
-  //             <div className="my-8">
-  //               <Skeleton count={3} height={50} />
-  //             </div>
-  //
-  //             <div className="my-4">
-  //               <Skeleton count={5} height={50} />
-  //             </div>
-  //
-  //             <div className={"my-4"}>
-  //               <Skeleton count={3} height={50} />
-  //             </div>
-  //           </div>
-  //
-  //           <div className={"col"}>
-  //             <h1 className={"text-xl font-medium mb-4"}><Skeleton width={300} height={40} /></h1>
-  //
-  //             <div className="col gap-4">
-  //               <div className={'col gap-4'}>
-  //                 {Array.from({ length: 3 }).map((_, index) => (
-  //                     <div className="flex gap-4">
-  //                       <Skeleton circle={true} height={70} width={70} />
-  //                       <Skeleton count={3} height={20} width={300} />
-  //                     </div>
-  //                 ))}
-  //               </div>
-  //             </div>
-  //           </div>
-  //
-  //         </div>
-  //       </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div>
+        <h1 className={'font-medium text-4xl mb-4'}><Skeleton width={300} height={40} /></h1>
+
+        <div className="grid grid-cols-3 gap-4">
+          <div className={'col-span-2'}>
+
+            <div className={'grid grid-cols-2 gap-2'}>
+
+              <div className={'col-span-12 flex gap-4 justify-between'}>
+                <div className={'flex gap-4'}>
+                  <Skeleton width={100} height={20} />
+                  <Skeleton width={100} height={20} />
+                  <Skeleton width={100} height={20} />
+                </div>
+                <Skeleton width={200} height={20} />
+              </div>
+
+              <div className="recipe-media col-span-12">
+                <Skeleton width={'100%'} height={400} />
+              </div>
+
+              <div className={'col-span-12 flex gap-4 mb-4'}>
+                <Skeleton width={200} height={50} />
+                <Skeleton width={200} height={50} />
+              </div>
+
+            </div>
+
+            <div className={'grid grid-cols-5 gap-8'}>
+
+              <div className="recipe-instructionContent col-span-3">
+                <Skeleton width={300} height={40} />
+                <Skeleton count={5} />
+              </div>
+
+              <div className="recipe-ingredientsContent col-span-2">
+                <Skeleton width={300} height={40} />
+                <Skeleton count={5} />
+              </div>
+            </div>
+
+            <Skeleton width={300} height={40} />
+
+            <div className="my-8">
+              <Skeleton count={3} height={50} />
+            </div>
+
+            <div className="my-4">
+              <Skeleton count={5} height={50} />
+            </div>
+
+            <div className={'my-4'}>
+              <Skeleton count={3} height={50} />
+            </div>
+          </div>
+
+          <div className={'col'}>
+            <h1 className={'text-xl font-medium mb-4'}><Skeleton width={300}
+                                                                 height={40} /></h1>
+
+            <div className="col gap-4">
+              <div className={'col gap-4'}>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div className="flex gap-4">
+                    <Skeleton circle={true} height={70}
+                              width={70} />
+                    <Skeleton count={3} height={20}
+                              width={300} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return <NotFoundPage />;
@@ -291,11 +295,13 @@ const RecipePage = () => {
             <div className={'col-span-12 flex gap-4 justify-between'}>
               <div className={'flex gap-4'}>
                 <Text className={'flex items-center gap-1'}>
-                  <Icon icon="mdi:clock-outline" style={{ color: 'black' }} />
+                  <Icon icon="mdi:clock-outline"
+                        style={{ color: 'black' }} />
                   <span>{recipe?.duration} min</span>
                 </Text>
                 <Text className={'flex items-center gap-1'}>
-                  <Icon icon="ic:baseline-stars" style={{ color: 'black' }} />
+                  <Icon icon="ic:baseline-stars"
+                        style={{ color: 'black' }} />
                   <span className={'lowercase first-letter:capitalize'}>
                     {recipe?.level}
                   </span>
@@ -324,7 +330,8 @@ const RecipePage = () => {
                   fill="currentColor"
                   viewBox="0 0 22 20"
                 >
-                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                  <path
+                    d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                 </svg>
                 <Link
                   to={`/recettes/${recipeUrl}/comments`}
@@ -417,7 +424,8 @@ const RecipePage = () => {
                 <span className={'m-0 text-xl flex items-center'}>
                   {nbPerson} {nbPerson === 1 ? 'personnes' : 'personnes'}
                 </span>
-                <Button onClick={handleAddPerson} className="recipe-btnNumber">
+                <Button onClick={handleAddPerson}
+                        className="recipe-btnNumber">
                   <Icon
                     icon="ic:outline-add-circle"
                     style={{ color: 'black', fontSize: 40 }}
@@ -428,20 +436,21 @@ const RecipePage = () => {
               <ul>
                 {recipe?.Quantities &&
                   recipe.Quantities.map((quantities, index) => (
-                    <li key={index} className={'list-none text-lg'}>
+                    <li key={index}
+                        className={'list-none text-lg'}>
                       <span className={'font-medium'}>
                         {quantities.unit
                           ? Math.round(
-                              (quantities.quantity / recipe.nb_person) *
-                                nbPerson *
-                                10,
-                            ) / 10
+                          (quantities.quantity / recipe.nb_person) *
+                          nbPerson *
+                          10,
+                        ) / 10
                           : quantities.quantity
-                          ? Math.round(
+                            ? Math.round(
                               (quantities.quantity / recipe.nb_person) *
-                                nbPerson,
+                              nbPerson,
                             )
-                          : null}
+                            : null}
                         {quantities.unit}
                       </span>{' '}
                       {quantities.Ingredient.name}
@@ -458,10 +467,12 @@ const RecipePage = () => {
                   <span>Générer la liste de course</span>
                 </CButton>
                 <Flex mt={4} alignItems="center" flexDir="column">
-                  {shoppingList.length === 0 && loading && <Loader />}
+                  {shoppingList.length === 0 && loading &&
+                    <Loader />}
                   {shoppingList.length > 0 && (
                     <>
-                      <Text>Partager/Enregistrer la liste&nbsp;:</Text>
+                      <Text>Partager/Enregistrer la
+                        liste&nbsp;:</Text>
                       <HStack spacing={10}>
                         <CButton
                           variant="unstyled"
@@ -477,7 +488,8 @@ const RecipePage = () => {
                           variant="unstyled"
                           onClick={shareShoppingListOnFacebook}
                         >
-                          <Icon icon="logos:facebook" fontSize={20} />
+                          <Icon icon="logos:facebook"
+                                fontSize={20} />
                         </CButton>
                         <CLink
                           href={`mailto:?subject=Liste de course pour la ${
@@ -560,7 +572,8 @@ const RecipePage = () => {
                       key={recommandedRecipe.id}
                       to={`/recettes/${recommandedRecipe.url}`}
                     >
-                      <div key={index} className={'row gap-4 h-20'}>
+                      <div key={index}
+                           className={'row gap-4 h-20'}>
                         <img
                           src={`/img/recipe/${recommandedRecipe.image}`}
                           height={80}
@@ -573,7 +586,8 @@ const RecipePage = () => {
                             {recommandedRecipe.title}
                           </span>
                           <div className="row justify-between items-center">
-                            <ThemeProvider theme={ratingTheme}>
+                            <ThemeProvider
+                              theme={ratingTheme}>
                               <Rating
                                 name="half-rating"
                                 value={recommandedRecipe.average_rating}
@@ -601,7 +615,8 @@ const RecipePage = () => {
             </Button>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               {accompaniments.map((item, index) => (
-                <div key={index} className="bg-white shadow-md rounded-md p-4">
+                <div key={index}
+                     className="bg-white shadow-md rounded-md p-4">
                   <h2 className="text-xl font-bold">{item.nom}</h2>
                   <p className="mt-2 text-gray-500">{item.description}</p>
                 </div>
