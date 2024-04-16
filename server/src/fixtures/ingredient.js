@@ -303,6 +303,10 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
+    name: 'Lait entier',
+  },
+  {
+    id: uuidv4(),
     name: 'Poivre',
   },
   {
@@ -356,6 +360,10 @@ const ingredientFixture = [
   {
     id: uuidv4(),
     name: 'Noix de Saint-Jacques',
+  },
+  {
+    id: uuidv4(),
+    name: 'Noix de muscade rapée',
   },
   {
     id: uuidv4(),
@@ -463,240 +471,240 @@ const ingredientFixture = [
   },
   {
     id: uuidv4(),
-    name: "Champignons sauvages",
+    name: 'Champignons sauvages',
   },
   {
     id: uuidv4(),
-    name: "Bouillon de légumes",
+    name: 'Bouillon de légumes',
   },
   {
     id: uuidv4(),
-    name: "Riz arborio",
+    name: 'Riz arborio',
   },
   {
     id: uuidv4(),
-    name: "Parmesan râpé",
+    name: 'Parmesan râpé',
   },
   {
     id: uuidv4(),
-    name: "Persil frais",
+    name: 'Persil frais',
   },
   {
     id: uuidv4(),
-    name: "Gousse d'ail",
+    name: 'Gousse d\'ail',
   },
   {
     id: uuidv4(),
-    name: "Huile d'olive",
+    name: 'Huile d\'olive',
   },
   {
     id: uuidv4(),
-    name: "Riz à sushi",
+    name: 'Riz à sushi',
   },
   {
     id: uuidv4(),
-    name: "Feuilles d'algue nori",
+    name: 'Feuilles d\'algue nori',
   },
   {
     id: uuidv4(),
-    name: "Saumon frais",
+    name: 'Saumon frais',
   },
   {
     id: uuidv4(),
-    name: "Avocat",
+    name: 'Avocat',
   },
   {
     id: uuidv4(),
-    name: "Wasabi",
+    name: 'Wasabi',
   },
   {
     id: uuidv4(),
-    name: "Mûres fraîches",
+    name: 'Mûres fraîches',
   },
   {
     id: uuidv4(),
-    name: "Épinards frais",
+    name: 'Épinards frais',
   },
   {
     id: uuidv4(),
-    name: "Ananas frais",
+    name: 'Ananas frais',
   },
   {
     id: uuidv4(),
-    name: "Banane",
+    name: 'Banane',
   },
   {
     id: uuidv4(),
-    name: "Lait de coco",
+    name: 'Lait de coco',
   },
   {
     id: uuidv4(),
-    name: "Jus de fruit de la passion",
+    name: 'Jus de fruit de la passion',
   },
   {
     id: uuidv4(),
-    name: "Jus d'orange",
+    name: 'Jus d\'orange',
   },
   {
     id: uuidv4(),
-    name: "Sirop de grenadine",
+    name: 'Sirop de grenadine',
   },
   {
     id: uuidv4(),
-    name: "Gin",
+    name: 'Gin',
   },
   {
     id: uuidv4(),
-    name: "Eau tonique",
+    name: 'Eau tonique',
   },
   {
     id: uuidv4(),
-    name: "Glaçons",
+    name: 'Glaçons',
   },
   {
     id: uuidv4(),
-    name: "Tranches de citron",
+    name: 'Tranches de citron',
   },
   {
     id: uuidv4(),
-    name: "Lait",
+    name: 'Lait',
   },
   {
     id: uuidv4(),
-    name: "Levure chimique",
+    name: 'Levure chimique',
   },
   {
     id: uuidv4(),
-    name: "Extrait de vanille",
+    name: 'Extrait de vanille',
   },
   {
     id: uuidv4(),
-    name: "Oeufs",
+    name: 'Oeufs',
   },
   {
     id: uuidv4(),
-    name: "Crème pâtissière",
+    name: 'Crème pâtissière',
   },
   {
     id: uuidv4(),
-    name: "Crème chantilly",
+    name: 'Crème chantilly',
   },
   {
     id: uuidv4(),
-    name: "Amandes effilées",
+    name: 'Amandes effilées',
   },
   {
     id: uuidv4(),
-    name: "Sucre glace",
+    name: 'Sucre glace',
   },
   {
     id: uuidv4(),
-    name: "Oeuf",
+    name: 'Oeuf',
   },
   {
     id: uuidv4(),
-    name: "Bicarbonate de soude",
+    name: 'Bicarbonate de soude',
   },
   {
     id: uuidv4(),
-    name: "Pépites de chocolat",
+    name: 'Pépites de chocolat',
   },
   {
     id: uuidv4(),
-    name: "Biscuits (type sablés)",
+    name: 'Biscuits (type sablés)',
   },
   {
     id: uuidv4(),
-    name: "Beurre fondu",
+    name: 'Beurre fondu',
   },
   {
     id: uuidv4(),
-    name: "Fromage frais (type Philadelphia)",
+    name: 'Fromage frais (type Philadelphia)',
   },
   {
     id: uuidv4(),
-    name: "Crème fraîche épaisse",
+    name: 'Crème fraîche épaisse',
   },
   {
     id: uuidv4(),
-    name: "Nouilles de riz",
+    name: 'Nouilles de riz',
   },
   {
     id: uuidv4(),
-    name: "Huile de sésame",
+    name: 'Huile de sésame',
   },
   {
     id: uuidv4(),
-    name: "Crevettes",
+    name: 'Crevettes',
   },
   {
     id: uuidv4(),
-    name: "Poulet (ou tofu pour une version végétarienne)",
+    name: 'Poulet (ou tofu pour une version végétarienne)',
   },
   {
     id: uuidv4(),
-    name: "Pousse de soja",
+    name: 'Pousse de soja',
   },
   {
     id: uuidv4(),
-    name: "Cacahuètes grillées non salées",
+    name: 'Cacahuètes grillées non salées',
   },
   {
     id: uuidv4(),
-    name: "Sauce soja",
+    name: 'Sauce soja',
   },
   {
     id: uuidv4(),
-    name: "Sucre de canne",
+    name: 'Sucre de canne',
   },
   {
     id: uuidv4(),
-    name: "Jus de citron vert",
+    name: 'Jus de citron vert',
   },
   {
     id: uuidv4(),
-    name: "Ciboulette",
+    name: 'Ciboulette',
   },
   {
     id: uuidv4(),
-    name: "Farine",
+    name: 'Farine',
   },
   {
     id: uuidv4(),
-    name: "Piment rouge (optionnel pour une version épicée)",
+    name: 'Piment rouge (optionnel pour une version épicée)',
   },
   {
     id: uuidv4(),
-    name: "Taro",
+    name: 'Taro',
   },
   {
     id: uuidv4(),
-    name: "Tripes de boeuf",
+    name: 'Tripes de boeuf',
   },
   {
     id: uuidv4(),
-    name: "Huile de palme",
+    name: 'Huile de palme',
   },
   {
     id: uuidv4(),
-    name: "Sel gemme",
+    name: 'Sel gemme',
   },
   {
     id: uuidv4(),
-    name: "Condiments pour sauce jaune",
+    name: 'Condiments pour sauce jaune',
   },
   {
     id: uuidv4(),
-    name: "Eau tiède",
+    name: 'Eau tiède',
   },
   {
     id: uuidv4(),
-    name: "Cubes Maggi",
+    name: 'Cubes Maggi',
   },
   {
     id: uuidv4(),
-    name: "Piment",
-  }
+    name: 'Piment',
+  },
 ];
 
 export default ingredientFixture;
