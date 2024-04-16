@@ -78,7 +78,7 @@ const getFavorites = async (req, res) => {
             {
                 model: db.Recipe,
                 as: 'Recipe',
-                attributes: ['id', 'title', 'url', 'nb_rating', 'average_rating', 'image'],
+                attributes: ['id', 'title', 'url', 'nb_rating', 'average_rating', 'image', 'duration'],
             }
         ]
     });
